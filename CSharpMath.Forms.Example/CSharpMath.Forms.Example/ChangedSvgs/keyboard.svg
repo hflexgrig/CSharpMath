@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="170"
+   height="170"
+   viewBox="0 0 44.979166 44.979168"
+   version="1.1"
+   id="svg4246"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="keyboard.svg">
+  <defs
+     id="defs4240">
+    <style
+       id="style4417"
+       type="text/css"><![CDATA[
+
+        .g0 {
+         fill: #000;
+        }
+
+      ]]></style>
+    <clipPath
+       id="c_1">
+      <path
+         id="path4419"
+         d="M 0,0 H 105 V 67 H 0 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c0">
+      <path
+         id="path4422"
+         d="m 22.7,22.2 v -5.1 h 5.2 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c1">
+      <path
+         id="path4425"
+         d="m 31.1,22.2 v -5.1 h 5.2 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c2">
+      <path
+         id="path4428"
+         d="M 38.9,22.2 V 17.1 H 44 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c3">
+      <path
+         id="path4431"
+         d="m 46.6,22.2 v -5.1 h 5.1 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c4">
+      <path
+         id="path4434"
+         d="m 54.3,22.2 v -5.1 h 5.2 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c5">
+      <path
+         id="path4437"
+         d="m 62.1,22.2 v -5.1 h 5.1 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c6">
+      <path
+         id="path4440"
+         d="m 69.8,22.2 v -5.1 h 5.1 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c7">
+      <path
+         id="path4443"
+         d="m 77.5,22.2 v -5.1 h 5.2 v 5.1 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c8">
+      <path
+         id="path4446"
+         d="m 26.6,30 v -5.2 h 5.2 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="c9">
+      <path
+         id="path4449"
+         d="m 35,30 v -5.2 h 5.1 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="ca">
+      <path
+         id="path4452"
+         d="m 42.7,30 v -5.2 h 5.2 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cb">
+      <path
+         id="path4455"
+         d="m 50.5,30 v -5.2 h 5.1 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cc">
+      <path
+         id="path4458"
+         d="m 58.2,30 v -5.2 h 5.1 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cd">
+      <path
+         id="path4461"
+         d="m 65.9,30 v -5.2 h 5.2 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="ce">
+      <path
+         id="path4464"
+         d="m 73.7,30 v -5.2 h 5.1 V 30 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cf">
+      <path
+         id="path4467"
+         d="m 31.1,37.7 v -5.2 h 5.2 v 5.2 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cg">
+      <path
+         id="path4470"
+         d="M 38.9,37.7 V 32.5 H 44 v 5.2 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="ch">
+      <path
+         id="path4473"
+         d="m 46.6,37.7 v -5.2 h 5.1 v 5.2 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="ci">
+      <path
+         id="path4476"
+         d="m 54.3,37.7 v -5.2 h 5.2 v 5.2 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cj">
+      <path
+         id="path4479"
+         d="m 62.1,37.7 v -5.2 h 5.1 v 5.2 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="ck">
+      <path
+         id="path4482"
+         d="m 69.8,37.7 v -5.2 h 5.1 v 5.2 z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       id="cl">
+      <path
+         id="path4485"
+         d="M 52.7,53.2 43.5,44.3 H 61.9 Z"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="400"
+     inkscape:cy="560"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4243">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-252.02082)">
+    <g
+       style="display:block"
+       id="g4678"
+       transform="matrix(0.61736111,0,0,0.74621504,-10.61231,247.71399)">
+      <g
+         id="g4578"
+         clip-path="url(#c_1)">
+        <g
+           id="g4492"
+           clip-path="url(#c0)">
+          <path
+             id="path4490"
+             class="g0"
+             d="M 15.1,9.4 H 35.5 V 29.9 H 15.1 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4496"
+           clip-path="url(#c1)">
+          <path
+             id="path4494"
+             class="g0"
+             d="M 23.5,9.4 H 43.9 V 29.9 H 23.5 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4500"
+           clip-path="url(#c2)">
+          <path
+             id="path4498"
+             class="g0"
+             d="M 31.2,9.4 H 51.6 V 29.9 H 31.2 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4504"
+           clip-path="url(#c3)">
+          <path
+             id="path4502"
+             class="g0"
+             d="M 38.9,9.4 H 59.4 V 29.9 H 38.9 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4508"
+           clip-path="url(#c4)">
+          <path
+             id="path4506"
+             class="g0"
+             d="M 46.7,9.4 H 67.1 V 29.9 H 46.7 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4512"
+           clip-path="url(#c5)">
+          <path
+             id="path4510"
+             class="g0"
+             d="M 54.4,9.4 H 74.8 V 29.9 H 54.4 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4516"
+           clip-path="url(#c6)">
+          <path
+             id="path4514"
+             class="g0"
+             d="M 62.1,9.4 H 82.6 V 29.9 H 62.1 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4520"
+           clip-path="url(#c7)">
+          <path
+             id="path4518"
+             class="g0"
+             d="M 69.9,9.4 H 90.3 V 29.9 H 69.9 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4524"
+           clip-path="url(#c8)">
+          <path
+             id="path4522"
+             class="g0"
+             d="M 19,17.2 H 39.4 V 37.6 H 19 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4528"
+           clip-path="url(#c9)">
+          <path
+             id="path4526"
+             class="g0"
+             d="M 27.3,17.2 H 47.8 V 37.6 H 27.3 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4532"
+           clip-path="url(#ca)">
+          <path
+             id="path4530"
+             class="g0"
+             d="M 35.1,17.2 H 55.5 V 37.6 H 35.1 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4536"
+           clip-path="url(#cb)">
+          <path
+             id="path4534"
+             class="g0"
+             d="M 42.8,17.2 H 63.2 V 37.6 H 42.8 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4540"
+           clip-path="url(#cc)">
+          <path
+             id="path4538"
+             class="g0"
+             d="M 50.5,17.2 H 71 V 37.6 H 50.5 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4544"
+           clip-path="url(#cd)">
+          <path
+             id="path4542"
+             class="g0"
+             d="M 58.3,17.2 H 78.7 V 37.6 H 58.3 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4548"
+           clip-path="url(#ce)">
+          <path
+             id="path4546"
+             class="g0"
+             d="M 66,17.2 H 86.4 V 37.6 H 66 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4552"
+           clip-path="url(#cf)">
+          <path
+             id="path4550"
+             class="g0"
+             d="M 23.5,24.9 H 43.9 V 45.3 H 23.5 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4556"
+           clip-path="url(#cg)">
+          <path
+             id="path4554"
+             class="g0"
+             d="M 31.2,24.9 H 51.6 V 45.3 H 31.2 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4560"
+           clip-path="url(#ch)">
+          <path
+             id="path4558"
+             class="g0"
+             d="M 38.9,24.9 H 59.4 V 45.3 H 38.9 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4564"
+           clip-path="url(#ci)">
+          <path
+             id="path4562"
+             class="g0"
+             d="M 46.7,24.9 H 67.1 V 45.3 H 46.7 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4568"
+           clip-path="url(#cj)">
+          <path
+             id="path4566"
+             class="g0"
+             d="M 54.4,24.9 H 74.8 V 45.3 H 54.4 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4572"
+           clip-path="url(#ck)">
+          <path
+             id="path4570"
+             class="g0"
+             d="M 62.1,24.9 H 82.6 V 45.3 H 62.1 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+        <g
+           id="g4576"
+           clip-path="url(#cl)">
+          <path
+             id="path4574"
+             class="g0"
+             d="M 35.9,36.7 H 69.5 V 60.8 H 35.9 Z"
+             inkscape:connector-curvature="0"
+             style="fill:#000000" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
