@@ -36,5 +36,9 @@
 	<string>Resources/Assets.xcassets/AppIcon.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Assets.xcassets/LaunchImages.launchimage</string>
+  <key>UIAppFonts</key>
+  <array>
+    <string>MyCustomFont.ttf</string>
+  </array>
 </dict>
 </plist>

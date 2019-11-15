@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SVGs\MyCustomFont.sfd" />
+    <None Remove="SVGs\MyCustomFont.ttf" />
+    <None Remove="SVGs\MyCustomFont1.ttf.sfd" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="SVGs\Backspace.svg" />
     <EmbeddedResource Include="SVGs\Clear.svg" />
     <EmbeddedResource Include="SVGs\Exponent.svg" />
