@@ -140,6 +140,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Assets\MyCustomFont.ttf" />
     <None Include="OpenTK.dll.config">
       <SubType>Designer</SubType>
     </None>

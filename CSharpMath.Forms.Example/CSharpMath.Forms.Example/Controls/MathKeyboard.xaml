@@ -15,6 +15,7 @@
         <OnPlatform x:TypeArguments="x:String" x:Key="MyCustomFont">
             <On Platform="Android" Value="MyCustomFont.ttf#MyCustomFont" />
             <On Platform="UWP" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
+            <On Platform="WPF" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
             <On Platform="iOS" Value="MyCustomFont" />
         </OnPlatform>
         <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
