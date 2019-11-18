@@ -72,6 +72,7 @@ namespace CSharpMath.Editor {
             return MathAtoms.Divide;
           case MathKeyboardInput.Fraction:
             return MathAtoms.PlaceholderFraction;
+          
           case MathKeyboardInput.LeftCurlyBracket:
             return MathAtoms.Create(MathAtomType.Open, c);
           case MathKeyboardInput.RightCurlyBracket:
@@ -388,6 +389,9 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.BaseEPower:
           InsertCharacterKey(MathKeyboardInput.SmallE);
           HandleScriptButton(true);
+          break;
+        case MathKeyboardInput.Integral:
+          InsertSymbolName("int");
           break;
         case MathKeyboardInput.Logarithm:
           InsertSymbolName("log");

@@ -360,6 +360,7 @@ namespace CSharpMath.Atoms {
     public static Fraction PlaceholderFraction => new Fraction { Numerator = PlaceholderList, Denominator = PlaceholderList };
     public static Radical PlaceholderRadical => new Radical { Degree = PlaceholderList,  Radicand = PlaceholderList };
     public static Radical PlaceholderSquareRoot => new Radical { Radicand = PlaceholderList };
+    public static LargeOperator PlaceholderIntegral => Operator("\u222B", false);
 
     public static MathAtom ForCharacter(char c) {
       if (char.IsControl(c) || char.IsWhiteSpace(c)) {

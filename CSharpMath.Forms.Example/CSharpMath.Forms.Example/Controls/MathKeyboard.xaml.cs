@@ -9,7 +9,7 @@ namespace CSharpMath.Forms.Example {
   [XamlCompilation(XamlCompilationOptions.Compile)]
   public partial class MathKeyboard : ContentView {
     public enum Tab {
-      Numbers = 1, Operations, Functions, Letters, LettersCapitals
+      Numbers = 1, Operations, Functions, Letters, LettersCapitals, LargeOperators
     }
     public MathKeyboard() {
       InitializeComponent();
@@ -29,10 +29,12 @@ namespace CSharpMath.Forms.Example {
         Functions.IsVisible = false;
         Letters.IsVisible = false;
         LettersCapitals.IsVisible = false;
+        LargeOperators.IsVisible = false;
         NumbersButton.BorderWidth = 0;
         OperationsButton.BorderWidth = 0;
         FunctionsButton.BorderWidth = 0;
         LettersButton.BorderWidth = 0;
+        LargeOperatorsButton.BorderWidth = 0;
 
         void SetState(Grid grid, Button button) {
             grid.IsVisible = true;
@@ -54,6 +56,9 @@ namespace CSharpMath.Forms.Example {
             break;
           case Tab.LettersCapitals:
             SetState(LettersCapitals, LettersButton);
+            break;
+          case Tab.LargeOperators:
+            SetState(LargeOperators, LargeOperatorsButton);
             break;
         }
         ShiftCapitalsButton.BorderWidth = SelectedBorderWidth;
