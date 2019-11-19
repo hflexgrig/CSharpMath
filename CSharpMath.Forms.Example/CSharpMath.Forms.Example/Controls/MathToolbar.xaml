@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView x:Class="CSharpMath.Forms.Example.MathToolbar"
+             xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:r="clr-namespace:CSharpMath.Rendering;assembly=CSharpMath.Rendering"
+             xmlns:c="clr-namespace:CSharpMath.Forms"
+             xmlns:e="clr-namespace:CSharpMath.Forms.Example"
+             x:Name="this"
+             WidthRequest="320"
+             HeightRequest="40">
+    <!-- double R(double value, double factor) => Math.Round(value / factor, MidpointRounding.AwayFromZero) * factor;
+         void F(float a, float b, float c, float d) =>
+           WriteLine((R(a, R(c, 2)) / 320f, R(b, R(d, 3)) / 180f, R(c, 2) / 320f, R(d, 3) / 180f).ToString().Trim('(', ')')); -->
+    <ContentView.Resources>
+        <OnPlatform x:TypeArguments="x:String" x:Key="MyCustomFont">
+            <On Platform="Android" Value="MyCustomFont.ttf#MyCustomFont" />
+            <On Platform="UWP" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
+            <On Platform="WPF" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
+            <On Platform="iOS" Value="MyCustomFont" />
+        </OnPlatform>
+        <Style TargetType="Button" Class="Enter">
+            <Setter Property="Text" Value="⏎"/>
+            <Setter Property="Grid.Column" Value="5"/>
+            <Setter Property="Grid.Row" Value="2"/>
+            <Setter Property="Command" Value="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Return}"/>
+        </Style>
+        <Style TargetType="Button" Class="Dismiss">
+            <!--<Setter Property="Svg" Value="{e:CSharpMathSVG KeyboardDown}"/>-->
+            <Setter Property="FontFamily" Value="{StaticResource MyCustomFont}"/>
+            <Setter Property="Text" Value="\"/>
+            <Setter Property="Grid.Column" Value="5"/>
+            <Setter Property="Grid.Row" Value="3"/>
+            <Setter Property="Command" Value="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Dismiss}"/>
+        </Style>
+        <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
+        <!--/Right row of first 3 tabs-->
+    </ContentView.Resources>
+    <Grid BackgroundColor="Blue">
+        
+    </Grid>
+</ContentView>

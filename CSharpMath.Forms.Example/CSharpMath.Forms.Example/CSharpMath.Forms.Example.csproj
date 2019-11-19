@@ -35,6 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\MathToolbar.xaml.cs">
+      <DependentUpon>MathToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\MathKeyboard.xaml.cs">
       <DependentUpon>MathKeyboard.xaml</DependentUpon>
     </Compile>
