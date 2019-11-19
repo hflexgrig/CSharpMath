@@ -19,8 +19,8 @@ namespace CSharpMath.Forms.Example {
     public EditorView() {
       // Basic functionality
       var view = new SKCanvasView { HeightRequest = 225 };
-      var keyboard = new MathKeyboard();
-      var viewModel = keyboard.ViewModel;
+      var mathToolbar = new MathToolbar();
+      var viewModel = mathToolbar.ViewModel;
       viewModel.BindDisplay(view, new SkiaSharp.MathPainter {
         TextColor = SKColors.Black
       }, new SKColor(0, 0, 0, 153));
@@ -45,7 +45,7 @@ namespace CSharpMath.Forms.Example {
       };
 
       // Assemble
-      Content = new StackLayout { Children = { latex, ranges, index, view, keyboard, entry } };
+      Content = new StackLayout { Children = { mathToolbar, latex, ranges, index, view,  entry } };
     }
   }
 }
