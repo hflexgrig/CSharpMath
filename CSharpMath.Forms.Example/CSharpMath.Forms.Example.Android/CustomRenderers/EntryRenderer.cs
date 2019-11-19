@@ -44,15 +44,15 @@ namespace CSharpMath.Forms.Example.Droid.CustomRenderers {
 
       var clickTime = DateTime.Now;
       Control.KeyPress += (o,e1) => {
-        if (e1.KeyCode == Keycode.Del) {
-          var diffTime = DateTime.Now.Subtract(clickTime);
+        //if (e1.KeyCode == Keycode.Del) {
+        //  var diffTime = DateTime.Now.Subtract(clickTime);
 
-          if (diffTime > TimeSpan.FromMilliseconds(200)) {
-            entry.OnBackspacePressed();
-          }
+        //  if (diffTime > TimeSpan.FromMilliseconds(200)) {
+        //    entry.OnBackspacePressed();
+        //  }
 
-          clickTime = DateTime.Now;
-        }
+        //  clickTime = DateTime.Now;
+        //}
 
         //if (e1.KeyCode == Keycode.ShiftLeft) {
         //  var diffTime = DateTime.Now.Subtract(clickTime);
@@ -75,10 +75,56 @@ namespace CSharpMath.Forms.Example.Droid.CustomRenderers {
         //}
       };
 
+      Control.SetOnKeyListener(new CustomKeyListener(entry));
       //Control.SetFilters(new Android.Text.IInputFilter[] { this });
       
 
     }
 
+
+
+  }
+
+  class CustomKeyListener : Java.Lang.Object, Android.Views.View.IOnKeyListener {
+    private readonly CustomEntry _entry;
+
+    const int TimeOut = 50;
+    private static DateTime _currentTime = DateTime.Now;
+    public CustomKeyListener(CustomEntry entry) {
+      this._entry = entry;
+    }
+    public bool OnKey(Android.Views.View v, [GeneratedEnum] Keycode keyCode, KeyEvent e) {
+      //System.Diagnostics.Debug.WriteLine(e.KeyCode);
+      if (e.KeyCode == Keycode.Del) {
+        var diffTime = DateTime.Now.Subtract(_currentTime);
+
+        if (diffTime > TimeSpan.FromMilliseconds(TimeOut)) {
+          _entry.OnBackspacePressed();
+        }
+
+        _currentTime = DateTime.Now;
+      }
+
+      if (e.KeyCode == Keycode.DpadUp) {
+        var diffTime = DateTime.Now.Subtract(_currentTime);
+
+        if (diffTime > TimeSpan.FromMilliseconds(TimeOut)) {
+          _entry.OnShiftRightPressed();
+        }
+
+        _currentTime = DateTime.Now;
+      }
+
+      if (e.KeyCode == Keycode.DpadDown) {
+        var diffTime = DateTime.Now.Subtract(_currentTime);
+
+        if (diffTime > TimeSpan.FromMilliseconds(TimeOut)) {
+          _entry.OnShiftLeftPressed();
+        }
+
+        _currentTime = DateTime.Now;
+      }
+      return true;
+    }
   }
 }
