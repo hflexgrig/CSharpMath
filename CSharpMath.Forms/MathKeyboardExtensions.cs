@@ -18,7 +18,7 @@ namespace CSharpMath.Forms {
         (sender, e) => {
           var c = e.Surface.Canvas;
           c.Clear();
-          MathPainter.DrawDisplay(settings, keyboard.Display, c);
+          MathPainter.DrawDisplay(settings, keyboard.Display, c, TextAlignment.TopLeft, new Thickness(20));
           keyboard.DrawCaret(new SkiaCanvas(c, cap, AntiAlias.Enable), caretColor.FromNative(), caretShape);
         };
     }

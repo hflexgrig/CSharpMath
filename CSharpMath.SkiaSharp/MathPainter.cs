@@ -54,7 +54,7 @@ namespace CSharpMath.SkiaSharp {
     /// <param name="settings"></param>
     /// <param name="display"></param>
     public static void DrawDisplay(MathPainter settings, IDisplay<Fonts, Glyph> display, SKCanvas canvas,
-      TextAlignment textAlignment = TextAlignment.Center, Thickness padding = default, float offsetX = 0, float offsetY = 0) =>
+      TextAlignment textAlignment = TextAlignment.TopLeft, Thickness padding = default, float offsetX = 0, float offsetY = 0) =>
           DrawDisplay(settings, display, _ => _.Draw(canvas, textAlignment, padding, offsetX, offsetY));
     
     private static void DrawDisplay(MathPainter settings, IDisplay<Fonts, Glyph> display, System.Action<MathPainter> draw) {

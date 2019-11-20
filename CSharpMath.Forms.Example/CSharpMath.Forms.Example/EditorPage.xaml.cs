@@ -19,7 +19,7 @@ namespace CSharpMath.Forms.Example {
   public class EditorView : ContentView {
     public EditorView() {
       // Basic functionality
-      var view = new SKCanvasView { HeightRequest = 160 , BackgroundColor=Color.AliceBlue};
+      var view = new SKCanvasView { HeightRequest = 160, BackgroundColor = Color.AliceBlue, EnableTouchEvents = true , HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
       
       var mathToolbar = new MathToolbar();
       //mathToolbar.keyboard

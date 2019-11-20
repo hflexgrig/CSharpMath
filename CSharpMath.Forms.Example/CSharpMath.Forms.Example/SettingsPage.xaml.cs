@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +21,7 @@ namespace CSharpMath.Forms.Example {
       var values = typeof(Rendering.TextAlignment).GetEnumValues();
       Array.Reverse(values);
       Alignment.ItemsSource = values;
-      Alignment.SelectedItem = Rendering.TextAlignment.Center;
+      Alignment.SelectedItem = Rendering.TextAlignment.TopLeft;
 
       values = typeof(PaintStyle).GetEnumValues();
       PaintStyle.ItemsSource = values;

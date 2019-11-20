@@ -31,7 +31,7 @@ namespace CSharpMath.Rendering {
       }
     }
 
-    public override void Draw(TCanvas canvas, TextAlignment alignment = TextAlignment.Center, Thickness padding = default, float offsetX = 0, float offsetY = 0) {
+    public override void Draw(TCanvas canvas, TextAlignment alignment = TextAlignment.TopLeft, Thickness padding = default, float offsetX = 0, float offsetY = 0) {
       var c = WrapCanvas(canvas);
       if (!Source.IsValid) DrawError(c);
       else {
