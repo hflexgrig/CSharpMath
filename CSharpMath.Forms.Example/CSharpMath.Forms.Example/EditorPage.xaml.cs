@@ -19,7 +19,7 @@ namespace CSharpMath.Forms.Example {
   public class EditorView : ContentView {
     public EditorView() {
       // Basic functionality
-      var view = new SKCanvasView { HeightRequest = 140 };
+      var view = new SKCanvasView { HeightRequest = 160 , BackgroundColor=Color.AliceBlue};
       
       var mathToolbar = new MathToolbar();
       //mathToolbar.keyboard
@@ -27,7 +27,7 @@ namespace CSharpMath.Forms.Example {
 
       
       var viewModel = mathToolbar.ViewModel;
-      viewModel.BindDisplay(view, new SkiaSharp.MathPainter {
+      viewModel.BindDisplay(view, new SkiaSharp.MathPainter() {
         TextColor = SKColors.Black
       }, new SKColor(0, 0, 0, 153));
 
@@ -79,6 +79,14 @@ namespace CSharpMath.Forms.Example {
         index.Text = "Index = " + viewModel.InsertionIndex;
       };
 
+     
+
+      //var stk = new StackLayout { Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.FillAndExpand };
+      //stk.Children.Add(view);
+      //var scv = new ScrollView();
+      //scv.Orientation = ScrollOrientation.Horizontal;
+      //scv.HorizontalOptions = LayoutOptions.Start;
+      //scv.Content = stk;
       // Assemble
       Content = new StackLayout { Children = { mathToolbar, latex, ranges, index, view,  entry } };
       entry.Focus();

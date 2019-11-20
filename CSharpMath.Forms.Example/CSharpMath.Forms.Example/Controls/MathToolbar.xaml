@@ -28,6 +28,7 @@
         <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="2,1,2,1"/>
+            <Setter Property="WidthRequest" Value="100"/>
         </Style>
         <Style TargetType="Button" Class="Enter">
             <Setter Property="Text" Value="⏎"/>
@@ -106,6 +107,10 @@
                     <Button Text="&#x222B;Sub;" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource MyCustomFont}" />
                     <Button Text="&#x222B;Sup;" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource MyCustomFont}" />
                     <Button Text="&#x222B;SubSup;" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource MyCustomFont}" />
+                    <Button Text="∑" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sum}" FontFamily="{StaticResource MyCustomFont}" />
+                    <Button Text="∑Sub" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSub}" FontFamily="{StaticResource MyCustomFont}" />
+                    <Button Text="∑Sup" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSup}" FontFamily="{StaticResource MyCustomFont}" />
+                    <Button Text="∑SubSup" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSubSup}" FontFamily="{StaticResource MyCustomFont}" />
                     <Button Text="∠" Grid.Row="2" Grid.Column="4" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Angle}"/>
                     <!--<e:SvgButton Svg="{e:CSharpMathSVG Subscript}" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Subscript}"/>-->
                     <!--<e:SvgButton Svg="{e:CSharpMathSVG Sqrt}" Grid.Row="3" Grid.Column="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SquareRoot}"/>-->

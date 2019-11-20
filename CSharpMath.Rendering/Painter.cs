@@ -17,7 +17,7 @@ using Color = CSharpMath.Structures.Color;
 
 namespace CSharpMath.Rendering {
   public static class PainterConstants {
-    public const float DefaultFontSize = 20f;
+    public const float DefaultFontSize = 48f;
   }
   public abstract class Painter<TCanvas, TSource, TColor> : ICanvasPainter<TCanvas, TSource, TColor>
     where TSource : struct, ISource {

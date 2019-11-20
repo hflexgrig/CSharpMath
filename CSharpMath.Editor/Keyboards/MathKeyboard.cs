@@ -394,20 +394,25 @@ namespace CSharpMath.Editor {
           InsertSymbolName("int");
           break;
         case MathKeyboardInput.IntegralSub:
-          var integralSub = MathAtoms.ForLatexSymbolName("int");
-          integralSub.Subscript = new MathList { MathAtoms.Placeholder };
-          MathList.InsertAndAdvance(ref _insertionIndex, integralSub, MathListSubIndexType.Subscript);
+          InsertLargeOperator("int", MathListSubIndexType.Subscript);
           break;
         case MathKeyboardInput.IntegralSup:
-          var integralSup = MathAtoms.ForLatexSymbolName("int");
-          integralSup.Superscript = new MathList { MathAtoms.Placeholder };
-          MathList.InsertAndAdvance(ref _insertionIndex, integralSup, MathListSubIndexType.Subscript);
+          InsertLargeOperator("int", null, MathListSubIndexType.Superscript);
           break;
         case MathKeyboardInput.IntegralSubSup:
-          var integralSubSup = MathAtoms.ForLatexSymbolName("int");
-          integralSubSup.Subscript = new MathList { MathAtoms.Placeholder };
-          integralSubSup.Superscript = new MathList { MathAtoms.Placeholder };
-          MathList.InsertAndAdvance(ref _insertionIndex, integralSubSup, MathListSubIndexType.Subscript);
+          InsertLargeOperator("int", MathListSubIndexType.Subscript, MathListSubIndexType.Superscript);
+          break;
+        case MathKeyboardInput.Sum:
+          InsertLargeOperator("sum");
+          break;
+        case MathKeyboardInput.SumSub:
+          InsertLargeOperator("sum", MathListSubIndexType.Subscript);
+          break;
+        case MathKeyboardInput.SumSup:
+          InsertLargeOperator("sum", null, MathListSubIndexType.Superscript);
+          break;
+        case MathKeyboardInput.SumSubSup:
+          InsertLargeOperator("sum", MathListSubIndexType.Subscript, MathListSubIndexType.Superscript);
           break;
         case MathKeyboardInput.Logarithm:
           InsertSymbolName("log");
@@ -634,6 +639,18 @@ namespace CSharpMath.Editor {
           break;
       }
       InsertionPointChanged();
+    }
+
+    private void InsertLargeOperator(string command, MathListSubIndexType? subScript = null, MathListSubIndexType? supScript=null) {
+      var largeOperator = MathAtoms.ForLatexSymbolName(command);
+      if (subScript.HasValue) {
+        largeOperator.Subscript = new MathList { MathAtoms.Placeholder };
+      }
+
+      if (supScript.HasValue) {
+        largeOperator.Superscript = new MathList { MathAtoms.Placeholder };
+      }
+      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, subScript?? supScript?? MathListSubIndexType.None);
     }
 
     public void MoveCaretToPoint(PointF point) {
