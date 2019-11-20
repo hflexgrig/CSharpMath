@@ -393,6 +393,22 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.Integral:
           InsertSymbolName("int");
           break;
+        case MathKeyboardInput.IntegralSub:
+          var integralSub = MathAtoms.ForLatexSymbolName("int");
+          integralSub.Subscript = new MathList { MathAtoms.Placeholder };
+          MathList.InsertAndAdvance(ref _insertionIndex, integralSub, MathListSubIndexType.Subscript);
+          break;
+        case MathKeyboardInput.IntegralSup:
+          var integralSup = MathAtoms.ForLatexSymbolName("int");
+          integralSup.Superscript = new MathList { MathAtoms.Placeholder };
+          MathList.InsertAndAdvance(ref _insertionIndex, integralSup, MathListSubIndexType.Subscript);
+          break;
+        case MathKeyboardInput.IntegralSubSup:
+          var integralSubSup = MathAtoms.ForLatexSymbolName("int");
+          integralSubSup.Subscript = new MathList { MathAtoms.Placeholder };
+          integralSubSup.Superscript = new MathList { MathAtoms.Placeholder };
+          MathList.InsertAndAdvance(ref _insertionIndex, integralSubSup, MathListSubIndexType.Subscript);
+          break;
         case MathKeyboardInput.Logarithm:
           InsertSymbolName("log");
           break;

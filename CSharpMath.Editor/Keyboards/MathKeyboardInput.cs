@@ -62,6 +62,6 @@ namespace CSharpMath.Editor {
     HyperbolicCotangent = '◒', HyperbolicSecant = '◔', HyperbolicCosecant = '◕',
     AreaHyperbolicSine = '◴', AreaHyperbolicCosine = '◷', AreaHyperbolicTangent = '◵',
     AreaHyperbolicCotangent = '◶', AreaHyperbolicSecant = '⚆', AreaHyperbolicCosecant = '⚇',
-    Integral = '∫'
+    Integral = '∫', IntegralSub= 0x22f2, IntegralSup = 0x22f3, IntegralSubSup = 0x22f4
   }
 }

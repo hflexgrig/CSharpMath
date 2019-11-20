@@ -34,10 +34,7 @@ namespace CSharpMath.Forms.Example {
       // Input from physical keyboard
       var entry = new CustomEntry { Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
       view.Touch += (o, e) => {
-        if (!entry.IsFocused) {
           entry.Focus();
-
-        }
 
       };
 
@@ -45,10 +42,10 @@ namespace CSharpMath.Forms.Example {
 
       if (keyb != null) {
         keyb.RedrawRequested += (o, e) => {
-          if (!entry.IsFocused) {
+          //if (!entry.IsFocused) {
             entry.Focus();
 
-          }
+          //}
         };
       }
       entry.TextChanged += (sender, e) => {
