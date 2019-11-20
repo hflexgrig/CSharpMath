@@ -18,25 +18,47 @@ namespace CSharpMath.Forms.Example.Droid {
       base.OnCreate(bundle);
 
       global::Xamarin.Forms.Forms.Init(this, bundle);
-      LoadApplication(new App());
+      var app = new App();
+      app.PageAppearing += App_PageAppearing;
+      app.OnResumed += App_OnResumed;
+      LoadApplication(app);
+    }
+
+    private void App_OnResumed() {
+      _forceShow = true;
+
+    }
+
+    private void App_PageAppearing(object sender, Xamarin.Forms.Page e) {
     }
 
     private bool _lieAboutCurrentFocus;
+    private bool _forceShow;
+
     public override bool DispatchTouchEvent(MotionEvent ev) {
-      var focused = CurrentFocus;
-      bool customEntryRendererFocused = focused != null && focused.Parent is CustomEntryRenderer;
+      //if (!_forceShow) {
+        var focused = CurrentFocus;
+        bool customEntryRendererFocused = focused != null && focused.Parent is CustomEntryRenderer;
 
-      _lieAboutCurrentFocus = customEntryRendererFocused;
-      var result = base.DispatchTouchEvent(ev);
-      _lieAboutCurrentFocus = false;
+        _lieAboutCurrentFocus = customEntryRendererFocused;
+        var result = base.DispatchTouchEvent(ev);
+        _lieAboutCurrentFocus = false;
 
-      return result;
+        return result;
+      //} else {
+      //  return base.DispatchTouchEvent(ev);
+      //}
+      
     }
 
     public override Android.Views.View CurrentFocus {
       get {
-        if (_lieAboutCurrentFocus) {
+        if (/*!_forceShow &&*/ _lieAboutCurrentFocus) {
           return null;
+        }
+
+        if (_lieAboutCurrentFocus) {
+          _forceShow = false;
         }
 
         return base.CurrentFocus;

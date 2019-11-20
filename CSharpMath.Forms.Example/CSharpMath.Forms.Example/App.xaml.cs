@@ -4,12 +4,14 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Forms.PlatformConfiguration;
 using System.ComponentModel;
+using CSharpMath.Forms.Example.Controls;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace CSharpMath.Forms.Example
 {
 	public partial class App : Application
 	{
+    public event Action OnResumed;
     public static ObservableCollection<MathView> AllViews = new ObservableCollection<MathView>();
     public App() => InitializeComponent();
     int index = -1;
@@ -27,12 +29,19 @@ namespace CSharpMath.Forms.Example
 
 		protected override void OnSleep ()
 		{
+      var editorPage = MainPage as EditorPage;
+      var editorView = editorPage.Content as EditorView;
+      var entry = editorView?.Entry;
+      if (entry!=null) {
+        entry.Unfocus();
+      }
 			// Handle when your app sleeps
 		}
 
 		protected override void OnResume ()
 		{
-			// Handle when your app resumes
-		}
+      OnResumed?.Invoke();
+            // Handle when your app resumes
+    }
 	}
 }

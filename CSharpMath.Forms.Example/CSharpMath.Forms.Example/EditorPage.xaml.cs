@@ -17,13 +17,15 @@ namespace CSharpMath.Forms.Example {
   }
 
   public class EditorView : ContentView {
+    private CustomEntry _entry;
+    public CustomEntry Entry => _entry;
     public EditorView() {
       // Basic functionality
       var view = new SKCanvasView { HeightRequest = 160, BackgroundColor = Color.AliceBlue, EnableTouchEvents = true , HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
       
       var mathToolbar = new MathToolbar();
       //mathToolbar.keyboard
-      var keyb = mathToolbar.Resources["Keyboard"] as CSharpMath.Rendering.MathKeyboard;
+      //var keyb = mathToolbar.Resources["Keyboard"] as CSharpMath.Rendering.MathKeyboard;
 
       
       var viewModel = mathToolbar.ViewModel;
@@ -32,39 +34,42 @@ namespace CSharpMath.Forms.Example {
       }, new SKColor(0, 0, 0, 153));
 
       // Input from physical keyboard
-      var entry = new CustomEntry { Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
+      _entry = new CustomEntry {AutomationId = "CustomEntry", Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
       view.Touch += (o, e) => {
-          entry.Focus();
+          //Device.BeginInvokeOnMainThread(() => {
+          //Invoke on Main thread, or this won't work
+          _entry.Focus();
+        //});
 
       };
 
 
 
-      if (keyb != null) {
-        keyb.RedrawRequested += (o, e) => {
-          //if (!entry.IsFocused) {
-            entry.Focus();
+      //if (keyb != null) {
+      //  keyb.RedrawRequested += (o, e) => {
+      //    //if (!entry.IsFocused) {
+      //      entry.Focus();
 
-          //}
-        };
-      }
-      entry.TextChanged += (sender, e) => {
-        entry.Text = "";
+      //    //}
+      //  };
+      //}
+      _entry.TextChanged += (sender, e) => {
+        _entry.Text = "";
         foreach (var c in e.NewTextValue)
           // The (int) extra conversion seems to be required by Android or a crash occurs
           viewModel.KeyPress((Editor.MathKeyboardInput)(int)c);
       };
 
-      entry.OnBackspace += () => {
+      _entry.OnBackspace += () => {
         viewModel.KeyPress(Editor.MathKeyboardInput.Backspace);
       };
 
-      entry.OnShiftLeft += () => {
+      _entry.OnShiftLeft += () => {
         viewModel.KeyPress(Editor.MathKeyboardInput.Left);
 
       };
 
-      entry.OnShiftRight += () => {
+      _entry.OnShiftRight += () => {
         viewModel.KeyPress(Editor.MathKeyboardInput.Right);
 
       };
@@ -77,10 +82,19 @@ namespace CSharpMath.Forms.Example {
         latex.Text = "LaTeX = " + viewModel.LaTeX;
         ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
         index.Text = "Index = " + viewModel.InsertionIndex;
+        //Device.BeginInvokeOnMainThread(() => {
+        //Invoke on Main thread, or this won't work
+          _entry.Focus();
+        //});
       };
 
-     
+      var stkPanelTexts = new StackLayout { Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.StartAndExpand };
+      stkPanelTexts.Children.Add(latex);
+      stkPanelTexts.Children.Add(ranges);
+      stkPanelTexts.Children.Add(index);
 
+      var scrPanelTexts = new ScrollView { Orientation = ScrollOrientation.Horizontal };
+      scrPanelTexts.Content = stkPanelTexts;
       //var stk = new StackLayout { Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.FillAndExpand };
       //stk.Children.Add(view);
       //var scv = new ScrollView();
@@ -88,10 +102,25 @@ namespace CSharpMath.Forms.Example {
       //scv.HorizontalOptions = LayoutOptions.Start;
       //scv.Content = stk;
       // Assemble
-      Content = new StackLayout { Children = { mathToolbar, latex, ranges, index, view,  entry } };
-      entry.Focus();
+      Content = new StackLayout { Children = { mathToolbar, scrPanelTexts, view,  _entry } };
+      //Device.BeginInvokeOnMainThread(() => {
+        //Invoke on Main thread, or this won't work
+        _entry.Focus();
+      //});
+
+      //Device.BeginInvokeOnMainThread(async () =>
+      //{
+      //  while (true) {
+      //    await System.Threading.Tasks.Task.Delay(1000);
+      //    entry.Focus();
+      //  }
+       
+      //});
     }
+
+  }
+
+   
 
     
   }
-}
