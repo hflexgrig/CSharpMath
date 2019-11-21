@@ -43,6 +43,7 @@ namespace CSharpMath.Forms.Example {
 
       };
 
+      var boxViewPopup = new Grid { Children = {  } };
 
 
       //if (keyb != null) {
@@ -78,17 +79,9 @@ namespace CSharpMath.Forms.Example {
       var latex = new Label { Text = "LaTeX = " };
       var ranges = new Label { Text = "Ranges = " };
       var index = new Label { Text = "Index = " };
-      viewModel.RedrawRequested += (sender, e) => {
-        latex.Text = "LaTeX = " + viewModel.LaTeX;
-        ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
-        index.Text = "Index = " + viewModel.InsertionIndex;
-        //Device.BeginInvokeOnMainThread(() => {
-        //Invoke on Main thread, or this won't work
-          _entry.Focus();
-        //});
-      };
+      
 
-      var stkPanelTexts = new StackLayout { Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.StartAndExpand };
+      var stkPanelTexts = new StackLayout { Orientation = StackOrientation.Horizontal };
       stkPanelTexts.Children.Add(latex);
       stkPanelTexts.Children.Add(ranges);
       stkPanelTexts.Children.Add(index);
@@ -102,20 +95,46 @@ namespace CSharpMath.Forms.Example {
       //scv.HorizontalOptions = LayoutOptions.Start;
       //scv.Content = stk;
       // Assemble
-      Content = new StackLayout { Children = { mathToolbar, scrPanelTexts, view,  _entry } };
-      //Device.BeginInvokeOnMainThread(() => {
-        //Invoke on Main thread, or this won't work
-        _entry.Focus();
-      //});
+      var mainViews = new Grid { Children = { new StackLayout { Children = { mathToolbar, scrPanelTexts, view, _entry } } } };
 
-      //Device.BeginInvokeOnMainThread(async () =>
-      //{
-      //  while (true) {
-      //    await System.Threading.Tasks.Task.Delay(1000);
-      //    entry.Focus();
-      //  }
-       
-      //});
+      AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
+      AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0,0,1,1));
+
+      var abslayout = new AbsoluteLayout { Children = { mainViews/*, boxViewPopup */} };
+      Content = abslayout;
+
+      //TODO: init layout changes
+      mathToolbar.ToolbarButtonClicked += (button, coords) => {
+        var subButtonsView = button.Resources["SubButtons"] as Grid;
+        if (subButtonsView is null) {
+          return;
+        }
+        boxViewPopup.Children.Add(subButtonsView);
+
+        double xOffset;
+        double yOffset;
+
+        if (coords.X + 150 > view.Width) {
+          xOffset = view.Width - 150;
+        } else {
+          xOffset = coords.X;
+        }
+
+        yOffset = coords.Y + button.Height;
+        AbsoluteLayout.SetLayoutBounds(boxViewPopup, new Rectangle(xOffset , yOffset, 150, 150));
+
+        abslayout.Children.Add(boxViewPopup);
+      };
+
+      viewModel.RedrawRequested += (sender, e) => {
+        latex.Text = "LaTeX = " + viewModel.LaTeX;
+        ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
+        index.Text = "Index = " + viewModel.InsertionIndex;
+        _entry.Focus();
+        boxViewPopup.Children.Clear();
+        abslayout.Children.Remove(boxViewPopup);
+      };
+      
     }
 
   }
