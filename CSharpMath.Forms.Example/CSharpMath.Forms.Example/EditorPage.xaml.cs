@@ -109,6 +109,7 @@ namespace CSharpMath.Forms.Example {
         if (subButtonsView is null) {
           return;
         }
+        boxViewPopup.Children.Clear();
         boxViewPopup.Children.Add(subButtonsView);
 
         double xOffset;

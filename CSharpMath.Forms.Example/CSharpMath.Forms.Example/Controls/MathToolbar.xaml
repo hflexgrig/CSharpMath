@@ -8,16 +8,23 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Name="this"
              WidthRequest="320"
-             HeightRequest="40">
+             HeightRequest="50">
     <!-- double R(double value, double factor) => Math.Round(value / factor, MidpointRounding.AwayFromZero) * factor;
          void F(float a, float b, float c, float d) =>
            WriteLine((R(a, R(c, 2)) / 320f, R(b, R(d, 3)) / 180f, R(c, 2) / 320f, R(d, 3) / 180f).ToString().Trim('(', ')')); -->
     <ContentView.Resources>
+        
         <OnPlatform x:TypeArguments="x:String" x:Key="MyCustomFont">
             <On Platform="Android" Value="MyCustomFont.ttf#MyCustomFont" />
             <On Platform="UWP" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
             <On Platform="WPF" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
             <On Platform="iOS" Value="MyCustomFont" />
+        </OnPlatform>
+        <OnPlatform x:TypeArguments="x:String" x:Key="LatinModernMath">
+            <On Platform="Android" Value="LatinModernMath-Regular.ttf#Latin Modern Math" />
+            <On Platform="UWP" Value="/Assets/LatinModernMath-Regular.ttf#Latin Modern Math" />
+            <On Platform="WPF" Value="/Assets/LatinModernMath-Regular.ttf#Latin Modern Math" />
+            <On Platform="iOS" Value="Latin Modern Math" />
         </OnPlatform>
         <OnPlatform x:TypeArguments="x:Double" x:Key="NavigationKeysWidth">
             <On Platform="Android" Value="100" />
@@ -26,10 +33,10 @@
             <On Platform="iOS" Value="260" />
         </OnPlatform>
         <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
-        <Style TargetType="Button">
+        <!--<Style TargetType="Button">
             <Setter Property="Padding" Value="2,1,2,1"/>
             <Setter Property="WidthRequest" Value="100"/>
-        </Style>
+        </Style>-->
         <Style TargetType="Button" Class="Enter">
             <Setter Property="Text" Value="⏎"/>
             <Setter Property="Grid.Column" Value="5"/>
@@ -72,16 +79,22 @@
                 <StackLayout Orientation="Horizontal" Spacing="1" HorizontalOptions="FillAndExpand">
                     <StackLayout.Resources>
                         <Style TargetType="Button">
-                            <Setter Property="FontSize" Value="18"/>
-                            <Setter Property="Padding" Value="2,1,2,1"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="FontSize" Value="35"/>
                         </Style>
                     </StackLayout.Resources>
-                    <Button  Clicked="Button_Clicked" Text="&#x222B;" >
+                    <Button  Clicked="Button_Clicked" Text="(" FontFamily="{StaticResource MyCustomFont}" >
                         <Button.Resources>
                             <Grid x:Key="SubButtons" BackgroundColor="White" >
                                 <ScrollView>
                                 <Grid>
-                                    <Grid.RowDefinitions>
+                                        <Grid.Resources>
+                                            <Style TargetType="Button">
+                                                <Setter Property="FontSize" Value="35"/>
+                                                <Setter Property="Padding" Value="0"/>
+                                            </Style>
+                                        </Grid.Resources>
+                                        <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
@@ -89,21 +102,23 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Button Text="&#x222B;" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Integral}"/>
-                                    <Button Text="&#x222B;Sub" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource MyCustomFont}" />
-                                    <Button Text="&#x222B;Sup" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                    <Button Text="&#x222B;SubSup" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button Text="." Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Integral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text=")" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button Text="*" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button Text="(" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource MyCustomFont}" />
                                 </Grid>
                                 </ScrollView>
                             </Grid>
 
                         </Button.Resources>
                     </Button>
-                    <Button  Clicked="Button_Clicked" Text="∑" Grid.Row="2" Grid.Column="0"  FontFamily="{StaticResource MyCustomFont}" >
+                    <Button  Clicked="Button_Clicked" Text="+" Grid.Row="2" Grid.Column="0"  FontFamily="{StaticResource MyCustomFont}" >
                         <Button.Resources>
                             <Grid x:Key="SubButtons" BackgroundColor="White" >
                                 <ScrollView>
                                     <Grid>
+                                        <Grid.Resources>
+                                        </Grid.Resources>
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition/>
@@ -113,10 +128,10 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button   Text="∑" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sum}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="∑Sub" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSub}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="∑Sup" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="∑SubSup" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSubSup}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button   Text="/" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sum}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button   Text="," Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSub}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button   Text="-" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSup}" FontFamily="{StaticResource MyCustomFont}" />
+                                        <Button   Text="+" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSubSup}" FontFamily="{StaticResource MyCustomFont}" />
                                     </Grid>
                                 </ScrollView>
                             </Grid>

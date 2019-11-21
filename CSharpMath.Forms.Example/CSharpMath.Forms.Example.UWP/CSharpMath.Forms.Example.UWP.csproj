@@ -105,7 +105,8 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets\MyCustomFont.ttf" />
+    <AndroidAsset Include="Assets\LatinModernMath-Regular.ttf" />
+    <AndroidAsset Include="Assets\MyCustomFont.ttf" />
     <None Include="CSharpMath.Forms.Example.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
