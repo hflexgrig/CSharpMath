@@ -1115,25 +1115,27 @@ namespace CSharpMath {
       if (op.Limits ?? _style == LineStyle.Display) {
         ListDisplay<TFont, TGlyph> superscript = null;
         ListDisplay<TFont, TGlyph> subscript = null;
+        if (op.Subscript != null) {
+          subscript = _CreateLine(op.Subscript, _font, _context, _scriptStyle, _subscriptCramped);
+        }
         if (op.Superscript!=null) {
           superscript = _CreateLine(op.Superscript, _font, _context, _scriptStyle, _superscriptCramped);
         }
-        if (op.Subscript!=null) {
-          subscript = _CreateLine(op.Subscript, _font, _context, _scriptStyle, _subscriptCramped);
-        }
+        
         var opsDisplay = new LargeOpLimitsDisplay<TFont, TGlyph>(display, superscript, subscript, delta / 2, 0) {
           Position = _currentPosition
         };
+        if (subscript != null) {
+          opsDisplay.SetLowerLimitGap(
+            Math.Max(_mathTable.LowerLimitGapMin(_styleFont),
+                     _mathTable.LowerLimitBaselineDropMin(_styleFont) - subscript.Ascent));
+        }
         if (superscript!=null) {
           opsDisplay.SetUpperLimitGap(
             Math.Max(_mathTable.UpperLimitGapMin(_styleFont),
                      _mathTable.UpperLimitBaselineRiseMin(_styleFont) - superscript.Descent));
         }
-        if (subscript!=null) {
-          opsDisplay.SetLowerLimitGap(
-            Math.Max(_mathTable.LowerLimitGapMin(_styleFont),
-                     _mathTable.LowerLimitBaselineDropMin(_styleFont) - subscript.Ascent));
-        }
+        
         _currentPosition.X += opsDisplay.Width;
         return opsDisplay;
       }

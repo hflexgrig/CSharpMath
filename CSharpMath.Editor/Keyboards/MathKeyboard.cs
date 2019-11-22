@@ -650,7 +650,7 @@ namespace CSharpMath.Editor {
       if (supScript.HasValue) {
         largeOperator.Superscript = new MathList { MathAtoms.Placeholder };
       }
-      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, subScript?? supScript?? MathListSubIndexType.None);
+      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, MathListSubIndexType.None);
     }
 
     public void MoveCaretToPoint(PointF point) {
