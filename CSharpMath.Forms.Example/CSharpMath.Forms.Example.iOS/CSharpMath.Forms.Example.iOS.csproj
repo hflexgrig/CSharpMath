@@ -108,6 +108,7 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderers\EntryRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -115,7 +116,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
-    <AndroidAsset Include="Resources\MyCustomFont.ttf" />
+    <BundleResource Include="Resources\MyCustomFont.ttf" />
     <BundleResource Include="Resources\LatinModernMath-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -182,4 +183,5 @@
       <Name>CSharpMath.Forms.Example</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>
