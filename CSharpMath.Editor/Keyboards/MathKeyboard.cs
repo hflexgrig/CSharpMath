@@ -104,25 +104,14 @@ namespace CSharpMath.Editor {
           SetScript(emptyAtom, MathAtoms.PlaceholderList);
           MathList.InsertAndAdvance(ref _insertionIndex, emptyAtom, subIndexType);
         } else {
-          var prevAtom = MathList.AtomAt(_insertionIndex.Previous);
-#warning Simplify to tuple patterns when C# 8 is out
-          switch ((GetScript(prevAtom) is null, _insertionIndex.FinalSubIndexType is MathListSubIndexType.BetweenBaseAndScripts)) {
-            case var t when t == (true, true):
-              SetScript(MathList.AtomAt(_insertionIndex.LevelDown()), MathAtoms.PlaceholderList);
-              _insertionIndex = _insertionIndex.LevelDown().LevelUpWithSubIndex(subIndexType, MathListIndex.Level0Index(0));
-              break;
-            case var t when t == (true, false):
-              SetScript(prevAtom, MathAtoms.PlaceholderList);
-              _insertionIndex = _insertionIndex.Previous.LevelUpWithSubIndex(subIndexType, MathListIndex.Level0Index(0));
-              break;
-            case var t when t == (false, true):
-              // If we are already inside the nucleus, then we come out and go up to the script
-              _insertionIndex = _insertionIndex.LevelDown().LevelUpWithSubIndex(subIndexType, MathListIndex.Level0Index(GetScript(prevAtom).Atoms.Count));
-              break;
-            case var t when t == (false, false):
-              _insertionIndex = _insertionIndex.Previous.LevelUpWithSubIndex(subIndexType, MathListIndex.Level0Index(GetScript(prevAtom).Atoms.Count));
-              break;
+          var isBetweenBaseAndScripts = _insertionIndex.FinalSubIndexType is MathListSubIndexType.BetweenBaseAndScripts;
+          var prevIndexCorrected = isBetweenBaseAndScripts ? _insertionIndex.LevelDown() : _insertionIndex.Previous;
+          var prevAtom = MathList.AtomAt(prevIndexCorrected);
+          var script = GetScript(prevAtom);
+          if (script is null) {
+            SetScript(prevAtom, MathAtoms.PlaceholderList);
           }
+          _insertionIndex = prevIndexCorrected.LevelUpWithSubIndex(subIndexType, MathListIndex.Level0Index(script?.Atoms?.Count ?? 0));
         }
       }
 
@@ -238,14 +227,18 @@ namespace CSharpMath.Editor {
         }
         if (_insertionIndex is null)
           throw new InvalidOperationException($"{nameof(_insertionIndex)} is null.");
-        if (MathList.AtomAt(_insertionIndex) is null &&
-          MathList.AtomAt(_insertionIndex?.Previous)?.AtomType is MathAtomType.Placeholder)
+        if (_insertionIndex.FinalSubIndexType is MathListSubIndexType.BetweenBaseAndScripts) {
+          var prevInd = _insertionIndex.LevelDown();
+          if (MathList.AtomAt(prevInd).AtomType is MathAtomType.Placeholder)
+            _insertionIndex = prevInd;
+        } else if (MathList.AtomAt(_insertionIndex) is null && MathList.AtomAt(_insertionIndex?.Previous)?.AtomType is MathAtomType.Placeholder)
           _insertionIndex = _insertionIndex.Previous; // Skip right side of placeholders when end of line
       }
       void MoveCursorRight() {
         if (_insertionIndex is null)
           throw new InvalidOperationException($"{nameof(_insertionIndex)} is null.");
-        switch (MathList.AtomAt(_insertionIndex)) {
+        var currentAtom = MathList.AtomAt(_insertionIndex);
+        switch (currentAtom) {
           case null: //After Count
             var levelDown = _insertionIndex.LevelDown();
             switch (_insertionIndex.FinalSubIndexType) {
@@ -312,6 +305,8 @@ namespace CSharpMath.Editor {
         }
         if (_insertionIndex is null)
           throw new InvalidOperationException($"{nameof(_insertionIndex)} is null.");
+        if (_insertionIndex.FinalSubIndexType is MathListSubIndexType.BetweenBaseAndScripts && currentAtom?.AtomType is MathAtomType.Placeholder)
+          MoveCursorRight();
       }
 
       void DeleteBackwards() {
