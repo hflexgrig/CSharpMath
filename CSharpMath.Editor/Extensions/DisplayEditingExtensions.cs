@@ -82,6 +82,8 @@ namespace CSharpMath.Editor {
           return frac.IndexForPoint(context, point);
         case RadicalDisplay<TFont, TGlyph> radical:
           return radical.IndexForPoint(context, point);
+        case LargeOpLimitsDisplay<TFont, TGlyph> largeOp:
+          return largeOp.IndexForPoint(context, point);
         case ListDisplay<TFont, TGlyph> list:
           return list.IndexForPoint(context, point);
         default:
