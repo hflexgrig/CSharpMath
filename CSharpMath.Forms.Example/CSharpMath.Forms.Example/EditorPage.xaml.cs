@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace CSharpMath.Forms.Example {
+  using System.Diagnostics;
   using CSharpMath.Forms.Example.Controls;
   using Display;
   using Rendering;
@@ -36,12 +37,18 @@ namespace CSharpMath.Forms.Example {
       // Input from physical keyboard
       _entry = new CustomEntry {AutomationId = "CustomEntry", Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
       view.Touch += (o, e) => {
-          //Device.BeginInvokeOnMainThread(() => {
-          //Invoke on Main thread, or this won't work
+        e.Handled = true;
+        //Device.BeginInvokeOnMainThread(() => {
+        //Invoke on Main thread, or this won't work
           _entry.Focus();
         //});
 
       };
+
+      //view.Unfocused += (o, e) => {
+      //  Debug.WriteLine("Unfocused*************************");
+
+      //};
 
       var boxViewPopup = new Grid { Children = {  } };
 
@@ -55,6 +62,7 @@ namespace CSharpMath.Forms.Example {
       //  };
       //}
       _entry.TextChanged += (sender, e) => {
+        
         _entry.Text = "";
         foreach (var c in e.NewTextValue)
           // The (int) extra conversion seems to be required by Android or a crash occurs
