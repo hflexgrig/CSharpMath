@@ -409,6 +409,33 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.SumSubSup:
           InsertLargeOperator("sum", MathListSubIndexType.Subscript, MathListSubIndexType.Superscript);
           break;
+        case MathKeyboardInput.DoubleIntegral:
+          InsertLargeOperator("iint");
+          break;
+        case MathKeyboardInput.TripleIntegral:
+          InsertLargeOperator("iiint");
+          break;
+        case MathKeyboardInput.ContourIntegral:
+          InsertLargeOperator("oint");
+          break;
+        case MathKeyboardInput.DoubleContourIntegral:
+          InsertLargeOperator("oiint");
+          break;
+        case MathKeyboardInput.TripleContourIntegral:
+          InsertLargeOperator("oiiint");
+          break;
+
+        case MathKeyboardInput.ClockwiseIntegral:
+          InsertLargeOperator("awint");
+          break;
+        case MathKeyboardInput.ClockwiseContourIntegral:
+          InsertLargeOperator("varointclockwise");
+          break;
+        case MathKeyboardInput.CounterClockwiseContourIntegral:
+          InsertLargeOperator("ointctrclockwise");
+          break;
+
+
         case MathKeyboardInput.Logarithm:
           InsertSymbolName("log");
           break;

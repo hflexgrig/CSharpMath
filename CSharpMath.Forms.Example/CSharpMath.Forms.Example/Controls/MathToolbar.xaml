@@ -96,17 +96,27 @@
                                         </Grid.Resources>
                                         <Grid.RowDefinitions>
                                         <RowDefinition />
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
+                                            <ColumnDefinition/> 
+                                        </Grid.ColumnDefinitions>
                                         <Button Text="." Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Integral}" FontFamily="{StaticResource MyCustomFont}"/>
                                         <Button Text=")" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource MyCustomFont}" />
                                         <Button Text="*" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource MyCustomFont}" />
                                         <Button Text="(" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                </Grid>
+                                        <Button Text="0" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="1" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="2" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="3" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="4" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="5" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="6" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                        <Button Text="7" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CounterClockwiseContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                                    </Grid>
                                 </ScrollView>
                             </Grid>
 
@@ -188,7 +198,7 @@
 
 
 
-                    <Button Text="^/!/log&#x0026;"  Clicked="Button_Clicked"  FontFamily="{StaticResource MyCustomFont}"  >
+                    <Button Text="^ ! log&#x0026;"  Clicked="Button_Clicked"  FontFamily="{StaticResource MyCustomFont}"  >
                         <Button.Resources>
                             <Grid x:Key="SubButtons" BackgroundColor="White" >
                                 <ScrollView>
