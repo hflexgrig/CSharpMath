@@ -205,7 +205,7 @@ namespace CSharpMath.Atoms {
          // Large operators
          { "prod", Operator("\u220F" , null) },
          { "coprod", Operator("\u2210" , null) },
-         { "sum", Operator("\u2211" , null) },
+         { "sum", Operator("\u2211" , false) },
          { "int", Operator("\u222B" , false) },
          { "iint", Operator("\u222C", false) }, //not in iosMath
          { "iiint", Operator("\u222D", false) }, //not in iosMath

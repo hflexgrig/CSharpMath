@@ -99,6 +99,8 @@ namespace CSharpMath.Editor {
           return frac.PointForIndex(context, index);
         case RadicalDisplay<TFont, TGlyph> radical:
           return radical.PointForIndex(context, index);
+        case LargeOpLimitsDisplay<TFont, TGlyph> largeOp:
+          return largeOp.PointForIndex(context, index);
         case ListDisplay<TFont, TGlyph> list:
           return list.PointForIndex(context, index);
         default:
@@ -115,6 +117,9 @@ namespace CSharpMath.Editor {
           break;
         case RadicalDisplay<TFont, TGlyph> radical:
           radical.HighlightCharacterAt(index, color);
+          break;
+        case LargeOpLimitsDisplay<TFont, TGlyph> largeOp:
+          largeOp.HighlightCharacterAt(index, color);
           break;
         case ListDisplay<TFont, TGlyph> list:
           list.HighlightCharacterAt(index, color);
@@ -136,6 +141,9 @@ namespace CSharpMath.Editor {
           break;
         case ListDisplay<TFont, TGlyph> list:
           list.Highlight(color);
+          break;
+        case LargeOpLimitsDisplay<TFont, TGlyph> largeOp:
+          largeOp.Highlight(color);
           break;
         default:
           break;
