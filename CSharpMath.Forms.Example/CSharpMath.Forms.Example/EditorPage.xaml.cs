@@ -96,19 +96,23 @@ namespace CSharpMath.Forms.Example {
 
       var scrPanelTexts = new ScrollView { Orientation = ScrollOrientation.Horizontal };
       scrPanelTexts.Content = stkPanelTexts;
-      //var stk = new StackLayout { Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.FillAndExpand };
-      //stk.Children.Add(view);
-      //var scv = new ScrollView();
-      //scv.Orientation = ScrollOrientation.Horizontal;
-      //scv.HorizontalOptions = LayoutOptions.Start;
-      //scv.Content = stk;
+      var stk = new StackLayout { Orientation = StackOrientation.Horizontal };
+      stk.Children.Add(view);
+      var scv = new ScrollView();
+      scv.WidthRequest = 500;
+      scv.Orientation = ScrollOrientation.Horizontal;
+      //scv.HorizontalOptions = LayoutOptions.Fill;
+      //scv.VerticalOptions = LayoutOptions.Fill;
+      scv.Content = stk;
+
+      var grid = new Grid { Children = { scv } };
       // Assemble
-      var mainViews = new Grid { Children = { new StackLayout { Children = { mathToolbar, scrPanelTexts, view, _entry } } } };
+      var mainViews = new Grid { Children = { new StackLayout { Children = { mathToolbar, scrPanelTexts, view } } } };
 
       AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
       AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0,0,1,1));
 
-      var abslayout = new AbsoluteLayout { Children = { mainViews/*, boxViewPopup */} };
+      var abslayout = new AbsoluteLayout { Children = { _entry, mainViews/*, boxViewPopup */} };
       Content = abslayout;
 
       //TODO: init layout changes
@@ -139,6 +143,10 @@ namespace CSharpMath.Forms.Example {
         latex.Text = "LaTeX = " + viewModel.LaTeX;
         ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
         index.Text = "Index = " + viewModel.InsertionIndex;
+        if (viewModel.Measure.Width > view.Width) {
+          view.WidthRequest = viewModel.Measure.Width;
+        Debug.WriteLine(view.Width + " | " + viewModel.Measure);
+        }
         _entry.Focus();
         boxViewPopup.Children.Clear();
         abslayout.Children.Remove(boxViewPopup);
