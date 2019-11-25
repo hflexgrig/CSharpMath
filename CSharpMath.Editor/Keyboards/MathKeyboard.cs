@@ -426,7 +426,7 @@ namespace CSharpMath.Editor {
           break;
 
         case MathKeyboardInput.ClockwiseIntegral:
-          InsertLargeOperator("awint");
+          InsertLargeOperator("intclockwise");
           break;
         case MathKeyboardInput.ClockwiseContourIntegral:
           InsertLargeOperator("varointclockwise");
