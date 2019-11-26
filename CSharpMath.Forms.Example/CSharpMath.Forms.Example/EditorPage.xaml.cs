@@ -7,6 +7,8 @@ using Xamarin.Forms.Xaml;
 namespace CSharpMath.Forms.Example {
   using System;
   using System.Diagnostics;
+  using System.IO;
+  using System.Xml.Linq;
   using CSharpMath.Forms.Example.Controls;
   using Display;
   using Rendering;
@@ -109,12 +111,12 @@ namespace CSharpMath.Forms.Example {
       scv.Content = stk;
 
       // Assemble
-      var mainViews = new Grid { Children = { mathToolbar, scrPanelTexts, scv  } };
+      var mainViews = new Grid { Children = { mathToolbar, scrPanelTexts, scv } };
 
       Grid.SetRow(mathToolbar, 0);
       Grid.SetRow(scrPanelTexts, 1);
       Grid.SetRow(scv, 2);
-      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto});
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
       mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
       mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
       AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
@@ -147,6 +149,8 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
+
+
       double scale = 1;
       view.PaintSurface += View_PaintSurface;
       viewModel.RedrawRequested += (sender, e) => {
@@ -161,10 +165,12 @@ namespace CSharpMath.Forms.Example {
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
         try {
+          var image = e.Surface.Snapshot();
+          //ExportSvg(e.Surface, new SKRect(0,0, viewModel.Measure.Width, viewModel.Measure.Height));
           scale = view.Width / e.Info.Width;
           var formulaWidth = viewModel.Measure.Width * scale;
           var gap = 100 * scale;
-          if (formulaWidth > scv.Width - gap ) {
+          if (formulaWidth > scv.Width - gap) {
             view.WidthRequest = formulaWidth + gap;
             //Debug.WriteLine(view.Width + " | " + canvasWidth);
           } else {
@@ -187,10 +193,40 @@ namespace CSharpMath.Forms.Example {
       }
     }
 
+    private static void ExportSvg(MathToolbar mathToolbar) {
+
+     
+      using (var stream = new MemoryStream()) {
+        // draw the SVG
+        using (var skStream = new SKManagedWStream(stream, false))
+        using (var writer = new SKXmlStreamWriter(skStream))
+        using (var canvas = SKSvgCanvas.Create(SKRect.Create(200, 200), writer)) {
+          //var rectPaint = new SKPaint { Color = SKColors.Blue, Style = SKPaintStyle.Fill };
+          //canvas.DrawRect(SKRect.Create(50, 70, 100, 30), rectPaint);
+
+          //var circlePaint = new SKPaint { Color = SKColors.Red, Style = SKPaintStyle.Fill };
+          //canvas.DrawOval(SKRect.Create(50, 70, 100, 30), circlePaint);
+          //canvas.DrawImage(capture, new SKRect(0, 0, capture.Width, capture.Height));
+          //canvas.DrawSurface(capture, default);
+          //canvas.DrawText();
+          var viewModel = mathToolbar.ViewModel;
+          viewModel.BindDisplay(new SKCanvasView(), new SkiaSharp.MathPainter() {
+            TextColor = SKColors.Black
+          }, new SKColor(0, 0, 0, 153));
+
+          skStream.Flush();
+        }
+
+        // reset the sream
+        stream.Position = 0;
+
+        // read the SVG
+        var xdoc = XDocument.Load(stream);
+        var svg = xdoc.Root;
+      }
+    }
+
 
   }
-
-
-
 
 }
