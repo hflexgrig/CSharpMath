@@ -40,14 +40,14 @@ namespace CSharpMath.Forms.Example.iOS.CustomRenderers {
       
       var entry = (CustomEntry)Element;
       
-      var textField = new UIBackwardsTextField();
-      textField.BecomeFirstResponder();
-      //textField.EditingChanged += OnEditingChanged;
-      textField.OnDeleteBackward += (sender, a) => {
-        entry.OnBackspacePressed();
-      };
+      //var textField = new UIBackwardsTextField();
+      //textField.BecomeFirstResponder();
+      ////textField.EditingChanged += OnEditingChanged;
+      //textField.OnDeleteBackward += (sender, a) => {
+      //  entry.OnBackspacePressed();
+      //};
 
-      SetNativeControl(textField);
+      //SetNativeControl(textField);
 
 
 

@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace CSharpMath.Forms.Example {
+  using System;
   using System.Diagnostics;
   using CSharpMath.Forms.Example.Controls;
   using Display;
@@ -24,25 +25,25 @@ namespace CSharpMath.Forms.Example {
     public CustomEntry Entry => _entry;
     public EditorView() {
       // Basic functionality
-      var view = new SKCanvasView { HeightRequest = 160, BackgroundColor = Color.AliceBlue, EnableTouchEvents = true , HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
-      
+      var view = new SKCanvasView { HeightRequest = 160, BackgroundColor = Color.AliceBlue, EnableTouchEvents = true, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
+
       var mathToolbar = new MathToolbar();
       //mathToolbar.keyboard
       //var keyb = mathToolbar.Resources["Keyboard"] as CSharpMath.Rendering.MathKeyboard;
 
-      
+
       var viewModel = mathToolbar.ViewModel;
       viewModel.BindDisplay(view, new SkiaSharp.MathPainter() {
         TextColor = SKColors.Black
       }, new SKColor(0, 0, 0, 153));
 
       // Input from physical keyboard
-      _entry = new CustomEntry {AutomationId = "CustomEntry", Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
+      _entry = new CustomEntry { AutomationId = "CustomEntry", Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
       view.Touch += (o, e) => {
-        e.Handled = true;
         //Device.BeginInvokeOnMainThread(() => {
         //Invoke on Main thread, or this won't work
-          _entry.Focus();
+        e.Handled = true;
+        _entry.Focus();
         //});
 
       };
@@ -52,7 +53,7 @@ namespace CSharpMath.Forms.Example {
 
       //};
 
-      var boxViewPopup = new Grid { Children = {  } };
+      var boxViewPopup = new Grid { Children = { } };
 
 
       //if (keyb != null) {
@@ -64,7 +65,7 @@ namespace CSharpMath.Forms.Example {
       //  };
       //}
       _entry.TextChanged += (sender, e) => {
-        
+
         _entry.Text = "";
         foreach (var c in e.NewTextValue)
           // The (int) extra conversion seems to be required by Android or a crash occurs
@@ -89,7 +90,7 @@ namespace CSharpMath.Forms.Example {
       var latex = new Label { Text = "LaTeX = " };
       var ranges = new Label { Text = "Ranges = " };
       var index = new Label { Text = "Index = " };
-      
+
 
       var stkPanelTexts = new StackLayout { Orientation = StackOrientation.Horizontal };
       stkPanelTexts.Children.Add(latex);
@@ -98,20 +99,26 @@ namespace CSharpMath.Forms.Example {
 
       var scrPanelTexts = new ScrollView { Orientation = ScrollOrientation.Horizontal };
       scrPanelTexts.Content = stkPanelTexts;
-      var stk = new StackLayout { Orientation = StackOrientation.Horizontal };
+      var stk = new Grid { VerticalOptions = LayoutOptions.Fill };
       stk.Children.Add(view);
       var scv = new ScrollView();
       //scv.WidthRequest = 500;
-      scv.Orientation = ScrollOrientation.Horizontal;
+      scv.Orientation = ScrollOrientation.Both;
       scv.HorizontalOptions = LayoutOptions.Fill;
       scv.VerticalOptions = LayoutOptions.Fill;
       scv.Content = stk;
 
-      var grid = new Grid { Children = { scv } };
       // Assemble
-      var mainViews = new Grid { Children = { new StackLayout { Children = { mathToolbar, scrPanelTexts, scv } } } };
+      var mainViews = new Grid { Children = { mathToolbar, scrPanelTexts, scv  } };
+
+      Grid.SetRow(mathToolbar, 0);
+      Grid.SetRow(scrPanelTexts, 1);
+      Grid.SetRow(scv, 2);
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto});
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
       AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
-      AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0,0,1,1));
+      AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0, 0, 1, 1));
 
       var abslayout = new AbsoluteLayout { Children = { _entry, mainViews/*, boxViewPopup */} };
       Content = abslayout;
@@ -135,7 +142,7 @@ namespace CSharpMath.Forms.Example {
         }
 
         yOffset = coords.Y + button.Height;
-        AbsoluteLayout.SetLayoutBounds(boxViewPopup, new Rectangle(xOffset , yOffset, 150, 150));
+        AbsoluteLayout.SetLayoutBounds(boxViewPopup, new Rectangle(xOffset, yOffset, 150, 150));
 
         abslayout.Children.Add(boxViewPopup);
       };
@@ -146,26 +153,44 @@ namespace CSharpMath.Forms.Example {
         latex.Text = "LaTeX = " + viewModel.LaTeX;
         ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
         index.Text = "Index = " + viewModel.InsertionIndex;
-        var canvasWidth = viewModel.Measure.Width * scale;
-        if (canvasWidth > view.Width) {
-          view.WidthRequest = canvasWidth + 20;
-        Debug.WriteLine(view.Width + " | " + canvasWidth);
-        }
-        //_entry.Focus();
+
+        _entry.Focus();
         boxViewPopup.Children.Clear();
         abslayout.Children.Remove(boxViewPopup);
       };
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
-        scale = view.Width/e.Info.Width;
-      Debug.WriteLine(_surfaceWidth + " ****************************** " + scale);
+        try {
+          scale = view.Width / e.Info.Width;
+          var formulaWidth = viewModel.Measure.Width * scale;
+          var gap = 100 * scale;
+          if (formulaWidth > scv.Width - gap ) {
+            view.WidthRequest = formulaWidth + gap;
+            //Debug.WriteLine(view.Width + " | " + canvasWidth);
+          } else {
+            view.WidthRequest = scv.Width;
+          }
+
+          var formulaHeight = viewModel.Measure.Height * scale;
+
+          if (formulaHeight > scv.Height - gap) {
+            view.HeightRequest = formulaHeight + gap;
+            //Debug.WriteLine(view.Width + " | " + canvasWidth);
+          } else {
+            view.HeightRequest = scv.Height;
+          }
+        } catch (Exception ex) {
+
+          Debug.WriteLine(ex);
+        }
+
       }
     }
 
-   
+
   }
 
-   
 
-    
-  }
+
+
+}
