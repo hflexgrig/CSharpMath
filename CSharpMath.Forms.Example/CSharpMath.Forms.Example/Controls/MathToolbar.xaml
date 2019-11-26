@@ -40,6 +40,44 @@
             <Setter Property="Padding" Value="2,1,2,1"/>
             <Setter Property="WidthRequest" Value="100"/>
         </Style>-->
+        <Style TargetType="Grid" x:Key="Tab_Letters" BaseResourceKey="Tab">
+            <Setter Property="RowDefinitions">
+                <Setter.Value>
+                    <RowDefinitionCollection>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </RowDefinitionCollection>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnDefinitions">
+                <Setter.Value>
+                    <ColumnDefinitionCollection>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </ColumnDefinitionCollection>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="Button" Class="Enter">
             <Setter Property="Text" Value="⏎"/>
             <Setter Property="Grid.Column" Value="5"/>
@@ -155,7 +193,46 @@
 
                         </Button.Resources>
                     </Button>
+                    <Button x:Name="LettersButton" Clicked="Button_Clicked" Text="abc" Grid.Column="4" >
+                        <Button.Resources>
+                            <Grid x:Name="Letters" Style="{StaticResource Tab_Letters}" x:Key="SubButtons" BackgroundColor="White">
+                                <Button Text="q" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallQ}"/>
+                                <Button Text="w" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallW}"/>
+                                <Button Text="e" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallE}"/>
+                                <Button Text="r" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallR}"/>
+                                <Button Text="t" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallT}"/>
+                                <Button Text="y" Grid.Row="0" Grid.Column="10" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallY}"/>
+                                <Button Text="u" Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallU}"/>
+                                <Button Text="i" Grid.Row="0" Grid.Column="14" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallI}"/>
+                                <Button Text="o" Grid.Row="0" Grid.Column="16" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallO}"/>
+                                <Button Text="p" Grid.Row="0" Grid.Column="18" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallP}"/>
+                                <Button Text="a" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallA}"/>
+                                <Button Text="s" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallS}"/>
+                                <Button Text="d" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallD}"/>
+                                <Button Text="f" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallF}"/>
+                                <Button Text="g" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallG}"/>
+                                <Button Text="h" Grid.Row="1" Grid.Column="11" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallH}"/>
+                                <Button Text="j" Grid.Row="1" Grid.Column="13" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallJ}"/>
+                                <Button Text="k" Grid.Row="1" Grid.Column="15" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallK}"/>
+                                <Button Text="l" Grid.Row="1" Grid.Column="17" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallL}"/>
+                                <Button Text="z" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallZ}"/>
+                                <Button Text="x" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallX}"/>
+                                <Button Text="c" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallC}"/>
+                                <Button Text="v" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallV}"/>
+                                <Button Text="b" Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallB}"/>
+                                <Button Text="n" Grid.Row="2" Grid.Column="13" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallN}"/>
+                                <Button Text="m" Grid.Row="2" Grid.Column="15" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallM}"/>
+                                <Button Text="α" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallAlpha}"/>
+                                <Button Text="Δ" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Delta}"/>
+                                <Button Text="σ" Grid.Row="3" Grid.Column="9" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallSigma}"/>
+                                <Button Text="μ" Grid.Row="3" Grid.Column="11" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallMu}"/>
+                                <Button Text="λ" Grid.Row="3" Grid.Column="13" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallLambda}"/>
+                                <!--<e:SvgButton StyleClass="Back" Grid.Row="2" Grid.Column="17" Grid.ColumnSpan="3"/>-->
 
+                            </Grid>
+                        </Button.Resources>
+                    </Button>
+                    
                     <Button  Clicked="Button_Clicked" Text="&lt;&gt;/()" Grid.Row="0" Grid.Column="1">
                         <Button.Resources>
                             <Grid x:Key="SubButtons" BackgroundColor="White" >

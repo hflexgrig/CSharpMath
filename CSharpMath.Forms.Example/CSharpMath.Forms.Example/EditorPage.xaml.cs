@@ -146,7 +146,26 @@ namespace CSharpMath.Forms.Example {
         }
 
         yOffset = coords.Y + button.Height;
-        AbsoluteLayout.SetLayoutBounds(boxViewPopup, new Rectangle(xOffset, yOffset, 150, 150));
+        switch (button.Text) {
+          case "abc":
+            AbsoluteLayout.SetLayoutFlags(boxViewPopup, AbsoluteLayoutFlags.SizeProportional);
+            AbsoluteLayout.SetLayoutBounds(boxViewPopup, new Rectangle(0, yOffset, 1, 0.4));
+            break;
+          //case "+":
+          //  break;
+          //case "(":
+          //  break;
+          //case "&lt;&gt;/()":
+          //  break;
+          //case "^ ! log&#x0026;":
+          //  break;
+          default:
+            AbsoluteLayout.SetLayoutFlags(boxViewPopup, AbsoluteLayoutFlags.None);
+            AbsoluteLayout.SetLayoutBounds(boxViewPopup, new Rectangle(xOffset, yOffset, 150, 200));
+            break;
+        }
+
+        
 
         abslayout.Children.Add(boxViewPopup);
       };
