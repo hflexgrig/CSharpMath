@@ -1,18 +1,17 @@
 #warning Remove when SkiaSharp 1.67 is installed. See https://github.com/mono/SkiaSharp/issues/486
 using System;
 using System.ComponentModel;
-using CSharpMath.Forms.Example.WPF;
+using CSharpMath.Forms.Example.GTK;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
-using Xamarin.Forms.Platform.WPF;
+using Xamarin.Forms.Platform.GTK;
 using SKFormsView = SkiaSharp.Views.Forms.SKCanvasView;
-using SKNativeView = SkiaSharp.Views.WPF.SKElement;
+using SKNativeView = SkiaSharp.Views.Gtk.SKWidget;
 
 [assembly: ExportRenderer(typeof(SKFormsView), typeof(SKCanvasViewRenderer))]
-namespace CSharpMath.Forms.Example.WPF {
+namespace CSharpMath.Forms.Example.GTK {
   public class SKCanvasViewRenderer : SKCanvasViewRendererBase<SKFormsView, SKNativeView> {
-
   }
   public abstract class SKCanvasViewRendererBase<TFormsView, TNativeView> : ViewRenderer<TFormsView, TNativeView>
       where TFormsView : SKFormsView
@@ -45,7 +44,7 @@ namespace CSharpMath.Forms.Example.WPF {
 
         // set the initial values
         //touchHandler.SetEnabled(Control, e.NewElement.EnableTouchEvents);
-        Control.IgnorePixelScaling = e.NewElement.IgnorePixelScaling;
+        //Control.IgnorePixelScaling = e.NewElement.IgnorePixelScaling;
 
         // subscribe to events from the user
         newController.SurfaceInvalidated += OnSurfaceInvalidated;
@@ -79,7 +78,7 @@ namespace CSharpMath.Forms.Example.WPF {
       base.OnElementPropertyChanged(sender, e);
 
       if (e.PropertyName == SKFormsView.IgnorePixelScalingProperty.PropertyName) {
-        Control.IgnorePixelScaling = Element.IgnorePixelScaling;
+        //Control.IgnorePixelScaling = Element.IgnorePixelScaling;
       } else if (e.PropertyName == SKFormsView.EnableTouchEventsProperty.PropertyName) {
         //touchHandler.SetEnabled(Control, Element.EnableTouchEvents);
       }
@@ -151,7 +150,7 @@ namespace CSharpMath.Forms.Example.WPF {
 #elif __MACOS__
 			Control.NeedsDisplay = true;
 #else
-      Control.InvalidateVisual();
+      //Control.InvalidateVisual();
 #endif
     }
 

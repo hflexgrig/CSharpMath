@@ -18,12 +18,14 @@
             <On Platform="Android" Value="MyCustomFont.ttf#MyCustomFont" />
             <On Platform="UWP" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
             <On Platform="WPF" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
+            <On Platform="GTK" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
             <On Platform="iOS" Value="MyCustomFont" />
         </OnPlatform>
         <OnPlatform x:TypeArguments="x:String" x:Key="LatinModernMath">
             <On Platform="Android" Value="LatinModernMath-Regular.ttf#Latin Modern Math" />
             <On Platform="UWP" Value="/Assets/LatinModernMath-Regular.ttf#Latin Modern Math" />
             <On Platform="WPF" Value="/Assets/LatinModernMath-Regular.ttf#Latin Modern Math" />
+            <On Platform="GTK" Value="/Assets/LatinModernMath-Regular.ttf#Latin Modern Math" />
             <On Platform="iOS" Value="Latin Modern Math" />
         </OnPlatform>
         <OnPlatform x:TypeArguments="x:Double" x:Key="NavigationKeysWidth">
@@ -31,6 +33,7 @@
             <On Platform="UWP" Value="80" />
             <On Platform="WPF" Value="80" />
             <On Platform="iOS" Value="260" />
+            <On Platform="GTK" Value="80" />
         </OnPlatform>
         <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
         <!--<Style TargetType="Button">

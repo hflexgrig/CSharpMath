@@ -107,6 +107,8 @@ namespace CSharpMath.Forms.Example {
       //scv.WidthRequest = 500;
       scv.Orientation = ScrollOrientation.Both;
       scv.HorizontalOptions = LayoutOptions.Fill;
+      scv.HorizontalScrollBarVisibility = ScrollBarVisibility.Always;
+      
       scv.VerticalOptions = LayoutOptions.Fill;
       scv.Content = stk;
 
