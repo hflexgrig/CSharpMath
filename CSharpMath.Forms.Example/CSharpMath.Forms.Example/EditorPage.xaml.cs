@@ -19,6 +19,8 @@ namespace CSharpMath.Forms.Example {
 
   public class EditorView : ContentView {
     private CustomEntry _entry;
+    private int _surfaceWidth;
+
     public CustomEntry Entry => _entry;
     public EditorView() {
       // Basic functionality
@@ -99,16 +101,15 @@ namespace CSharpMath.Forms.Example {
       var stk = new StackLayout { Orientation = StackOrientation.Horizontal };
       stk.Children.Add(view);
       var scv = new ScrollView();
-      scv.WidthRequest = 500;
+      //scv.WidthRequest = 500;
       scv.Orientation = ScrollOrientation.Horizontal;
-      //scv.HorizontalOptions = LayoutOptions.Fill;
-      //scv.VerticalOptions = LayoutOptions.Fill;
+      scv.HorizontalOptions = LayoutOptions.Fill;
+      scv.VerticalOptions = LayoutOptions.Fill;
       scv.Content = stk;
 
       var grid = new Grid { Children = { scv } };
       // Assemble
-      var mainViews = new Grid { Children = { new StackLayout { Children = { mathToolbar, scrPanelTexts, view } } } };
-
+      var mainViews = new Grid { Children = { new StackLayout { Children = { mathToolbar, scrPanelTexts, scv } } } };
       AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
       AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0,0,1,1));
 
@@ -139,21 +140,29 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
+      double scale = 1;
+      view.PaintSurface += View_PaintSurface;
       viewModel.RedrawRequested += (sender, e) => {
         latex.Text = "LaTeX = " + viewModel.LaTeX;
         ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
         index.Text = "Index = " + viewModel.InsertionIndex;
-        if (viewModel.Measure.Width > view.Width) {
-          view.WidthRequest = viewModel.Measure.Width;
-        Debug.WriteLine(view.Width + " | " + viewModel.Measure);
+        var canvasWidth = viewModel.Measure.Width * scale;
+        if (canvasWidth > view.Width) {
+          view.WidthRequest = canvasWidth + 20;
+        Debug.WriteLine(view.Width + " | " + canvasWidth);
         }
-        _entry.Focus();
+        //_entry.Focus();
         boxViewPopup.Children.Clear();
         abslayout.Children.Remove(boxViewPopup);
       };
-      
+
+      void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
+        scale = view.Width/e.Info.Width;
+      Debug.WriteLine(_surfaceWidth + " ****************************** " + scale);
+      }
     }
 
+   
   }
 
    

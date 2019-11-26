@@ -10,6 +10,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
+
 [assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
 
 namespace CSharpMath.Forms.Example.iOS.CustomRenderers {
@@ -36,51 +37,52 @@ namespace CSharpMath.Forms.Example.iOS.CustomRenderers {
         return;
         //Control.Background = new SolidColorBrush(Colors.Cyan);
       }
-
+      
       var entry = (CustomEntry)Element;
+      
+      var textField = new UIBackwardsTextField();
+      textField.BecomeFirstResponder();
+      //textField.EditingChanged += OnEditingChanged;
+      textField.OnDeleteBackward += (sender, a) => {
+        entry.OnBackspacePressed();
+      };
 
-      //var textField = new UIBackwardsTextField();
-      ////textField.EditingChanged += OnEditingChanged;
-      //textField.OnDeleteBackward += (sender, a) => {
-      //  entry.OnBackspacePressed();
-      //};
-
-      //SetNativeControl(textField);
+      SetNativeControl(textField);
 
 
 
       //var clickTime = DateTime.Now;
-      //  Control.textch += (o, e1) => {
-      //    if (e1.Key == Windows.System.VirtualKey.Back) {
-      //      var diffTime = DateTime.Now.Subtract(clickTime);
+      //Control.textch += (o, e1) => {
+      //  if (e1.Key == Windows.System.VirtualKey.Back) {
+      //    var diffTime = DateTime.Now.Subtract(clickTime);
 
-      //      if (diffTime > TimeSpan.FromMilliseconds(10)) {
-      //        entry.OnBackspacePressed();
-      //      }
-
-      //      clickTime = DateTime.Now;
+      //    if (diffTime > TimeSpan.FromMilliseconds(10)) {
+      //      entry.OnBackspacePressed();
       //    }
 
-      //    if (e1.Key == Windows.System.VirtualKey.Left) {
-      //      var diffTime = DateTime.Now.Subtract(clickTime);
+      //    clickTime = DateTime.Now;
+      //  }
 
-      //      if (diffTime > TimeSpan.FromMilliseconds(10)) {
-      //        entry.OnShiftLeftPressed();
-      //      }
+      //  if (e1.Key == Windows.System.VirtualKey.Left) {
+      //    var diffTime = DateTime.Now.Subtract(clickTime);
 
-      //      clickTime = DateTime.Now;
+      //    if (diffTime > TimeSpan.FromMilliseconds(10)) {
+      //      entry.OnShiftLeftPressed();
       //    }
 
-      //    if (e1.Key == Windows.System.VirtualKey.Right) {
-      //      var diffTime = DateTime.Now.Subtract(clickTime);
+      //    clickTime = DateTime.Now;
+      //  }
 
-      //      if (diffTime > TimeSpan.FromMilliseconds(10)) {
-      //        entry.OnShiftRightPressed();
-      //      }
+      //  if (e1.Key == Windows.System.VirtualKey.Right) {
+      //    var diffTime = DateTime.Now.Subtract(clickTime);
 
-      //      clickTime = DateTime.Now;
+      //    if (diffTime > TimeSpan.FromMilliseconds(10)) {
+      //      entry.OnShiftRightPressed();
       //    }
-      //  };
+
+      //    clickTime = DateTime.Now;
+      //  }
+      //};
     }
   }
 
