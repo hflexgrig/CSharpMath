@@ -44,9 +44,12 @@ namespace CSharpMath.Forms.Example {
       view.Touch += (o, e) => {
         //Device.BeginInvokeOnMainThread(() => {
         //Invoke on Main thread, or this won't work
-        //_entry.Focus();
         //if (Device.RuntimePlatform != "iOS") {
         e.Handled = true;
+        if (!_entry.IsFocused) {
+
+          _entry.Focus();
+        }
 
         //}
         //});
@@ -185,17 +188,18 @@ namespace CSharpMath.Forms.Example {
         ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
         index.Text = "Index = " + viewModel.InsertionIndex;
 
-        _entry.Focus();
+        //_entry.Focus();
         boxViewPopup.Children.Clear();
         abslayout.Children.Remove(boxViewPopup);
       };
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
         try {
-          var image = e.Surface.Snapshot();
+          //var image = e.Surface.Snapshot();
           //ExportSvg(e.Surface, new SKRect(0,0, viewModel.Measure.Width, viewModel.Measure.Height));
           scale = view.Width / e.Info.Width;
-          var formulaWidth = viewModel.Measure.Width * scale;
+          var measure = viewModel.Measure;
+          var formulaWidth = measure.Width * scale;
           var gap = 100 * scale;
           if (formulaWidth > scv.Width - gap) {
             view.WidthRequest = formulaWidth + gap;
@@ -204,7 +208,7 @@ namespace CSharpMath.Forms.Example {
             view.WidthRequest = scv.Width;
           }
 
-          var formulaHeight = viewModel.Measure.Height * scale;
+          var formulaHeight = measure.Height * scale;
 
           if (formulaHeight > scv.Height - gap) {
             view.HeightRequest = formulaHeight + gap;
@@ -221,8 +225,6 @@ namespace CSharpMath.Forms.Example {
     }
 
     private static void ExportSvg(MathToolbar mathToolbar) {
-
-
       using (var stream = new MemoryStream()) {
         // draw the SVG
         using (var skStream = new SKManagedWStream(stream, false))
