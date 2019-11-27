@@ -45,7 +45,10 @@ namespace CSharpMath.Forms.Example {
         //Device.BeginInvokeOnMainThread(() => {
         //Invoke on Main thread, or this won't work
         //_entry.Focus();
+        //if (Device.RuntimePlatform != "iOS") {
         e.Handled = true;
+
+        //}
         //});
 
       };
@@ -108,12 +111,12 @@ namespace CSharpMath.Forms.Example {
       scv.Orientation = ScrollOrientation.Both;
       scv.HorizontalOptions = LayoutOptions.Fill;
       scv.HorizontalScrollBarVisibility = ScrollBarVisibility.Always;
-      
+
       scv.VerticalOptions = LayoutOptions.Fill;
       scv.Content = stk;
 
       // Assemble
-      var mainViews = new Grid { Children = { mathToolbar, scrPanelTexts, scv } };
+      var mainViews = new CustomGrid { Children = { mathToolbar, scrPanelTexts, scv } };
 
       if (Device.RuntimePlatform == "iOS") {
         mainViews.Padding = new Xamarin.Forms.Thickness(0, 50, 0, 0);
@@ -168,7 +171,7 @@ namespace CSharpMath.Forms.Example {
             break;
         }
 
-        
+
 
         abslayout.Children.Add(boxViewPopup);
       };
@@ -219,7 +222,7 @@ namespace CSharpMath.Forms.Example {
 
     private static void ExportSvg(MathToolbar mathToolbar) {
 
-     
+
       using (var stream = new MemoryStream()) {
         // draw the SVG
         using (var skStream = new SKManagedWStream(stream, false))
