@@ -15,31 +15,38 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace CSharpMath.Forms.Example.iOS.CustomRenderers {
   public class CustomEntryRenderer : EntryRenderer {
+    public static bool IsButtonClickedWithVisibleKeyboard;
+
     IElementController ElementController => Element as IElementController;
 
-    //protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e) {
-    //  if (e.PropertyName == VisualElement.IsFocusedProperty.PropertyName) {
-    //    if (Control != null) {
-    //      Control.ShouldEndEditing =
-    //      (UITextField textField) => {
-    //        Control.ResignFirstResponder();
-    //          // first check button is clicked? from step 2
-    //          //do coding here for button click fire event
-    //          return true;
-    //      };
-    //    }
-    //  }
-    //  base.OnElementPropertyChanged(sender, e);
-    //}
+    protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e) {
+      if (e.PropertyName == VisualElement.IsFocusedProperty.PropertyName) {
+        if (Control != null) {
+          Control.ShouldEndEditing =
+              (UITextField textField) => {
+                Control.ResignFirstResponder();
+                //do here coading first check flag and then fire an event. 
+
+                if (IsButtonClickedWithVisibleKeyboard) {
+                  IsButtonClickedWithVisibleKeyboard = false;
+                  return false;
+                } else {
+                  return true;
+                }
+              };
+        }
+      }
+      base.OnElementPropertyChanged(sender, e);
+    }
     protected override void OnElementChanged(ElementChangedEventArgs<Entry> e) {
       base.OnElementChanged(e);
       if (Control == null) {
         return;
         //Control.Background = new SolidColorBrush(Colors.Cyan);
       }
-      
+
       var entry = (CustomEntry)Element;
-      
+
       //var textField = new UIBackwardsTextField();
       //textField.BecomeFirstResponder();
       ////textField.EditingChanged += OnEditingChanged;

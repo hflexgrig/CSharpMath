@@ -44,8 +44,8 @@ namespace CSharpMath.Forms.Example {
       view.Touch += (o, e) => {
         //Device.BeginInvokeOnMainThread(() => {
         //Invoke on Main thread, or this won't work
+        //_entry.Focus();
         e.Handled = true;
-        _entry.Focus();
         //});
 
       };
@@ -115,6 +115,9 @@ namespace CSharpMath.Forms.Example {
       // Assemble
       var mainViews = new Grid { Children = { mathToolbar, scrPanelTexts, scv } };
 
+      if (Device.RuntimePlatform == "iOS") {
+        mainViews.Padding = new Xamarin.Forms.Thickness(0, 50, 0, 0);
+      }
       Grid.SetRow(mathToolbar, 0);
       Grid.SetRow(scrPanelTexts, 1);
       Grid.SetRow(scv, 2);
