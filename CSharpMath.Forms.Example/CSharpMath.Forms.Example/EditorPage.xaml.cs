@@ -10,6 +10,7 @@ namespace CSharpMath.Forms.Example {
   using System.IO;
   using System.Xml.Linq;
   using CSharpMath.Forms.Example.Controls;
+  using CSharpMath.SkiaSharp;
   using Display;
   using Rendering;
   [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -28,33 +29,25 @@ namespace CSharpMath.Forms.Example {
     public EditorView() {
       // Basic functionality
       var view = new SKCanvasView { HeightRequest = 160, BackgroundColor = Color.AliceBlue, EnableTouchEvents = true, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
-
+      view.EnableTouchEvents = true;
       var mathToolbar = new MathToolbar();
       //mathToolbar.keyboard
       //var keyb = mathToolbar.Resources["Keyboard"] as CSharpMath.Rendering.MathKeyboard;
 
 
       var viewModel = mathToolbar.ViewModel;
-      viewModel.BindDisplay(view, new SkiaSharp.MathPainter() {
+      var mathPainter = new SkiaSharp.MathPainter() {
         TextColor = SKColors.Black
-      }, new SKColor(0, 0, 0, 153));
+      };
+      var settings = new SKColor(0, 0, 0, 153);
+      //viewModel.BindDisplay(view, mathPainter, settings);
+
+      //viewModel.RedrawRequested += (_, __) => view.InvalidateSurface();
+
 
       // Input from physical keyboard
       _entry = new CustomEntry { AutomationId = "CustomEntry", Placeholder = "Enter keystrokes...", Opacity = 0, HeightRequest = 0 };
-      view.Touch += (o, e) => {
-        //Device.BeginInvokeOnMainThread(() => {
-        //Invoke on Main thread, or this won't work
-        //if (Device.RuntimePlatform != "iOS") {
-        e.Handled = true;
-        if (!_entry.IsFocused) {
 
-          _entry.Focus();
-        }
-
-        //}
-        //});
-
-      };
 
       //view.Unfocused += (o, e) => {
       //  Debug.WriteLine("Unfocused*************************");
@@ -179,11 +172,57 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
+      var touchCount = 0;
+      DateTime touchDateTime = DateTime.Now;
+      double dateDiff = 0;
+      view.Touch += (o, e) => {
+        HandleTap(o, e);
 
+        //if (touchCount == 0) {
+        //  touchDateTime = DateTime.Now;
+        //}
 
+        //touchCount++;
+        //dateDiff = DateTime.Now.Subtract(touchDateTime).TotalMilliseconds;
+        //  Debug.WriteLine($"{dateDiff} _ {touchCount}");
+        //if (touchCount == 2 && dateDiff < 3000) {
+
+        //  HandleTap(o, e);
+        //  touchDateTime = DateTime.Now;
+
+        //  touchCount = 0;
+        //}
+      };
+
+      double currentScrollx = 0;
+      scv.Scrolled += (o, e) => {
+        if (e.ScrollX - currentScrollx > 1) {
+          Debug.WriteLine("scrolling.......................");
+          touchCount = 0;
+        }
+      };
+
+      void HandleTap(object o, SKTouchEventArgs e) {
+        Debug.WriteLine("touch.......................");
+        //Device.BeginInvokeOnMainThread(() => {
+        //Invoke on Main thread, or this won't work
+        //if (Device.RuntimePlatform != "iOS") {
+        e.Handled = true;
+        if (e.ActionType == SKTouchAction.Pressed)
+          viewModel.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
+
+        if (!_entry.IsFocused) {
+
+          _entry.Focus();
+        }
+
+        //}
+        //});
+      }
       double scale = 1;
       view.PaintSurface += View_PaintSurface;
       viewModel.RedrawRequested += (sender, e) => {
+        view.InvalidateSurface();
         latex.Text = "LaTeX = " + viewModel.LaTeX;
         ranges.Text = "Ranges = " + string.Join(", ", ((ListDisplay<Fonts, Glyph>)viewModel.Display).Displays.Select(x => x.Range));
         index.Text = "Index = " + viewModel.InsertionIndex;
@@ -195,6 +234,12 @@ namespace CSharpMath.Forms.Example {
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
         try {
+          Debug.WriteLine("redrawing.......................");
+          var c = e.Surface.Canvas;
+          c.Clear();
+          SkiaSharp.MathPainter.DrawDisplay(mathPainter, viewModel.Display, c, TextAlignment.TopLeft, new Thickness(20));
+          viewModel.DrawCaret(new SkiaCanvas(c, SKStrokeCap.Butt, AntiAlias.Enable), settings.FromNative(), CaretShape.IBeam);
+
           //var image = e.Surface.Snapshot();
           //ExportSvg(e.Surface, new SKRect(0,0, viewModel.Measure.Width, viewModel.Measure.Height));
           scale = view.Width / e.Info.Width;

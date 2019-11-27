@@ -10,8 +10,8 @@ namespace CSharpMath.Forms {
       view.EnableTouchEvents = true;
       view.Touch +=
         (sender, e) => {
-          if (e.ActionType == SKTouchAction.Pressed)
-            keyboard.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
+          //if (e.ActionType == SKTouchAction.Pressed)
+          //  keyboard.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
         };
       keyboard.RedrawRequested += (_, __) => view.InvalidateSurface();
       view.PaintSurface +=
@@ -19,7 +19,7 @@ namespace CSharpMath.Forms {
           var c = e.Surface.Canvas;
           c.Clear();
           MathPainter.DrawDisplay(settings, keyboard.Display, c, TextAlignment.TopLeft, new Thickness(20));
-          keyboard.DrawCaret(new SkiaCanvas(c, cap, AntiAlias.Enable), caretColor.FromNative(), caretShape);
+          //keyboard.DrawCaret(new SkiaCanvas(c, cap, AntiAlias.Enable), caretColor.FromNative(), caretShape);
         };
     }
   }
