@@ -172,43 +172,36 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
-      var touchCount = 0;
-      DateTime touchDateTime = DateTime.Now;
-      double dateDiff = 0;
       view.Touch += (o, e) => {
-        HandleTap(o, e);
+        e.Handled = true;
 
-        //if (touchCount == 0) {
-        //  touchDateTime = DateTime.Now;
-        //}
-
-        //touchCount++;
-        //dateDiff = DateTime.Now.Subtract(touchDateTime).TotalMilliseconds;
-        //  Debug.WriteLine($"{dateDiff} _ {touchCount}");
-        //if (touchCount == 2 && dateDiff < 3000) {
-
-        //  HandleTap(o, e);
-        //  touchDateTime = DateTime.Now;
-
-        //  touchCount = 0;
-        //}
-      };
-
-      double currentScrollx = 0;
-      scv.Scrolled += (o, e) => {
-        if (e.ScrollX - currentScrollx > 1) {
-          Debug.WriteLine("scrolling.......................");
-          touchCount = 0;
+        Debug.WriteLine($"{e.ActionType}");
+        switch (e.ActionType) {
+          case SKTouchAction.Entered:
+            break;
+          case SKTouchAction.Pressed:
+            break;
+          case SKTouchAction.Moved:
+            break;
+          case SKTouchAction.Released:
+            HandleTap(o, e);
+            break;
+          case SKTouchAction.Cancelled:
+            break;
+          case SKTouchAction.Exited:
+            break;
+          default:
+            break;
         }
-      };
 
+
+      };
       void HandleTap(object o, SKTouchEventArgs e) {
-        Debug.WriteLine("touch.......................");
+        //Debug.WriteLine("touch.......................");
         //Device.BeginInvokeOnMainThread(() => {
         //Invoke on Main thread, or this won't work
         //if (Device.RuntimePlatform != "iOS") {
-        e.Handled = true;
-        if (e.ActionType == SKTouchAction.Pressed)
+        //if (e.ActionType == SKTouchAction.Pressed)
           viewModel.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
 
         if (!_entry.IsFocused) {
@@ -219,6 +212,8 @@ namespace CSharpMath.Forms.Example {
         //}
         //});
       }
+
+
       double scale = 1;
       view.PaintSurface += View_PaintSurface;
       viewModel.RedrawRequested += (sender, e) => {

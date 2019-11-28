@@ -14,6 +14,13 @@ using Xamarin.Forms.Platform.iOS;
 namespace CSharpMath.Forms.Example.iOS.CustomRenderers {
   public class CustomVisualElementRenderer : VisualElementRenderer<Grid> {
 
+    public override void PressesBegan(NSSet<UIPress> presses, UIPressesEvent evt) {
+      base.PressesBegan(presses, evt);
+    }
+
+    public override void PressesEnded(NSSet<UIPress> presses, UIPressesEvent evt) {
+      base.PressesEnded(presses, evt);
+    }
     public override UIView HitTest(CoreGraphics.CGPoint point, UIEvent uievent) {
 
       UIView view = base.HitTest(point, uievent);
