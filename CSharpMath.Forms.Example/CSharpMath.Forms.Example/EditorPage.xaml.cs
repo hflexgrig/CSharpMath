@@ -173,7 +173,6 @@ namespace CSharpMath.Forms.Example {
       };
 
       view.Touch += (o, e) => {
-        e.Handled = true;
 
         Debug.WriteLine($"{e.ActionType}");
         switch (e.ActionType) {
@@ -193,6 +192,8 @@ namespace CSharpMath.Forms.Example {
           default:
             break;
         }
+
+        e.Handled = true;
 
 
       };
