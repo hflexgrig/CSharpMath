@@ -25,11 +25,11 @@ namespace CSharpMath.Editor {
       var upperLimitDistance = DistanceFromPointToRect(point, upperLimitRect);
       if (lowerLimitDistance < upperLimitDistance) {
         if (self.LowerLimit != null)
-          return MathListIndex.IndexAtLocation(self.Range.Location, MathListSubIndexType.Subscript, self.LowerLimit.IndexForPoint(context, point));
+          return MathListIndex.IndexAtLocation(self.Range.Location, MathListSubIndexType.LargeOperatorLowerLimit, self.LowerLimit.IndexForPoint(context, point));
         return MathListIndex.Level0Index(self.Range.Location);
       } else {
         if (self.UpperLimit != null)
-          return MathListIndex.IndexAtLocation(self.Range.Location, MathListSubIndexType.Superscript, self.UpperLimit.IndexForPoint(context, point));
+          return MathListIndex.IndexAtLocation(self.Range.Location, MathListSubIndexType.LargeOperatorUpperLimit, self.UpperLimit.IndexForPoint(context, point));
         return MathListIndex.Level0Index(self.Range.Location);
       }
     }
@@ -59,9 +59,9 @@ namespace CSharpMath.Editor {
 
     public static IDisplay<TFont, TGlyph> SubListForIndexType<TFont, TGlyph>(this LargeOpLimitsDisplay<TFont, TGlyph> self, MathListSubIndexType type) where TFont : IFont<TGlyph> {
       switch (type) {
-        case MathListSubIndexType.Subscript:
+        case MathListSubIndexType.LargeOperatorLowerLimit:
           return self.LowerLimit;
-        case MathListSubIndexType.Degree:
+        case MathListSubIndexType.LargeOperatorUpperLimit:
           return self.UpperLimit;
         default:
           throw ArgOutOfRange("Subindex type is not a radical subtype.", type, nameof(type));

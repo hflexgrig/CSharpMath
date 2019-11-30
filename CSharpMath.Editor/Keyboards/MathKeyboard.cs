@@ -699,6 +699,10 @@ namespace CSharpMath.Editor {
             VisualizePlaceholders(frac.Numerator);
             VisualizePlaceholders(frac.Denominator);
           }
+          //if (mathAtom is LargeOperator largeOp) {
+          //  VisualizePlaceholders(largeOp.Subscript);
+          //  VisualizePlaceholders(largeOp.Superscript);
+          //}
         }
       }
       VisualizePlaceholders(MathList);

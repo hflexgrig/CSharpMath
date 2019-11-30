@@ -203,7 +203,7 @@ namespace CSharpMath.Forms.Example {
         //Invoke on Main thread, or this won't work
         //if (Device.RuntimePlatform != "iOS") {
         //if (e.ActionType == SKTouchAction.Pressed)
-          viewModel.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
+        viewModel.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
 
         if (!_entry.IsFocused) {
 

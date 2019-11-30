@@ -15,6 +15,10 @@ namespace CSharpMath.Editor {
     Denominator,
     ///<summary>The subindex indexes into the radicand (only valid for radicals)</summary>
     Radicand,
+    ///<summary>The subindex indexes into the LargeOperator upper limit (only valid for LargeOperators)</summary>
+    LargeOperatorUpperLimit,
+    ///<summary>The subindex indexes into the LargeOperator lower limit (only valid for LargeOperators)</summary>
+    LargeOperatorLowerLimit,
     ///<summary>The subindex indexes into the degree (only valid for radicals)</summary>
     Degree
   }

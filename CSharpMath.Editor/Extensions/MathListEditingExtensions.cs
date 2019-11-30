@@ -71,6 +71,15 @@ namespace CSharpMath.Editor {
           else
             frac.Denominator.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
           break;
+        case MathListSubIndexType.LargeOperatorLowerLimit:
+        case MathListSubIndexType.LargeOperatorUpperLimit:
+          if (!(self.Atoms[index.AtomIndex] is LargeOperator largeOp && largeOp.AtomType == Enumerations.MathAtomType.LargeOperator))
+            throw new SubIndexTypeMismatchException($"No large operator found at index {index.AtomIndex}");
+          if (index.SubIndexType == MathListSubIndexType.LargeOperatorLowerLimit)
+            largeOp.Subscript.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
+          else
+            largeOp.Superscript.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
+          break;
         case MathListSubIndexType.Subscript:
           var current = self.Atoms[index.AtomIndex];
           if (current.Subscript == null) throw new SubIndexTypeMismatchException($"No subscript for atom at index {index.AtomIndex}");
@@ -234,6 +243,13 @@ namespace CSharpMath.Editor {
               frac.Denominator.AtomAt(index.SubIndex) :
               frac.Numerator.AtomAt(index.SubIndex) :
             null;
+        case MathListSubIndexType.LargeOperatorLowerLimit:
+        case MathListSubIndexType.LargeOperatorUpperLimit:
+          return atom is LargeOperator largeOp && largeOp.AtomType == Enumerations.MathAtomType.LargeOperator ?
+             index.SubIndexType == MathListSubIndexType.LargeOperatorLowerLimit ?
+             largeOp.Subscript.AtomAt(index.SubIndex) :
+           largeOp.Superscript.AtomAt(index.SubIndex) :
+           null;
         default:
           throw new SubIndexTypeMismatchException("Invalid subindex type.");
       }
