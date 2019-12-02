@@ -322,7 +322,7 @@ namespace CSharpMath.Atoms {
          { "threeunderdot", new Accent("\u20E8") } //not in iosMath
       });
     
-    public static LargeOperator Operator(string name, bool? limits, bool noLimits = false) => new LargeOperator(name, limits, noLimits);
+    public static LargeOperator Operator(string name, bool? limits, bool noLimits = false) => new LargeOperator(name);
     public static Space Space(Structures.Space sp) => new Space(sp);
     public static MathAtom Create(MathAtomType type, char value) => Create(type, value.ToString());
     public static MathAtom Create(MathAtomType type, string value) {

@@ -105,13 +105,11 @@ namespace CSharpMath.Tests {
 
     [Fact]
     public void TestCopyLargeOperator() {
-      var large = new LargeOperator("lim", true);
+      var large = new LargeOperator("lim");
       Assert.Equal(MathAtomType.LargeOperator, large.AtomType);
-      Assert.True(large.Limits);
 
       var copy = new LargeOperator(large, false);
       CheckClone(copy, large);
-      Assert.Equal(copy.Limits, large.Limits);
     }
 
     [Fact]

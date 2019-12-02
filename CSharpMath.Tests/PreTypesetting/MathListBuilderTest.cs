@@ -895,53 +895,6 @@ namespace CSharpMath.Tests {
     }
 
     [Fact]
-    public void TestLimits() {
-      var input = @"\int";
-      var list = MathLists.FromString(input);
-
-      Assert.Single(list);
-      var op = list[0] as LargeOperator;
-      Assert.Equal(MathAtomType.LargeOperator, op.AtomType);
-      Assert.False(op.Limits);
-      var latex = MathListBuilder.MathListToString(list);
-      Assert.Equal(@"\int ", latex);
-
-      var input2 = @"\int\limits";
-      var list2 = MathLists.FromString(input2);
-      Assert.Single(list2);
-      var op2 = list2[0] as LargeOperator;
-      Assert.Equal(MathAtomType.LargeOperator, op2.AtomType);
-      Assert.True(op2.Limits);
-
-      var latex2 = MathListBuilder.MathListToString(list2);
-      Assert.Equal(@"\int \limits ", latex2);
-    }
-
-    [Fact]
-    public void TestUnspecifiedLimits() {
-      var input = @"\sum";
-      var list = MathLists.FromString(input);
-      Assert.Single(list);
-      var op = list[0] as LargeOperator;
-      Assert.Equal(MathAtomType.LargeOperator, op.AtomType);
-      Assert.Null(op.Limits);
-      var latex = MathListBuilder.MathListToString(list);
-      Assert.Equal(@"\sum ", latex);
-    }
-
-    [Fact]
-    public void TestNoLimits() {
-      var input = @"\sum\nolimits";
-      var list = MathLists.FromString(input);
-      Assert.Single(list);
-      var op = list[0] as LargeOperator;
-      Assert.Equal(MathAtomType.LargeOperator, op.AtomType);
-      Assert.False(op.Limits);
-      var latex = MathListBuilder.MathListToString(list);
-      Assert.Equal(@"\sum \nolimits ", latex);
-    }
-
-    [Fact]
     public void TestColor() {
       var input = @"\color{#F00}a";
       var list = MathLists.FromString(input);

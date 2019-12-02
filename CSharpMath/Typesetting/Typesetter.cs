@@ -254,7 +254,7 @@ namespace CSharpMath {
               AddDisplayLine(false);
               AddInterElementSpace(prevNode, atom.AtomType);
               var op = atom as LargeOperator;
-              var opDisplay = MakeLargeOperator(op);
+              var opDisplay = MakeLargeOperator(op, op.IndexRange);
               _displayAtoms.Add(opDisplay);
               break;
             }
@@ -1065,7 +1065,7 @@ namespace CSharpMath {
         display.Position = new PointF(display.Position.X, display.Position.Y - shiftDown);
     }
 
-    private IDisplay<TFont, TGlyph> MakeLargeOperator(LargeOperator op) {
+    private IDisplay<TFont, TGlyph> MakeLargeOperator(LargeOperator op, Range range) {
       switch (op.Nucleus.Length) {
         case 1:
           var glyph = _context.GlyphFinder.FindGlyphForCharacterAtIndex(_font, 0, op.Nucleus);
@@ -1084,7 +1084,7 @@ namespace CSharpMath {
             Descent = descent,
             Width = width
           };
-          if (op.Subscript != null && !(op.Limits ?? _style == LineStyle.Display))
+          if (op.LowerLimit != null && !(_style == LineStyle.Display))
             // remove italic correction in this case
             glyphDisplay.Width -= delta;
           glyphDisplay.ShiftDown = (float)shiftDown;
@@ -1108,32 +1108,32 @@ namespace CSharpMath {
 
     private IDisplay<TFont, TGlyph> AddLimitsToDisplay(IDisplay<TFont, TGlyph> display,
       LargeOperator op, float delta) {
-      if (op.Subscript == null && op.Superscript == null) {
+      if (op.LowerLimit == null && op.UpperLimit == null) {
         _currentPosition.X += display.Width;
         return display;
       }
-      if (op.Limits ?? _style == LineStyle.Display) {
-        ListDisplay<TFont, TGlyph> superscript = null;
-        ListDisplay<TFont, TGlyph> subscript = null;
-        if (op.Subscript != null) {
-          subscript = _CreateLine(op.Subscript, _font, _context, _scriptStyle, _subscriptCramped);
+      if (_style == LineStyle.Display) {
+        ListDisplay<TFont, TGlyph> upperLimit = null;
+        ListDisplay<TFont, TGlyph> lowerLimit = null;
+        if (op.LowerLimit != null) {
+          lowerLimit = _CreateLine(op.LowerLimit, _font, _context, _scriptStyle, _subscriptCramped);
         }
-        if (op.Superscript!=null) {
-          superscript = _CreateLine(op.Superscript, _font, _context, _scriptStyle, _superscriptCramped);
+        if (op.UpperLimit!=null) {
+          upperLimit = _CreateLine(op.UpperLimit, _font, _context, _scriptStyle, _superscriptCramped);
         }
         
-        var opsDisplay = new LargeOpLimitsDisplay<TFont, TGlyph>(display, superscript, subscript, delta / 2, 0) {
+        var opsDisplay = new LargeOpLimitsDisplay<TFont, TGlyph>(display, upperLimit, lowerLimit, delta / 2, 0) {
           Position = _currentPosition
         };
-        if (subscript != null) {
+        if (lowerLimit != null) {
           opsDisplay.SetLowerLimitGap(
             Math.Max(_mathTable.LowerLimitGapMin(_styleFont),
-                     _mathTable.LowerLimitBaselineDropMin(_styleFont) - subscript.Ascent));
+                     _mathTable.LowerLimitBaselineDropMin(_styleFont) - lowerLimit.Ascent));
         }
-        if (superscript!=null) {
+        if (upperLimit!=null) {
           opsDisplay.SetUpperLimitGap(
             Math.Max(_mathTable.UpperLimitGapMin(_styleFont),
-                     _mathTable.UpperLimitBaselineRiseMin(_styleFont) - superscript.Descent));
+                     _mathTable.UpperLimitBaselineRiseMin(_styleFont) - upperLimit.Descent));
         }
         
         _currentPosition.X += opsDisplay.Width;

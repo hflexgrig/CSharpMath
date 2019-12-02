@@ -663,14 +663,18 @@ namespace CSharpMath.Editor {
       InsertionPointChanged();
     }
 
-    private void InsertLargeOperator(string command, MathListSubIndexType? subScript = null, MathListSubIndexType? supScript=null) {
-      var largeOperator = MathAtoms.ForLatexSymbolName(command);
-      if (subScript.HasValue) {
-        largeOperator.Subscript = new MathList { MathAtoms.Placeholder };
+    private void InsertLargeOperator(string command, MathListSubIndexType? lowerScript = null, MathListSubIndexType? upperScript=null) {
+      var largeOperator = MathAtoms.ForLatexSymbolName(command) as LargeOperator;
+      if (largeOperator == null) {
+        throw new NotSupportedException(@"inserted command {command} is not LargeOperator");
       }
 
-      if (supScript.HasValue) {
-        largeOperator.Superscript = new MathList { MathAtoms.Placeholder };
+      if (lowerScript.HasValue) {
+        largeOperator.LowerLimit = new MathList { MathAtoms.Placeholder };
+      }
+
+      if (upperScript.HasValue) {
+        largeOperator.UpperLimit = new MathList { MathAtoms.Placeholder };
       }
       MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, MathListSubIndexType.None);
     }
@@ -699,10 +703,10 @@ namespace CSharpMath.Editor {
             VisualizePlaceholders(frac.Numerator);
             VisualizePlaceholders(frac.Denominator);
           }
-          //if (mathAtom is LargeOperator largeOp) {
-          //  VisualizePlaceholders(largeOp.Subscript);
-          //  VisualizePlaceholders(largeOp.Superscript);
-          //}
+          if (mathAtom is LargeOperator largeOp) {
+            VisualizePlaceholders(largeOp.LowerLimit);
+            VisualizePlaceholders(largeOp.UpperLimit);
+          }
         }
       }
       VisualizePlaceholders(MathList);

@@ -76,9 +76,9 @@ namespace CSharpMath.Editor {
           if (!(self.Atoms[index.AtomIndex] is LargeOperator largeOp && largeOp.AtomType == Enumerations.MathAtomType.LargeOperator))
             throw new SubIndexTypeMismatchException($"No large operator found at index {index.AtomIndex}");
           if (index.SubIndexType == MathListSubIndexType.LargeOperatorLowerLimit)
-            largeOp.Subscript.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
+            largeOp.LowerLimit.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
           else
-            largeOp.Superscript.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
+            largeOp.UpperLimit.InsertAndAdvance(ref index.SubIndex, atom, advanceType);
           break;
         case MathListSubIndexType.Subscript:
           var current = self.Atoms[index.AtomIndex];
@@ -194,6 +194,15 @@ namespace CSharpMath.Editor {
           else
             radical.Radicand.RemoveAtoms(range.SubIndexRange);
           break;
+        case MathListSubIndexType.LargeOperatorLowerLimit:
+        case MathListSubIndexType.LargeOperatorUpperLimit:
+          if (!(self.Atoms[start.AtomIndex] is LargeOperator largeOp && largeOp.AtomType == Enumerations.MathAtomType.LargeOperator))
+            throw new SubIndexTypeMismatchException($"No large operator found at index {start.AtomIndex}");
+          if (start.SubIndexType == MathListSubIndexType.LargeOperatorLowerLimit)
+            largeOp.LowerLimit.RemoveAtoms(range.SubIndexRange);
+          else
+            largeOp.UpperLimit.RemoveAtoms(range.SubIndexRange);
+          break;
         case MathListSubIndexType.Numerator:
         case MathListSubIndexType.Denominator:
           if (!(self.Atoms[start.AtomIndex] is Fraction frac && frac.AtomType == Enumerations.MathAtomType.Fraction))
@@ -247,8 +256,8 @@ namespace CSharpMath.Editor {
         case MathListSubIndexType.LargeOperatorUpperLimit:
           return atom is LargeOperator largeOp && largeOp.AtomType == Enumerations.MathAtomType.LargeOperator ?
              index.SubIndexType == MathListSubIndexType.LargeOperatorLowerLimit ?
-             largeOp.Subscript.AtomAt(index.SubIndex) :
-           largeOp.Superscript.AtomAt(index.SubIndex) :
+             largeOp.LowerLimit.AtomAt(index.SubIndex) :
+           largeOp.UpperLimit.AtomAt(index.SubIndex) :
            null;
         default:
           throw new SubIndexTypeMismatchException("Invalid subindex type.");

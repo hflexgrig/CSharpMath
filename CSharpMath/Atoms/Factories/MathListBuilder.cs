@@ -126,9 +126,6 @@ namespace CSharpMath.Atoms {
             if (_error != null) {
               return null;
             }
-            if (ApplyModifier(command, prevAtom)) {
-              continue;
-            }
             var fontStyleQ = MathAtoms.FontStyle(command);
             if (fontStyleQ.HasValue) {
               var fontStyle = fontStyleQ.Value;
@@ -472,24 +469,6 @@ namespace CSharpMath.Atoms {
       }
       return null;
     }
-    internal bool ApplyModifier(string modifier, IMathAtom atom) {
-      if (modifier == "limits") {
-        if (atom is LargeOperator op) {
-          op.Limits = true;
-        } else {
-          SetError(@"\limits can only be applied to an operator");
-        }
-        return true;
-      } else if (modifier == "nolimits") {
-        if (atom is LargeOperator op) {
-          op.Limits = false;
-        } else {
-          SetError(@"\nolimits can only be applied to an operator");
-        }
-        return true;
-      }
-      return false;
-    }
 
     internal void SetError(string message) {
       if (_error == null) {
@@ -702,17 +681,15 @@ namespace CSharpMath.Atoms {
               var command = MathAtoms.LatexSymbolNameForAtom(op);
               var originalOperator = (LargeOperator)MathAtoms.ForLatexSymbolName(command);
               builder.Append($@"\{command} ");
-              if (originalOperator.Limits != op.Limits) {
-                switch (op.Limits) {
-                  case true:
-                    builder.Append(@"\limits ");
-                    break;
-                  case false:
-                    if (!op.NoLimits) builder.Append(@"\nolimits ");
-                    break;
-                  case null:
-                    break;
-                }
+
+              if (op.LowerLimit != null) {
+                var scriptString = MathListToString(op.LowerLimit);
+                builder.Append(scriptString.Length == 1 ? $"_{scriptString}" : $"_{{{scriptString}}}");
+              }
+
+              if (op.UpperLimit != null) {
+                var scriptString = MathListToString(op.UpperLimit);
+                builder.Append(scriptString.Length == 1 ? $"^{scriptString}" : $"^{{{scriptString}}}");
               }
               break;
             }
