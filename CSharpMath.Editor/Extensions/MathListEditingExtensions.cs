@@ -142,6 +142,15 @@ namespace CSharpMath.Editor {
           else
             radical.Radicand.RemoveAt(ref index.SubIndex);
           break;
+        case MathListSubIndexType.LargeOperatorLowerLimit:
+        case MathListSubIndexType.LargeOperatorUpperLimit:
+          if (!(self.Atoms[index.AtomIndex] is LargeOperator largeOp && largeOp.AtomType == Enumerations.MathAtomType.LargeOperator))
+            throw new SubIndexTypeMismatchException($"No large operator at index {index.AtomIndex}");
+          if (index.SubIndexType == MathListSubIndexType.LargeOperatorLowerLimit)
+            largeOp.LowerLimit.RemoveAt(ref index.SubIndex);
+          else
+            largeOp.UpperLimit.RemoveAt(ref index.SubIndex);
+          break;
         case MathListSubIndexType.Numerator:
         case MathListSubIndexType.Denominator:
           if (!(self.Atoms[index.AtomIndex] is Fraction frac && frac.AtomType == Enumerations.MathAtomType.Fraction))

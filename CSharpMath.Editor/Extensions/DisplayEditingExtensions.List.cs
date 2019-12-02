@@ -137,7 +137,7 @@ namespace CSharpMath.Editor {
 
     public static IDisplay<TFont, TGlyph> SubDisplayForIndex<TFont, TGlyph>(this ListDisplay<TFont, TGlyph> self, MathListIndex index) where TFont : IFont<TGlyph> {
       // Inside the range
-      if (!(self.Displays.Count == 1 && self.Displays[0] is LargeOpLimitsDisplay<TFont, TGlyph>) && (index.SubIndexType is MathListSubIndexType.Superscript || index.SubIndexType is MathListSubIndexType.Subscript))
+      if (index.SubIndexType is MathListSubIndexType.Superscript || index.SubIndexType is MathListSubIndexType.Subscript)
         foreach (var display in self.Displays)
           if (display is ListDisplay<TFont, TGlyph> list && index.AtomIndex == list.IndexInParent &&
             // This is the right character for the sub/superscript, check that it's type matches the index

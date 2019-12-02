@@ -196,6 +196,18 @@ namespace CSharpMath.Editor {
                 else
                   goto case MathListSubIndexType.Denominator;
                 break;
+              case MathListSubIndexType.LargeOperatorLowerLimit:
+              case MathListSubIndexType.LargeOperatorUpperLimit:
+                if (MathList.AtomAt(levelDown) is LargeOperator largeOp) {
+                  if (largeOp.LowerLimit is IMathList lower) {
+
+                  _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOp.UpperLimit.Count));
+                  } else {
+                    _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(largeOp.LowerLimit.Count));
+
+                  }
+                }
+                break;
               case MathListSubIndexType.Denominator:
                 if (MathList.AtomAt(levelDown) is IFraction fracNum)
                   _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.Numerator, MathListIndex.Level0Index(fracNum.Numerator.Count));
@@ -676,7 +688,7 @@ namespace CSharpMath.Editor {
       if (upperScript.HasValue) {
         largeOperator.UpperLimit = new MathList { MathAtoms.Placeholder };
       }
-      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, MathListSubIndexType.None);
+      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, lowerScript.HasValue ? MathListSubIndexType.LargeOperatorLowerLimit : upperScript.HasValue ? MathListSubIndexType.LargeOperatorUpperLimit:MathListSubIndexType.None);
     }
 
     public void MoveCaretToPoint(PointF point) {
