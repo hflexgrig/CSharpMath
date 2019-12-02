@@ -35,7 +35,7 @@
             <On Platform="iOS" Value="260" />
             <On Platform="GTK" Value="80" />
         </OnPlatform>
-        <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
+        <!--<r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>-->
         <!--<Style TargetType="Button">
             <Setter Property="Padding" Value="2,1,2,1"/>
             <Setter Property="WidthRequest" Value="100"/>

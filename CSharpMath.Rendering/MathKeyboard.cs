@@ -8,7 +8,6 @@ namespace CSharpMath.Rendering {
     IBeam, UpArrow
   }
   public class MathKeyboard : MathKeyboard<Fonts, Glyph> {
-    public MathKeyboard() : this(PainterConstants.DefaultFontSize * 3 / 2) { }
     public MathKeyboard(float fontSize = PainterConstants.DefaultFontSize * 3 / 2)
       : base(TypesettingContext.Instance) {
       Font = new Fonts(Array.Empty<Typography.OpenFont.Typeface>(), fontSize);

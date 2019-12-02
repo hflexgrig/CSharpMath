@@ -28,15 +28,26 @@ namespace CSharpMath.Forms.Example {
     public CustomEntry Entry => _entry;
     public EditorView() {
       // Basic functionality
-      var view = new SKCanvasView { HeightRequest = 160, BackgroundColor = Color.AliceBlue, EnableTouchEvents = true, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
-      view.EnableTouchEvents = true;
-      var mathToolbar = new MathToolbar();
+      var view = new SKCanvasView { BackgroundColor = Color.AliceBlue, EnableTouchEvents = true, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand };
+
+      float fontSize = 20;
+      switch (Device.RuntimePlatform) {
+        case "UWP":
+          fontSize = 20;
+          break;
+        case "iOS":
+        case "Android":
+        default:
+          fontSize = 50;
+          break;
+      }
+      var mathToolbar = new MathToolbar(fontSize);
       //mathToolbar.keyboard
       //var keyb = mathToolbar.Resources["Keyboard"] as CSharpMath.Rendering.MathKeyboard;
 
 
       var viewModel = mathToolbar.ViewModel;
-      var mathPainter = new SkiaSharp.MathPainter() {
+      var mathPainter = new SkiaSharp.MathPainter(fontSize) {
         TextColor = SKColors.Black
       };
       var settings = new SKColor(0, 0, 0, 153);
@@ -233,7 +244,7 @@ namespace CSharpMath.Forms.Example {
           Debug.WriteLine("redrawing.......................");
           var c = e.Surface.Canvas;
           c.Clear();
-          SkiaSharp.MathPainter.DrawDisplay(mathPainter, viewModel.Display, c, TextAlignment.TopLeft, new Thickness(20));
+          SkiaSharp.MathPainter.DrawDisplay(mathPainter, viewModel.Display, c, TextAlignment.TopLeft, new Thickness(30));
           viewModel.DrawCaret(new SkiaCanvas(c, SKStrokeCap.Butt, AntiAlias.Enable), settings.FromNative(), CaretShape.IBeam);
 
           //var image = e.Surface.Snapshot();

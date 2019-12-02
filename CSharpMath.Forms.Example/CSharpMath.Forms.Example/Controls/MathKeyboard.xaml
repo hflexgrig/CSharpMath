@@ -18,7 +18,7 @@
             <On Platform="WPF" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
             <On Platform="iOS" Value="MyCustomFont" />
         </OnPlatform>
-        <r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>
+        <!--<r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>-->
         <Style TargetType="Grid">
             <Setter Property="RowSpacing" Value="0"/>
             <Setter Property="ColumnSpacing" Value="0"/>

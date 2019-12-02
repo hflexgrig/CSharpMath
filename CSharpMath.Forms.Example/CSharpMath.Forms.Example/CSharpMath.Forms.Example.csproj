@@ -11,6 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\MathKeyboard.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Controls\MathKeyboard.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="SVGs\MyCustomFont.sfd" />
     <None Remove="SVGs\MyCustomFont.ttf" />
     <None Remove="SVGs\MyCustomFont1.ttf.sfd" />
@@ -37,9 +45,6 @@
   <ItemGroup>
     <Compile Update="Controls\MathToolbar.xaml.cs">
       <DependentUpon>MathToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\MathKeyboard.xaml.cs">
-      <DependentUpon>MathKeyboard.xaml</DependentUpon>
     </Compile>
     <Compile Update="ExamplesPage.xaml.cs">
       <DependentUpon>ExamplesPage.xaml</DependentUpon>
