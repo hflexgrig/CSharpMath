@@ -103,6 +103,8 @@ namespace CSharpMath.Editor {
           return largeOp.PointForIndex(context, index);
         case ListDisplay<TFont, TGlyph> list:
           return list.PointForIndex(context, index);
+        case GlyphDisplay<TFont, TGlyph> glyph:
+          return glyph.PointForIndex(context, index);
         default:
           return null;
       }

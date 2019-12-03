@@ -35,8 +35,19 @@ namespace CSharpMath.Editor {
     }
 
     public static PointF? PointForIndex<TFont, TGlyph>(this LargeOpLimitsDisplay<TFont, TGlyph> self, TypesettingContext<TFont, TGlyph> context, MathListIndex index) where TFont : IFont<TGlyph> {
-      if (index.SubIndexType != MathListSubIndexType.Subscript)
-        throw Arg("The subindex must be none to get the closest point for it.", nameof(index));
+      //if (index.SubIndexType != MathListSubIndexType.Subscript)
+      //  throw Arg("The subindex must be none to get the closest point for it.", nameof(index));
+
+      if (index.AtomIndex == self.Range.End)
+        // draw a caret after the radical
+        return self.Position.Plus(new PointF(self.DisplayBounds.Right, 0));
+      // draw a caret before the radical
+      return self.Position;
+    }
+
+    public static PointF? PointForIndex<TFont, TGlyph>(this GlyphDisplay<TFont, TGlyph> self, TypesettingContext<TFont, TGlyph> context, MathListIndex index) where TFont : IFont<TGlyph> {
+      //if (index.SubIndexType != MathListSubIndexType.Subscript)
+      //  throw Arg("The subindex must be none to get the closest point for it.", nameof(index));
 
       if (index.AtomIndex == self.Range.End)
         // draw a caret after the radical
