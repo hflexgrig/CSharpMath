@@ -53,6 +53,8 @@ namespace CSharpMath.Editor {
     SmallPi = 'π', SmallRho = 'ρ', SmallSigma = 'σ', SmallSigma2 = 'ς', SmallTau = 'τ',
     SmallUpsilon = 'υ', SmallPhi = 'φ', SmallChi = 'χ', SmallOmega = 'ω',
 
+    Partial = '∂', /*Jmath = '&#x0001D6A5;',*/
+
     //Trigonometric functions
     Sine = '␖', Cosine = '℅', Tangent = '␘', Cotangent = '␄', Secant = '␎', Cosecant = '␛', ArcSine = '◜', 
     ArcCosine = '◝', ArcTangent = '◟', ArcCotangent = '◞', ArcSecant = '◠', ArcCosecant = '◡',

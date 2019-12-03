@@ -722,6 +722,7 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.SmallPhi:
         case MathKeyboardInput.SmallChi:
         case MathKeyboardInput.SmallOmega:
+        case MathKeyboardInput.Partial:
           InsertCharacterKey(input);
           break;
         default:
