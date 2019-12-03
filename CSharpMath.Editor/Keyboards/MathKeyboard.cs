@@ -196,15 +196,24 @@ namespace CSharpMath.Editor {
                 else
                   goto case MathListSubIndexType.Denominator;
                 break;
-              case MathListSubIndexType.LargeOperatorLowerLimit:
               case MathListSubIndexType.LargeOperatorUpperLimit:
                 if (MathList.AtomAt(levelDown) is LargeOperator largeOp) {
                   if (largeOp.LowerLimit is IMathList lower) {
-
-                  _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOp.UpperLimit.Count));
+                    _insertionIndex = _insertionIndex.LevelDown() ?? _insertionIndex;
+                    //_insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOp.UpperLimit.Count));
                   } else {
                     _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(largeOp.LowerLimit.Count));
 
+                  }
+                }
+                break;
+              case MathListSubIndexType.LargeOperatorLowerLimit:
+                if (MathList.AtomAt(levelDown) is LargeOperator largeOpLower) {
+                  if (largeOpLower.LowerLimit is IMathList lower && largeOpLower.UpperLimit != null) {
+
+                    _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOpLower.UpperLimit.Count));
+                  } else {
+                    _insertionIndex = _insertionIndex.LevelDown() ?? _insertionIndex;
                   }
                 }
                 break;
@@ -233,6 +242,19 @@ namespace CSharpMath.Editor {
           case IFraction frac:
             _insertionIndex = prev.LevelUpWithSubIndex(MathListSubIndexType.Denominator, MathListIndex.Level0Index(frac.Denominator.Count));
             break;
+          case LargeOperator largeOp:
+            if (largeOp.LowerLimit != null) {
+              _insertionIndex = prev.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(largeOp.LowerLimit.Count));
+
+            } else if(largeOp.UpperLimit != null){
+              _insertionIndex = prev.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOp.UpperLimit.Count));
+
+            } else {
+              //_insertionIndex = prev;
+              _insertionIndex = _insertionIndex.Previous ?? _insertionIndex;
+
+            }
+            break;
           default:
             _insertionIndex = prev;
             break;
@@ -246,6 +268,7 @@ namespace CSharpMath.Editor {
         } else if (MathList.AtomAt(_insertionIndex) is null && MathList.AtomAt(_insertionIndex?.Previous)?.AtomType is MathAtomType.Placeholder)
           _insertionIndex = _insertionIndex.Previous; // Skip right side of placeholders when end of line
       }
+
       void MoveCursorRight() {
         if (_insertionIndex is null)
           throw new InvalidOperationException($"{nameof(_insertionIndex)} is null.");
@@ -287,6 +310,28 @@ namespace CSharpMath.Editor {
                   goto default;
                 break;
               case MathListSubIndexType.Subscript:
+              //case MathListSubIndexType.LargeOperatorUpperLimit:
+              //  if (MathList.AtomAt(levelDown) is LargeOperator largeOp) {
+              //    if (largeOp.LowerLimit is IMathList lower) {
+              //      _insertionIndex = _insertionIndex.LevelDown() ?? _insertionIndex;
+              //      //_insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOp.UpperLimit.Count));
+              //    } else {
+              //      _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(largeOp.LowerLimit.Count));
+
+              //    }
+              //  }
+              //  break;
+              //case MathListSubIndexType.LargeOperatorLowerLimit:
+              //  if (MathList.AtomAt(levelDown) is LargeOperator largeOpLower) {
+              //    if (largeOpLower.LowerLimit is IMathList lower) {
+
+              //      _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOpLower.UpperLimit.Count));
+              //    } else {
+              //      _insertionIndex = levelDown.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(largeOpLower.LowerLimit.Count));
+
+              //    }
+              //  }
+              //  break;
               default:
                 _insertionIndex = _insertionIndex.LevelDown()?.Next ?? _insertionIndex;
                 break;
@@ -307,6 +352,16 @@ namespace CSharpMath.Editor {
             break;
           case var a when a.Superscript != null || a.Subscript != null:
             _insertionIndex = _insertionIndex.LevelUpWithSubIndex(MathListSubIndexType.BetweenBaseAndScripts, MathListIndex.Level0Index(1));
+            break;
+          case LargeOperator largeOp:
+            if (largeOp.UpperLimit != null) {
+              _insertionIndex = _insertionIndex.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(0));
+
+            } else if(largeOp.LowerLimit != null) {
+              _insertionIndex = _insertionIndex.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(0));
+            } else {
+              _insertionIndex = _insertionIndex?.Next ?? _insertionIndex;
+            }
             break;
           case var a when a.AtomType is MathAtomType.Placeholder && MathList.AtomAt(_insertionIndex.Next) is null:
             // Skip right side of placeholders when end of line
