@@ -44,13 +44,13 @@ namespace CSharpMath.Editor {
     //Capital Greek alphabets
     Alpha = 'Α', Beta = 'Β', Gamma = 'Γ', Delta = 'Δ', Epsilon = 'Ε', Zeta = 'Ζ', Eta = 'Η', 
     Theta = 'Θ', Iota = 'Ι', Kappa = 'Κ', Lambda = 'Λ', Mu = 'Μ', Nu = 'Ν', Xi = 'Ξ', Omicron = 'Ο', 
-    Pi = 'Π', Rho = 'Ρ', Sigma = 'Σ', Tau = 'Τ', Upsilon = 'Υ', Phi = 'Φ', Chi = 'Χ', Omega = 'Ω',
+    Pi = 'Π', Rho = 'Ρ', Sigma = 'Σ', Tau = 'Τ', Psi = 'Ψ', Upsilon = 'Υ', Phi = 'Φ', Chi = 'Χ', Omega = 'Ω',
 
     //Small Greek alphabets
     SmallAlpha = 'α', SmallBeta = 'β', SmallGamma = 'γ', SmallDelta = 'δ', SmallEpsilon = 'ε',
     SmallZeta = 'ζ', SmallEta = 'η', SmallTheta = 'θ', SmallIota = 'ι', SmallKappa = 'κ',
     SmallLambda = 'λ', SmallMu = 'μ', SmallNu = 'ν', SmallXi = 'ξ', SmallOmicron = 'ο',
-    SmallPi = 'π', SmallRho = 'ρ', SmallSigma = 'σ', SmallSigma2 = 'ς', SmallTau = 'τ',
+    SmallPi = 'π', SmallRho = 'ρ', SmallSigma = 'σ', SmallSigma2 = 'ς', SmallTau = 'τ', SmallPsi = 'ψ',
     SmallUpsilon = 'υ', SmallPhi = 'φ', SmallChi = 'χ', SmallOmega = 'ω',
 
     Partial = '∂', Jmath = 0x0001D6A5, IMath = 0x0001D6A4, Triangle = 0x25B3, DDots = 0x22F1, CDots = 0x22EF, VDots = 0x22EE, Bot = 0x22A5,

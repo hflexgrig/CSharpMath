@@ -693,6 +693,7 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.Pi:
         case MathKeyboardInput.Rho:
         case MathKeyboardInput.Sigma:
+        case MathKeyboardInput.Psi:
         case MathKeyboardInput.Tau:
         case MathKeyboardInput.Upsilon:
         case MathKeyboardInput.Phi:
@@ -713,6 +714,7 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.SmallNu:
         case MathKeyboardInput.SmallXi:
         case MathKeyboardInput.SmallOmicron:
+        case MathKeyboardInput.SmallPsi:
         case MathKeyboardInput.SmallPi:
         case MathKeyboardInput.SmallRho:
         case MathKeyboardInput.SmallSigma:
