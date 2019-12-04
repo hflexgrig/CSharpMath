@@ -6,6 +6,7 @@
              xmlns:c="clr-namespace:CSharpMath.Forms"
              xmlns:e="clr-namespace:CSharpMath.Forms.Example"
              xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:d="http://xamarin.com/schemas/2014/forms"
              x:Name="this"
              WidthRequest="320"
              HeightRequest="50">
@@ -34,6 +35,13 @@
             <On Platform="WPF" Value="80" />
             <On Platform="iOS" Value="260" />
             <On Platform="GTK" Value="80" />
+        </OnPlatform>
+        <OnPlatform x:TypeArguments="d:Thickness" x:Key="LatinMathPaddingForButtons">
+            <On Platform="Android" Value="0,-90,0,-90" />
+            <On Platform="UWP" Value="0" />
+            <On Platform="WPF" Value="0" />
+            <On Platform="iOS" Value="0" />
+            <On Platform="GTK" Value="0" />
         </OnPlatform>
         <!--<r:MathKeyboard x:Key="Keyboard" x:Name="keyboard"/>-->
         <!--<Style TargetType="Button">
@@ -196,7 +204,7 @@
                     </Button>
 
 
-                    <Button  Clicked="Button_Clicked" Text="&#x2202; &#x0001D6A5;" FontFamily="{StaticResource LatinModernMath}" >
+                    <Button  Clicked="Button_Clicked" Text="&#x2202; &#x0001D6A5;" Padding="{StaticResource LatinMathPaddingForButtons}" FontFamily="{StaticResource LatinModernMath}" >
                         <Button.Resources>
                             <Grid x:Key="SubButtons" BackgroundColor="White" >
                                 <ScrollView>
@@ -204,7 +212,7 @@
                                         <Grid.Resources>
                                             <Style TargetType="Button">
                                                 <Setter Property="FontSize" Value="35"/>
-                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="Padding" Value="{StaticResource LatinMathPaddingForButtons}"/>
                                             </Style>
                                         </Grid.Resources>
                                         <Grid.RowDefinitions>
