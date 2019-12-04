@@ -8,6 +8,8 @@ namespace CSharpMath.Forms.Example {
   using System;
   using System.Diagnostics;
   using System.IO;
+  using System.Threading;
+  using System.Threading.Tasks;
   using System.Xml.Linq;
   using CSharpMath.Forms.Example.Controls;
   using CSharpMath.SkiaSharp;
@@ -183,6 +185,17 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
+      //Task.Run(() => {
+      //  Thread.Sleep(1000);
+      //  Device.BeginInvokeOnMainThread(() => {
+      //    if (!_entry.IsFocused) {
+
+      //      _entry.Focus();
+      //    }
+      //  });
+      //  });
+      
+
       view.Touch += (o, e) => {
 
         Debug.WriteLine($"{e.ActionType}");
@@ -241,6 +254,10 @@ namespace CSharpMath.Forms.Example {
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
         try {
+          if (!_entry.IsFocused) {
+
+            _entry.Focus();
+          }
           Debug.WriteLine("redrawing.......................");
           var c = e.Surface.Canvas;
           c.Clear();
@@ -275,6 +292,7 @@ namespace CSharpMath.Forms.Example {
 
       }
     }
+
 
     private static void ExportSvg(MathToolbar mathToolbar) {
       using (var stream = new MemoryStream()) {

@@ -218,46 +218,31 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!--{ "hbar", Create(MathAtomType.Ordinary, "\u210F") },
-         { "Im", Create(MathAtomType.Ordinary, "\u2111") },
-         { "ell", Create(MathAtomType.Ordinary, "\u2113") },
-         { "wp", Create(MathAtomType.Ordinary, "\u2118") },
-         { "Re", Create(MathAtomType.Ordinary, "\u211C") },
-         { "mho", Create(MathAtomType.Ordinary, "\u2127") },
-         { "aleph", Create(MathAtomType.Ordinary, "\u2135") },
-         { "beth", Create(MathAtomType.Ordinary, "\u2136") }, //not in iosMath
-         { "gimel", Create(MathAtomType.Ordinary, "\u2137") }, //not in iosMath
-         { "daleth", Create(MathAtomType.Ordinary, "\u2138") }, //not in iosMath
-         { "forall", Create(MathAtomType.Ordinary, "\u2200") },
-         { "exists", Create(MathAtomType.Ordinary, "\u2203") },
-         { "because", Create(MathAtomType.Ordinary, "\u2235") }, //not in iosMath
-         { "therefore", Create(MathAtomType.Ordinary, "\u2234") }, //not in iosMath
-         { "emptyset", Create(MathAtomType.Ordinary, "\u2205") },
-         { "nabla", Create(MathAtomType.Ordinary, "\u2207") },
-         { "infty", Create(MathAtomType.Ordinary, "\u221E") },
-         { "angle", Create(MathAtomType.Ordinary, "\u2220") },
-         { "top", Create(MathAtomType.Ordinary, "\u22A4") },
-         { "bot", Create(MathAtomType.Ordinary, "\u22A5") },
-         { "vdots", Create(MathAtomType.Ordinary, "\u22EE") },
-         { "cdots", Create(MathAtomType.Ordinary, "\u22EF") },
-         { "ddots", Create(MathAtomType.Ordinary, "\u22F1") },
-         { "triangle", Create(MathAtomType.Ordinary, "\u25B3") },
-         { "imath", Create(MathAtomType.Ordinary, "\U0001D6A4") },
-         { "jmath", Create(MathAtomType.Ordinary, "\U0001D6A5") },
-         { "partial", Create(MathAtomType.Ordinary, "\U0001D715") },-->
+                                        <Button Text="∂" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Partial}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="△" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Triangle}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="⋱" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DDots}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="⋯" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CDots}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="⋮" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=VDots}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="⊥" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Bot}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="⊤" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Top}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="∇" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Nabla}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="∅" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=EmptySet}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="∴" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ThereFore}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="∵" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Because}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="∃" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Exists}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="∀" Grid.Row="6" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ForAll}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℸ" Grid.Row="6" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Daleth}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℷ" Grid.Row="7" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Gimel}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℶ" Grid.Row="7" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Beth}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℵ" Grid.Row="8" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Aleph}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="℧" Grid.Row="8" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Mho}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℜ" Grid.Row="9" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Re}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="℘" Grid.Row="9" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Wp}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℓ" Grid.Row="10" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Ell}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℑ" Grid.Row="10" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Im}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="ℏ" Grid.Row="11" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Hbar}" FontFamily="{StaticResource LatinModernMath}"/>
+                                        <Button Text="…" Grid.Row="11" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IDots}" FontFamily="{StaticResource LatinModernMath}"/>
 
-                                        <Button Text="&#x2202;" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Partial}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x0001D6A5;" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource LatinModernMath}" />
-                                        <Button Text="&#x0001D6A4;" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource LatinModernMath}" />
-                                        <Button Text="&#x25B3;" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource LatinModernMath}" />
-                                        <Button Text="&#x22F1;" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x22EF;" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x22EE;" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ContourIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x22A5;" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleContourIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x22A4;" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleContourIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x2220;" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x221E;" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseContourIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="&#x2207;" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CounterClockwiseContourIntegral}" FontFamily="{StaticResource LatinModernMath}"/>
                                     </Grid>
                                 </ScrollView>
                             </Grid>

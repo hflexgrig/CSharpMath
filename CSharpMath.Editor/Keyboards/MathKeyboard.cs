@@ -723,6 +723,31 @@ namespace CSharpMath.Editor {
         case MathKeyboardInput.SmallChi:
         case MathKeyboardInput.SmallOmega:
         case MathKeyboardInput.Partial:
+        case MathKeyboardInput.Jmath:
+        case MathKeyboardInput.IMath:
+        case MathKeyboardInput.Triangle:
+        case MathKeyboardInput.DDots:
+        case MathKeyboardInput.CDots:
+        case MathKeyboardInput.VDots:
+        case MathKeyboardInput.Bot:
+        case MathKeyboardInput.Top:
+        case MathKeyboardInput.Nabla:
+        case MathKeyboardInput.EmptySet:
+        case MathKeyboardInput.ThereFore:
+        case MathKeyboardInput.Because:
+        case MathKeyboardInput.Exists:
+        case MathKeyboardInput.ForAll:
+        case MathKeyboardInput.Daleth:
+        case MathKeyboardInput.Gimel:
+        case MathKeyboardInput.Beth:
+        case MathKeyboardInput.Aleph:
+        case MathKeyboardInput.Mho:
+        case MathKeyboardInput.Re:
+        case MathKeyboardInput.Wp:
+        case MathKeyboardInput.Ell:
+        case MathKeyboardInput.Im:
+        case MathKeyboardInput.Hbar:
+        case MathKeyboardInput.IDots:
           InsertCharacterKey(input);
           break;
         default:

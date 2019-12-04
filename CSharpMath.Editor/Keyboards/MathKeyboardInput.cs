@@ -53,7 +53,10 @@ namespace CSharpMath.Editor {
     SmallPi = 'π', SmallRho = 'ρ', SmallSigma = 'σ', SmallSigma2 = 'ς', SmallTau = 'τ',
     SmallUpsilon = 'υ', SmallPhi = 'φ', SmallChi = 'χ', SmallOmega = 'ω',
 
-    Partial = '∂', /*Jmath = '&#x0001D6A5;',*/
+    Partial = '∂', Jmath = 0x0001D6A5, IMath = 0x0001D6A4, Triangle = 0x25B3, DDots = 0x22F1, CDots = 0x22EF, VDots = 0x22EE, Bot = 0x22A5,
+    Top = 0x22A4, Nabla = 0x2207, EmptySet = 0x2205, ThereFore = 0x2234, Because = 0x2235, Exists = 0x2203, ForAll = 0x2200, Daleth = 0x2138,
+    Gimel = 0x2137, Beth = 0x2136, Aleph = 0x2135, Mho = 0x2127, Re = 0x211C, Wp = 0x2118, Ell = 0x2113, Im = 0x2111, Hbar = 0x210F, IDots = 0x2026,
+
 
     //Trigonometric functions
     Sine = '␖', Cosine = '℅', Tangent = '␘', Cotangent = '␄', Secant = '␎', Cosecant = '␛', ArcSine = '◜', 
