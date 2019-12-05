@@ -5,25 +5,25 @@
              x:Class="CSharpMath.Forms.Example.App">
     
     <Application.MainPage>
-        <local:EditorPage/>
+        <!--<local:EditorPage/>-->
 
-        <!--<TabbedPage xmlns:local="clr-namespace:CSharpMath.Forms.Example"
+        <TabbedPage xmlns:local="clr-namespace:CSharpMath.Forms.Example"
                     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
                     xmlns:math="clr-namespace:CSharpMath.Forms;assembly=CSharpMath.Forms"
                     android:TabbedPage.IsSwipePagingEnabled="False"
                     ChildAdded="Handle_ChildAdded">
            
-            <local:IconPage/>
-            <local:ExamplePage/>
-            <local:ExamplesPage/>
-            <local:MoreExamplesPage/>
+            <!--<local:IconPage/>-->
+            <!--<local:ExamplePage/>-->
+            <!--<local:ExamplesPage/>-->
+            <!--<local:MoreExamplesPage/>-->
+            <local:EditorPage x:Name="Editor"/>
             <local:CustomExamplePage/>
-            <local:EditorPage/>
-            <local:SlidePage/>
+            <!--<local:SlidePage/>
             <local:TextPage/>
             <local:LayoutPage/>
             <local:SettingsPage/>
-            <local:ClockPage/>
-        </TabbedPage>-->
+            <local:ClockPage/>-->
+        </TabbedPage>
     </Application.MainPage>
 </Application>

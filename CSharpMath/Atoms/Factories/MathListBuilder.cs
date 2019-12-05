@@ -70,22 +70,30 @@ namespace CSharpMath.Atoms {
         }
         switch (ch) {
           case '^':
-            if (prevAtom == null || prevAtom.Superscript != null || !prevAtom.ScriptsAllowed) {
+            if (prevAtom == null || prevAtom.Superscript != null || (!prevAtom.ScriptsAllowed && prevAtom.AtomType != MathAtomType.LargeOperator)) {
               prevAtom = MathAtoms.Create(MathAtomType.Ordinary, string.Empty);
               r.Add(prevAtom);
             }
             // this is a superscript for the previous atom.
             // note, if the next char is StopChar, it will be consumed and doesn't count as stop.
-            prevAtom.Superscript = this.BuildInternal(true);
+            if (prevAtom is LargeOperator largeOp) {
+              largeOp.UpperLimit = this.BuildInternal(true);
+            } else {
+              prevAtom.Superscript = this.BuildInternal(true);
+            }
             continue;
           case '_':
-            if (prevAtom == null || prevAtom.Subscript != null || !prevAtom.ScriptsAllowed) {
+           if (prevAtom == null || prevAtom.Subscript != null || (!prevAtom.ScriptsAllowed && prevAtom.AtomType != MathAtomType.LargeOperator)) {
               prevAtom = MathAtoms.Create(MathAtomType.Ordinary, string.Empty);
               r.Add(prevAtom);
             }
             // this is a subscript for the previous atom.
             // note, if the next char is StopChar, it will be consumed and doesn't count as stop.
-            prevAtom.Subscript = this.BuildInternal(true);
+            if (prevAtom is LargeOperator largeOp1) {
+              largeOp1.LowerLimit = this.BuildInternal(true);
+            } else {
+              prevAtom.Subscript = this.BuildInternal(true);
+            }
             continue;
           case '{':
             IMathList sublist;

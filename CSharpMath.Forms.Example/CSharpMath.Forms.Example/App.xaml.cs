@@ -12,6 +12,7 @@ namespace CSharpMath.Forms.Example
 	public partial class App : Application
 	{
     public event Action OnResumed;
+    public event Action OnSleeped;
     public static ObservableCollection<MathView> AllViews = new ObservableCollection<MathView>();
     public App() => InitializeComponent();
     int index = -1;
@@ -29,12 +30,8 @@ namespace CSharpMath.Forms.Example
 
 		protected override void OnSleep ()
 		{
-      var editorPage = MainPage as EditorPage;
-      var editorView = editorPage.Content as EditorView;
-      var entry = editorView?.Entry;
-      if (entry!=null) {
-        entry.Unfocus();
-      }
+      OnSleeped?.Invoke();
+      
 			// Handle when your app sleeps
 		}
 
