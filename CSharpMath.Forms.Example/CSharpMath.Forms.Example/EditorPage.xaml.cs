@@ -228,7 +228,7 @@ namespace CSharpMath.Forms.Example {
         //if (Device.RuntimePlatform != "iOS") {
         //if (e.ActionType == SKTouchAction.Pressed)
         viewModel.MoveCaretToPoint(new System.Drawing.PointF(e.Location.X, e.Location.Y));
-
+        //viewModel.HighlightCharacterAt(viewModel.InsertionIndex, new Structures.Color(0, 0, 200));
         if (!_entry.IsFocused) {
 
           _entry.Focus();
@@ -263,7 +263,7 @@ namespace CSharpMath.Forms.Example {
           c.Clear();
           SkiaSharp.MathPainter.DrawDisplay(mathPainter, viewModel.Display, c, TextAlignment.TopLeft, new Thickness(30));
           viewModel.DrawCaret(new SkiaCanvas(c, SKStrokeCap.Butt, AntiAlias.Enable), settings.FromNative(), CaretShape.IBeam);
-
+          
           //var image = e.Surface.Snapshot();
           //ExportSvg(e.Surface, new SKRect(0,0, viewModel.Measure.Width, viewModel.Measure.Height));
           scale = view.Width / e.Info.Width;
