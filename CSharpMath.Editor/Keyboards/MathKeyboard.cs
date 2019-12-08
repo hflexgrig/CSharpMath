@@ -2,6 +2,7 @@ namespace CSharpMath.Editor {
   using System;
   using System.Collections.Generic;
   using System.Drawing;
+  using System.Threading;
   using Atoms;
   using Constants;
   using Display;
@@ -11,18 +12,30 @@ namespace CSharpMath.Editor {
   using Color = Atoms.Color;
 
   public class MathKeyboard<TFont, TGlyph> where TFont : IFont<TGlyph> {
-    public MathKeyboard(TypesettingContext<TFont, TGlyph> context) => Context = context;
+    public MathKeyboard(TypesettingContext<TFont, TGlyph> context) {
+      Context = context;
+
+    }
+
+
+
     //private readonly List<MathListIndex> highlighted;
 
     protected TypesettingContext<TFont, TGlyph> Context { get; }
 
-    public CaretHandle? Caret { get; protected set; }
+    public CaretHandle? Caret {
+      get => caret; set {
+        caret = value;
+      }
+    }
+    public bool ShowCaret { get; set; }
     public IDisplay<TFont, TGlyph> Display { get; protected set; }
     public MathList MathList { get; } = new MathList();
     public string LaTeX => MathListBuilder.MathListToString(MathList);
     private MathListIndex _insertionIndex = MathListIndex.Level0Index(0);
-    public MathListIndex InsertionIndex
-      { get => _insertionIndex; set { _insertionIndex = value; InsertionPointChanged(); } }
+    private CaretHandle? caret;
+
+    public MathListIndex InsertionIndex { get => _insertionIndex; set { _insertionIndex = value; InsertionPointChanged(); } }
     public TFont Font { get; set; }
     public LineStyle LineStyle { get; set; }
     public Color SelectColor { get; set; }
@@ -72,7 +85,7 @@ namespace CSharpMath.Editor {
             return MathAtoms.Divide;
           case MathKeyboardInput.Fraction:
             return MathAtoms.PlaceholderFraction;
-          
+
           case MathKeyboardInput.LeftCurlyBracket:
             return MathAtoms.Create(MathAtomType.Open, c);
           case MathKeyboardInput.RightCurlyBracket:
@@ -246,7 +259,7 @@ namespace CSharpMath.Editor {
             if (largeOp.LowerLimit != null) {
               _insertionIndex = prev.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(largeOp.LowerLimit.Count));
 
-            } else if(largeOp.UpperLimit != null){
+            } else if (largeOp.UpperLimit != null) {
               _insertionIndex = prev.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(largeOp.UpperLimit.Count));
 
             } else {
@@ -357,7 +370,7 @@ namespace CSharpMath.Editor {
             if (largeOp.UpperLimit != null) {
               _insertionIndex = _insertionIndex.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorUpperLimit, MathListIndex.Level0Index(0));
 
-            } else if(largeOp.LowerLimit != null) {
+            } else if (largeOp.LowerLimit != null) {
               _insertionIndex = _insertionIndex.LevelUpWithSubIndex(MathListSubIndexType.LargeOperatorLowerLimit, MathListIndex.Level0Index(0));
             } else {
               _insertionIndex = _insertionIndex?.Next ?? _insertionIndex;
@@ -415,11 +428,13 @@ namespace CSharpMath.Editor {
           break;
         case MathKeyboardInput.Return:
           ReturnPressed?.Invoke(this, EventArgs.Empty);
-          Caret = null;
+          //Caret = null;
+          ShowCaret = false;
           return;
         case MathKeyboardInput.Dismiss:
           DismissPressed?.Invoke(this, EventArgs.Empty);
-          Caret = null;
+          //Caret = null;
+          ShowCaret = false;
           return;
         case MathKeyboardInput.BothRoundBrackets:
           InsertParens();
@@ -758,7 +773,7 @@ namespace CSharpMath.Editor {
       InsertionPointChanged();
     }
 
-    private void InsertLargeOperator(string command, MathListSubIndexType? lowerScript = null, MathListSubIndexType? upperScript=null) {
+    private void InsertLargeOperator(string command, MathListSubIndexType? lowerScript = null, MathListSubIndexType? upperScript = null) {
       var largeOperator = MathAtoms.ForLatexSymbolName(command) as LargeOperator;
       if (largeOperator == null) {
         throw new NotSupportedException(@"inserted command {command} is not LargeOperator");
@@ -771,13 +786,15 @@ namespace CSharpMath.Editor {
       if (upperScript.HasValue) {
         largeOperator.UpperLimit = new MathList { MathAtoms.Placeholder };
       }
-      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, lowerScript.HasValue ? MathListSubIndexType.LargeOperatorLowerLimit : upperScript.HasValue ? MathListSubIndexType.LargeOperatorUpperLimit:MathListSubIndexType.None);
+      MathList.InsertAndAdvance(ref _insertionIndex, largeOperator, lowerScript.HasValue ? MathListSubIndexType.LargeOperatorLowerLimit : upperScript.HasValue ? MathListSubIndexType.LargeOperatorUpperLimit : MathListSubIndexType.None);
     }
 
     public void MoveCaretToPoint(PointF point) {
       point.Y *= -1; //inverted canvas, blah blah
       InsertionIndex = ClosestIndexToPoint(point) ?? MathListIndex.Level0Index(MathList.Atoms.Count);
-      Caret = new CaretHandle(Font.PointSize);
+      //Caret = new CaretHandle(Font.PointSize);
+      ShowCaret = true;
+
     }
 
     /// <summary>Helper method to update caretView when insertion point/selection changes.</summary>
@@ -807,16 +824,23 @@ namespace CSharpMath.Editor {
       VisualizePlaceholders(MathList);
       if (MathList.AtomAt(_insertionIndex) is IMathAtom atom && atom.AtomType is MathAtomType.Placeholder) {
         atom.Nucleus = Symbols.BlackSquare;
-        Caret = null;
+        //Caret = new CaretHandle(Font.PointSize);
+        ShowCaret = true;
       } else {
         /* Find the insert point rect and create a caretView to draw the caret at this position. */
         Caret = new CaretHandle(Font.PointSize);
+        ShowCaret = true;
       }
       // Check that we were returned a valid position before displaying a caret there.
       RecreateDisplayFromMathList();
       RedrawRequested?.Invoke(this, EventArgs.Empty);
     }
-    
+
+    public void RaiseRedrawRequested() {
+      RedrawRequested?.Invoke(this, EventArgs.Empty);
+
+    }
+
     public void Clear() {
       MathList.Clear();
       InsertionIndex = null;

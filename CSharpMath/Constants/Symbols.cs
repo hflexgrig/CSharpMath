@@ -7,8 +7,8 @@ namespace CSharpMath.Constants {
     public const string Multiplication = "\u00D7";
     public const string Division = "\u00F7";
     public const string FractionSlash = "\u2044";
-    public const string WhiteSquare = "\u25A1";
-    public const string BlackSquare = "\u25A0";
+    public const string WhiteSquare = "\u2B1A";
+    public const string BlackSquare = "\u2B1A";
     public const string LessEqual = "\u2264";
     public const string GreaterEqual = "\u2265";
     public const string NotEqual = "\u2260";

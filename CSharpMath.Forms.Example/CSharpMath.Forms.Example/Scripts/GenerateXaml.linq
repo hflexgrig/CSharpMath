@@ -8,6 +8,29 @@
 void Main()
 {
 
+var v = Convert.ToChar(0x2038).ToString();
+v.Dump();
+	//GenerateButtons();
+	//	var pattern = @"\/(\w+)\/apply\/ref\/(\w+)";
+	//	var str = "https://hub.fxcess.com/#/en/apply/ref/Noiki9WeD3";
+	//	var regex = new Regex(pattern);
+	//	var match = regex.Match(str);
+	//	
+	//	var lang = match.Groups[1].ToString();
+	//	var shortCode = match.Groups[2].ToString();
+	//
+	//	lang.Dump();
+	//	shortCode.Dump();
+
+	//int a = '∞';
+	//int b = 0x221E;
+	////(int)MathKeyboardInput.CounterClockwiseContourIntegral;
+	//a.Dump();
+	//b.Dump();
+}
+
+static void GenerateButtons()
+{
 	var matches = regex.Matches(input);
 
 	var results = new Dictionary<string, MathKeyboardInput>();
@@ -23,48 +46,32 @@ void Main()
 			continue;
 		}
 	}
-	
+
 	var xaml = new StringBuilder();
 	int i = 0;
 	int j = 0;
 	foreach (var res in results)
 	{
-		if (i > 0 && i%2 == 0)
+		if (i > 0 && i % 2 == 0)
 		{
 			j++;
 		}
-		
+
 		string v = "";
 		try
 		{
-			v=Convert.ToChar((int)res.Value).ToString();
-			
+			v = Convert.ToChar((int)res.Value).ToString();
+
 		}
 		catch (Exception ex)
 		{
 			v = $"&#x{res.Value.ToString("X")};";
 		}
-		xaml.AppendLine($"<Button Text=\"{v}\" Grid.Row=\"{j}\" Grid.Column=\"{i%2}\" Command=\"{{e:MathInput Keyboard={{StaticResource Keyboard}}, Input={res.Value}}}\" FontFamily=\"{{StaticResource LatinModernMath}}\"/>");
+		xaml.AppendLine($"<Button Text=\"{v}\" Grid.Row=\"{j}\" Grid.Column=\"{i % 2}\" Command=\"{{e:MathInput Keyboard={{StaticResource Keyboard}}, Input={res.Value}}}\" FontFamily=\"{{StaticResource LatinModernMath}}\"/>");
 		i++;
 	}
-	
-	xaml.ToString().Dump();
-	//	var pattern = @"\/(\w+)\/apply\/ref\/(\w+)";
-	//	var str = "https://hub.fxcess.com/#/en/apply/ref/Noiki9WeD3";
-	//	var regex = new Regex(pattern);
-	//	var match = regex.Match(str);
-	//	
-	//	var lang = match.Groups[1].ToString();
-	//	var shortCode = match.Groups[2].ToString();
-	//
-	//	lang.Dump();
-	//	shortCode.Dump();
 
-	int a = '∞';
-	int b = 0x221E;
-	//(int)MathKeyboardInput.CounterClockwiseContourIntegral;
-	a.Dump();
-	b.Dump();
+	xaml.ToString().Dump();
 }
 
 static Regex regex = new Regex(regexPattern, RegexOptions.Compiled);

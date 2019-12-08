@@ -26,6 +26,7 @@ namespace CSharpMath.Forms.Example {
   public class EditorView : ContentView {
     private CustomEntry _entry;
     private int _surfaceWidth;
+    private Timer _timer;
 
     public CustomEntry Entry => _entry;
     public EditorView() {
@@ -185,6 +186,30 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
+      _timer = new Timer(TimerHandle, null, 600, Timeout.Infinite);
+
+      void TimerHandle(object state) {
+
+        Device.BeginInvokeOnMainThread(() => {
+          Debug.WriteLine($"Caret blinking {viewModel.ShowCaret}");
+          //viewModel.DrawCaret(new SkiaCanvas(c, SKStrokeCap.Butt, AntiAlias.Enable), settings.FromNative(), CaretShape.IBeam);
+          if (viewModel.ShowCaret) {
+            if (viewModel.Caret.HasValue) {
+              viewModel.Caret = null;
+            } else {
+              viewModel.Caret = new Editor.CaretHandle(viewModel.Font.PointSize);
+
+            }
+
+            viewModel.RaiseRedrawRequested();
+          }
+
+        }
+        );
+
+        _timer?.Change(600, Timeout.Infinite);
+
+      }
       //Task.Run(() => {
       //  Thread.Sleep(1000);
       //  Device.BeginInvokeOnMainThread(() => {
@@ -194,7 +219,7 @@ namespace CSharpMath.Forms.Example {
       //    }
       //  });
       //  });
-      
+
 
       view.Touch += (o, e) => {
 
@@ -234,6 +259,8 @@ namespace CSharpMath.Forms.Example {
           _entry.Focus();
         }
 
+        boxViewPopup.Children.Clear();
+        abslayout.Children.Remove(boxViewPopup);
         //}
         //});
       }
@@ -248,8 +275,7 @@ namespace CSharpMath.Forms.Example {
         index.Text = "Index = " + viewModel.InsertionIndex;
 
         //_entry.Focus();
-        boxViewPopup.Children.Clear();
-        abslayout.Children.Remove(boxViewPopup);
+        
       };
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
