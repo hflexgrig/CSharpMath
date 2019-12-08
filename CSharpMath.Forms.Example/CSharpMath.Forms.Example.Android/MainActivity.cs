@@ -11,6 +11,11 @@ using CSharpMath.Forms.Example.Droid.CustomRenderers;
 namespace CSharpMath.Forms.Example.Droid {
   [Activity(Label = "CSharpMath.Forms.Example", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
   public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
+
+    private bool _lieAboutCurrentFocus;
+    private bool _forceShow;
+    private App _app;
+
     protected override void OnCreate(Bundle bundle) {
       TabLayoutResource = Resource.Layout.Tabbar;
       ToolbarResource = Resource.Layout.Toolbar;
@@ -18,10 +23,16 @@ namespace CSharpMath.Forms.Example.Droid {
       base.OnCreate(bundle);
 
       global::Xamarin.Forms.Forms.Init(this, bundle);
-      var app = new App();
-      app.PageAppearing += App_PageAppearing;
-      app.OnResumed += App_OnResumed;
-      LoadApplication(app);
+      _app = new App();
+      _app.PageAppearing += App_PageAppearing;
+      _app.OnResumed += App_OnResumed;
+      _app.OnSleeped += App_OnSleeped;
+      LoadApplication(_app);
+    }
+
+    private void App_OnSleeped() {
+      var mainPage = _app.MainPage;
+      
     }
 
     private void App_OnResumed() {
@@ -32,8 +43,6 @@ namespace CSharpMath.Forms.Example.Droid {
     private void App_PageAppearing(object sender, Xamarin.Forms.Page e) {
     }
 
-    private bool _lieAboutCurrentFocus;
-    private bool _forceShow;
 
     public override bool DispatchTouchEvent(MotionEvent ev) {
       //if (!_forceShow) {

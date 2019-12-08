@@ -19,7 +19,17 @@ namespace CSharpMath.Forms.Example {
   public partial class EditorPage : ContentPage {
     public EditorPage() {
       InitializeComponent();
+      var app = App.Current as App;
+      app.OnSleeped += App_OnSleeped;
       Content = new EditorView();
+    }
+
+    private void App_OnSleeped() {
+      var editorView = this.Content as EditorView;
+      var entry = editorView?.Entry;
+      if (entry != null) {
+        entry.Unfocus();
+      }
     }
   }
 
@@ -161,7 +171,7 @@ namespace CSharpMath.Forms.Example {
           xOffset = coords.X;
         }
 
-        yOffset = coords.Y + button.Height;
+        yOffset = coords.Y;
         switch (button.Text) {
           case "abc":
             AbsoluteLayout.SetLayoutFlags(boxViewPopup, AbsoluteLayoutFlags.SizeProportional);
