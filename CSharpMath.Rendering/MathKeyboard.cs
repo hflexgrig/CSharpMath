@@ -21,7 +21,7 @@ namespace CSharpMath.Rendering {
       var path = canvas.GetPath();
       path.BeginRead(1);
       path.Foreground = color;
-      path.MoveTo(cursorPosition.X, cursorPosition.Y);
+      path.MoveTo(cursorPosition.X, cursorPosition.Y + 25);
       switch (shape) {
         case CaretShape.IBeam:
           ReadOnlySpan<PointF> s = stackalloc PointF[4] {
@@ -31,7 +31,7 @@ namespace CSharpMath.Rendering {
             new PointF(-caret.Width / 16, 0),
           };
           foreach (var p in s)
-            path.LineTo(p.X + cursorPosition.X, p.Y + cursorPosition.Y);
+            path.LineTo(p.X + cursorPosition.X, p.Y + cursorPosition.Y );
           break;
         case CaretShape.UpArrow:
           s = stackalloc PointF[4] {

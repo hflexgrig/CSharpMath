@@ -54,6 +54,7 @@ namespace CSharpMath.Editor {
     public event EventHandler ReturnPressed;
     /// <summary><see cref="Display"/> should be redrawn.</summary>
     public event EventHandler RedrawRequested;
+    public event Action CommandPressed;
 
     public PointF? ClosestPointToIndex(MathListIndex index) => Display?.PointForIndex(Context, index);
     public MathListIndex ClosestIndexToPoint(PointF point) => Display?.IndexForPoint(Context, point);
@@ -771,6 +772,7 @@ namespace CSharpMath.Editor {
           break;
       }
       InsertionPointChanged();
+      CommandPressed?.Invoke();
     }
 
     private void InsertLargeOperator(string command, MathListSubIndexType? lowerScript = null, MathListSubIndexType? upperScript = null) {

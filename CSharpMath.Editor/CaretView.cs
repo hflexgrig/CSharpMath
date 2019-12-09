@@ -16,7 +16,7 @@ namespace CSharpMath.Editor {
     public const int CaretWidth = 3;
     public const int CaretAscent = 0;  // How much should te caret be above the baseline
     public const int CaretDescent = 20;  // How much should the caret be below the baseline
-    public const int CaretHandleWidth = 25;
+    public const int CaretHandleWidth = 32;
     public const int CaretHandleDescent = 8;
     public const int CaretHandleHeight = 48;
     public const int CaretHandleHitAreaSize = 44;

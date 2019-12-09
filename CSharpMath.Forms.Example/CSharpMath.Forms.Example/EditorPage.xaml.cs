@@ -60,6 +60,9 @@ namespace CSharpMath.Forms.Example {
 
 
       var viewModel = mathToolbar.ViewModel;
+
+     
+
       var mathPainter = new SkiaSharp.MathPainter(fontSize) {
         TextColor = SKColors.Black
       };
@@ -79,7 +82,7 @@ namespace CSharpMath.Forms.Example {
       //};
 
       var boxViewPopup = new Grid { Children = { } };
-
+     
 
       //if (keyb != null) {
       //  keyb.RedrawRequested += (o, e) => {
@@ -196,6 +199,11 @@ namespace CSharpMath.Forms.Example {
         abslayout.Children.Add(boxViewPopup);
       };
 
+      viewModel.CommandPressed += () => {
+        boxViewPopup.Children.Clear();
+        abslayout.Children.Remove(boxViewPopup);
+      };
+
       _timer = new Timer(TimerHandle, null, 600, Timeout.Infinite);
 
       void TimerHandle(object state) {
@@ -290,10 +298,10 @@ namespace CSharpMath.Forms.Example {
 
       void View_PaintSurface(object sender, SKPaintSurfaceEventArgs e) {
         try {
-          if (!_entry.IsFocused) {
+          //if (!_entry.IsFocused) {
 
-            _entry.Focus();
-          }
+          //  _entry.Focus();
+          //}
           Debug.WriteLine("redrawing.......................");
           var c = e.Surface.Canvas;
           c.Clear();
