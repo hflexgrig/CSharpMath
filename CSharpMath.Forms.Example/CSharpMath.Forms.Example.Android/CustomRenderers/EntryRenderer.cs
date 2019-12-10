@@ -103,7 +103,27 @@ namespace CSharpMath.Forms.Example.Droid.CustomRenderers {
         }
 
         _currentTime = DateTime.Now;
-      }
+      }else
+
+      if (e.KeyCode == Keycode.DpadRight) {
+        //var diffTime = DateTime.Now.Subtract(_currentTime);
+
+        //if (diffTime > TimeSpan.FromMilliseconds(TimeOut)) {
+        //  _entry.OnShiftRightPressed();
+        //}
+
+        //_currentTime = DateTime.Now;
+      }else
+
+      if (e.KeyCode == Keycode.DpadLeft) {
+        //var diffTime = DateTime.Now.Subtract(_currentTime);
+
+        //if (diffTime > TimeSpan.FromMilliseconds(TimeOut)) {
+        //  _entry.OnShiftLeftPressed();
+        //}
+
+        //_currentTime = DateTime.Now;
+      }else
 
       if (e.KeyCode == Keycode.DpadUp) {
         var diffTime = DateTime.Now.Subtract(_currentTime);
@@ -113,7 +133,7 @@ namespace CSharpMath.Forms.Example.Droid.CustomRenderers {
         }
 
         _currentTime = DateTime.Now;
-      }
+      } else
 
       if (e.KeyCode == Keycode.DpadDown) {
         var diffTime = DateTime.Now.Subtract(_currentTime);
@@ -123,7 +143,11 @@ namespace CSharpMath.Forms.Example.Droid.CustomRenderers {
         }
 
         _currentTime = DateTime.Now;
+      } else {
+        //Unicode values
+        //_entry.OnKeyPressed();
       }
+
       return true;
     }
   }
