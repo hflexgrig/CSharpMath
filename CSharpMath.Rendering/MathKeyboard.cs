@@ -21,14 +21,15 @@ namespace CSharpMath.Rendering {
       var path = canvas.GetPath();
       path.BeginRead(1);
       path.Foreground = color;
-      path.MoveTo(cursorPosition.X, cursorPosition.Y + 25);
+      var marginTop = 5;
+      path.MoveTo(cursorPosition.X, cursorPosition.Y + marginTop);
       switch (shape) {
         case CaretShape.IBeam:
           ReadOnlySpan<PointF> s = stackalloc PointF[4] {
-            new PointF(caret.Width / 16, 0),
-            new PointF(caret.Width / 16, -caret.Height),
-            new PointF(-caret.Width / 16, -caret.Height),
-            new PointF(-caret.Width / 16, 0),
+            new PointF(caret.Width / 16, +marginTop),
+            new PointF(caret.Width / 16, -caret.Height + marginTop),
+            new PointF(-caret.Width / 16, -caret.Height + marginTop),
+            new PointF(-caret.Width / 16, marginTop),
           };
           foreach (var p in s)
             path.LineTo(p.X + cursorPosition.X, p.Y + cursorPosition.Y );
