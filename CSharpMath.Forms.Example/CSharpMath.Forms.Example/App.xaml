@@ -2,7 +2,9 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:local="clr-namespace:CSharpMath.Forms.Example"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CSharpMath.Forms.Example.App">
+             x:Class="CSharpMath.Forms.Example.App"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             android:Application.WindowSoftInputModeAdjust="Resize">
     
     <Application.MainPage>
         <!--<local:EditorPage/>-->

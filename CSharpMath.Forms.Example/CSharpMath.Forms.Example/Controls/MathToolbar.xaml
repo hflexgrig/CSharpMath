@@ -14,7 +14,7 @@
          void F(float a, float b, float c, float d) =>
            WriteLine((R(a, R(c, 2)) / 320f, R(b, R(d, 3)) / 180f, R(c, 2) / 320f, R(d, 3) / 180f).ToString().Trim('(', ')')); -->
     <ContentView.Resources>
-        
+
         <OnPlatform x:TypeArguments="x:String" x:Key="MyCustomFont">
             <On Platform="Android" Value="MyCustomFont.ttf#MyCustomFont" />
             <On Platform="UWP" Value="/Assets/MyCustomFont.ttf#MyCustomFont" />
@@ -100,6 +100,205 @@
             <Setter Property="Grid.Row" Value="3"/>-->
             <Setter Property="Command" Value="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Dismiss}"/>
         </Style>
+
+        <StackLayout x:Key="MainButtons" Orientation="Horizontal" Spacing="1" HorizontalOptions="FillAndExpand">
+            <StackLayout.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FontSize" Value="35"/>
+                </Style>
+            </StackLayout.Resources>
+            <Button  Clicked="Button_Clicked" Text="(" FontFamily="{StaticResource MyCustomFont}" >
+                <Button.Resources>
+                    <StackLayout x:Key="SubButtons"  Orientation="Horizontal">
+                        <StackLayout.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="FontSize" Value="35"/>
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                        </StackLayout.Resources>
+                        <Button Text="." Grid.Row="0" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Integral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text=")" Grid.Row="0" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button Text="*" Grid.Row="1" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button Text="(" Grid.Row="1" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button Text="0" Grid.Row="2" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="1" Grid.Row="2" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="2" Grid.Row="3" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="3" Grid.Row="3" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="4" Grid.Row="4" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="5" Grid.Row="4" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="6" Grid.Row="5" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button Text="7" Grid.Row="5" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CounterClockwiseContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
+                    </StackLayout>
+
+                </Button.Resources>
+            </Button>
+
+            <Button  Clicked="Button_Clicked" Text="+" Grid.Row="2" Grid.Column="0"  FontFamily="{StaticResource MyCustomFont}" >
+                <Button.Resources>
+                    <StackLayout x:Key="SubButtons"  Orientation="Horizontal">
+                        <StackLayout.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="FontSize" Value="35"/>
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                        </StackLayout.Resources>
+
+                        <Button   Text="/" Grid.Row="0" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sum}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button   Text="," Grid.Row="0" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSub}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button   Text="-" Grid.Row="1" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSup}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button   Text="+" Grid.Row="1" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSubSup}" FontFamily="{StaticResource MyCustomFont}" />
+                    </StackLayout>
+
+                </Button.Resources>
+            </Button>
+
+
+            <Button  Clicked="Button_Clicked" Text="&#x2202; &#x0001D6A5;" Padding="{StaticResource LatinMathPaddingForButtons}" FontFamily="{StaticResource LatinModernMath}" >
+                <Button.Resources>
+                    <StackLayout x:Key="SubButtons"  Orientation="Horizontal">
+                        <StackLayout.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="FontSize" Value="35"/>
+                                <Setter Property="Padding" Value="{StaticResource LatinMathPaddingForButtons}"/>
+                            </Style>
+                        </StackLayout.Resources>
+
+                        <Button Text="∂" Grid.Row="0" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Partial}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="△" Grid.Row="0" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Triangle}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="⋱" Grid.Row="1" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DDots}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="⋯" Grid.Row="1" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CDots}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="⋮" Grid.Row="2" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=VDots}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="⊥" Grid.Row="2" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Bot}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="⊤" Grid.Row="3" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Top}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="∇" Grid.Row="3" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Nabla}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="∅" Grid.Row="4" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=EmptySet}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="∴" Grid.Row="4" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ThereFore}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="∵" Grid.Row="5" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Because}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="∃" Grid.Row="5" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Exists}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="∀" Grid.Row="6" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ForAll}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℸ" Grid.Row="6" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Daleth}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℷ" Grid.Row="7" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Gimel}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℶ" Grid.Row="7" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Beth}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℵ" Grid.Row="8" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Aleph}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="℧" Grid.Row="8" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Mho}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℜ" Grid.Row="9" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Re}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="℘" Grid.Row="9" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Wp}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℓ" Grid.Row="10" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Ell}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℑ" Grid.Row="10" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Im}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="ℏ" Grid.Row="11" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Hbar}" FontFamily="{StaticResource LatinModernMath}"/>
+                        <Button Text="…" Grid.Row="11" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IDots}" FontFamily="{StaticResource LatinModernMath}"/>
+
+                    </StackLayout>
+
+                </Button.Resources>
+            </Button>
+
+
+            <Button x:Name="LettersButton" Clicked="Button_Clicked" Text="abc" Grid.Column="4" >
+                <Button.Resources>
+                    <StackLayout x:Name="Letters"  x:Key="SubButtons"  Orientation="Horizontal">
+                        <Button Text="q" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallQ}"/>
+                        <Button Text="w" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallW}"/>
+                        <Button Text="e" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallE}"/>
+                        <Button Text="r" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallR}"/>
+                        <Button Text="t" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallT}"/>
+                        <Button Text="y" Grid.Row="0" Grid.Column="10" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallY}"/>
+                        <Button Text="u" Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallU}"/>
+                        <Button Text="i" Grid.Row="0" Grid.Column="14" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallI}"/>
+                        <Button Text="o" Grid.Row="0" Grid.Column="16" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallO}"/>
+                        <Button Text="p" Grid.Row="0" Grid.Column="18" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallP}"/>
+                        <Button Text="a" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallA}"/>
+                        <Button Text="s" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallS}"/>
+                        <Button Text="d" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallD}"/>
+                        <Button Text="f" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallF}"/>
+                        <Button Text="g" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallG}"/>
+                        <Button Text="h" Grid.Row="1" Grid.Column="11" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallH}"/>
+                        <Button Text="j" Grid.Row="1" Grid.Column="13" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallJ}"/>
+                        <Button Text="k" Grid.Row="1" Grid.Column="15" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallK}"/>
+                        <Button Text="l" Grid.Row="1" Grid.Column="17" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallL}"/>
+                        <Button Text="z" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallZ}"/>
+                        <Button Text="x" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallX}"/>
+                        <Button Text="c" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallC}"/>
+                        <Button Text="v" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallV}"/>
+                        <Button Text="b" Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallB}"/>
+                        <Button Text="n" Grid.Row="2" Grid.Column="13" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallN}"/>
+                        <Button Text="m" Grid.Row="2" Grid.Column="15" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallM}"/>
+                        <Button Text="α" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallAlpha}"/>
+                        <Button Text="Δ" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Delta}"/>
+                        <Button Text="σ" Grid.Row="3" Grid.Column="9" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallSigma}"/>
+                        <Button Text="μ" Grid.Row="3" Grid.Column="11" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallMu}"/>
+                        <Button Text="λ" Grid.Row="3" Grid.Column="13" Grid.ColumnSpan="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallLambda}"/>
+                        <!--<e:SvgButton StyleClass="Back" Grid.Row="2" Grid.Column="17" Grid.ColumnSpan="3"/>-->
+
+                    </StackLayout>
+                </Button.Resources>
+            </Button>
+
+            <Button  Clicked="Button_Clicked" Text="&lt;&gt;/()" Grid.Row="0" Grid.Column="1">
+                <Button.Resources>
+                    <StackLayout x:Key="SubButtons"  Orientation="Horizontal">
+
+
+                        <Button   Text="(" Grid.Row="0" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LeftRoundBracket}"/>
+                        <Button   Text=")" Grid.Row="0" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=RightRoundBracket}"/>
+                        <Button   Text="&lt;" Grid.Row="1" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LessThan}"/>
+                        <Button   Text="&gt;" Grid.Row="1" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=GreaterThan}"/>
+                        <Button   Text="[" Grid.Row="2" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LeftSquareBracket}"/>
+                        <Button   Text="]" Grid.Row="2" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=RightSquareBracket}"/>
+                        <Button   Text="≤" Grid.Row="3" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LessOrEquals}"/>
+                        <Button   Text="≥" Grid.Row="3" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=GreaterOrEquals}"/>
+                        <Button   Text="{}{" Grid.Row="4" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LeftCurlyBracket}"/>
+                        <Button   Text="}" Grid.Row="4" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=RightCurlyBracket}"/>
+                        <Button   Text="|⬜|" Grid.Row="5" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Absolute}"/>
+                        <Button   Text="%" Grid.Row="5" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Percentage}"/>
+                        <Button   Text="!" Grid.Row="6" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Factorial}"/>
+                        <Button   Text="∞" Grid.Row="6" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Infinity}"/>
+                        <Button   Text="∶" Grid.Row="7" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Ratio}"/>
+                        <Button   Text="," Grid.Row="7" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Comma}"/>
+                    </StackLayout>
+
+                </Button.Resources>
+            </Button>
+
+            <Button Text="^ ! log&#x0026;"  Clicked="Button_Clicked"  FontFamily="{StaticResource MyCustomFont}"  >
+                <Button.Resources>
+                    <StackLayout x:Key="SubButtons"  Orientation="Horizontal" >
+                        <Button Text="!" Grid.Row="0" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Fraction}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button   Text="&quot;" Grid.Row="0" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Power}" FontFamily="{StaticResource MyCustomFont}"/>
+                        <Button   Text="'"  Grid.Row="1" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Subscript}" FontFamily="{StaticResource MyCustomFont}" />
+
+                        <!--<e:SvgButton StyleClass="Power"/>-->
+
+                        <Button   Text="sin" Grid.Row="1" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sine}"/>
+                        <Button   Text="cos" Grid.Row="2" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Cosine}"/>
+                        <Button   Text="tan" Grid.Row="2" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Tangent}"/>
+                        <Button   Text="θ" Grid.Row="3" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallTheta}"/>
+                        <Button   Text="sec" Grid.Row="3" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Secant}"/>
+                        <Button   Text="csc" Grid.Row="4" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Cosecant}"/>
+                        <Button   Text="cot" Grid.Row="4" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Cotangent}"/>
+                        <Button   Text="π" Grid.Row="5" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallPi}"/>
+                        <Button   Text="log" Grid.Row="5" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Logarithm}"/>
+                        <Button   Text="ln" Grid.Row="6" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=NaturalLogarithm}"/>
+                        <!--<e:SvgButton Svg="{e:CSharpMathSVG LogBase}" Grid.Row="2" Grid.Column="3" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LogarithmWithBase}"/>-->
+                        <Button   Text="log&#x0026;"  Grid.Row="6" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LogarithmWithBase}" FontFamily="{StaticResource MyCustomFont}" />
+
+
+                        <Button   Text="∠" Grid.Row="7" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Angle}"/>
+                        <!--<e:SvgButton Svg="{e:CSharpMathSVG Subscript}" Grid.Row="3" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Subscript}"/>-->
+                        <!--<e:SvgButton Svg="{e:CSharpMathSVG Sqrt}" Grid.Row="3" Grid.Column="2" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SquareRoot}"/>-->
+                        <Button   Text="%" Grid.Row="7" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SquareRoot}" FontFamily="{StaticResource MyCustomFont}" />
+                        <!--<e:SvgButton Svg="{e:CSharpMathSVG SqrtPower}" Grid.Row="3" Grid.Column="3" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=NthRoot}"/>-->
+                        <Button   Text="^"  Grid.Row="8" Grid.Column="0" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=NthRoot}" FontFamily="{StaticResource MyCustomFont}" />
+                        <Button   Text="°" Grid.Row="8" Grid.Column="1" Clicked="SubButtonClicked" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Degree}"/>
+
+                    </StackLayout>
+
+                </Button.Resources>
+            </Button>
+
+        </StackLayout>
+
         <!--/Right row of first 3 tabs-->
     </ContentView.Resources>
     <Grid >
@@ -124,282 +323,9 @@
             </ScrollView>
 
             <ScrollView x:Name="ToolButtonsScroll" Orientation="Horizontal" HorizontalOptions="Fill">
+                <ScrollView.Resources>
 
-                <StackLayout Orientation="Horizontal" Spacing="1" HorizontalOptions="FillAndExpand">
-                    <StackLayout.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="FontSize" Value="35"/>
-                        </Style>
-                    </StackLayout.Resources>
-                    <Button  Clicked="Button_Clicked" Text="(" FontFamily="{StaticResource MyCustomFont}" >
-                        <Button.Resources>
-                            <Grid x:Key="SubButtons" BackgroundColor="White" >
-                                <ScrollView>
-                                <Grid>
-                                        <Grid.Resources>
-                                            <Style TargetType="Button">
-                                                <Setter Property="FontSize" Value="35"/>
-                                                <Setter Property="Padding" Value="0"/>
-                                            </Style>
-                                        </Grid.Resources>
-                                        <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                            <ColumnDefinition/> 
-                                        </Grid.ColumnDefinitions>
-                                        <Button Text="." Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Integral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text=")" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSub}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button Text="*" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button Text="(" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IntegralSubSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button Text="0" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="1" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="2" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="3" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DoubleContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="4" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=TripleContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="5" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="6" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ClockwiseContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button Text="7" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CounterClockwiseContourIntegral}" FontFamily="{StaticResource MyCustomFont}"/>
-                                    </Grid>
-                                </ScrollView>
-                            </Grid>
-
-                        </Button.Resources>
-                    </Button>
-
-                    <Button  Clicked="Button_Clicked" Text="+" Grid.Row="2" Grid.Column="0"  FontFamily="{StaticResource MyCustomFont}" >
-                        <Button.Resources>
-                            <Grid x:Key="SubButtons" BackgroundColor="White" >
-                                <ScrollView>
-                                    <Grid>
-                                        <Grid.Resources>
-                                             <Style TargetType="Button">
-                                                <Setter Property="FontSize" Value="35"/>
-                                                <Setter Property="Padding" Value="0"/>
-                                            </Style>
-                                        </Grid.Resources>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button   Text="/" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sum}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="," Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSub}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="-" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="+" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SumSubSup}" FontFamily="{StaticResource MyCustomFont}" />
-                                    </Grid>
-                                </ScrollView>
-                            </Grid>
-
-                        </Button.Resources>
-                    </Button>
-
-
-                    <Button  Clicked="Button_Clicked" Text="&#x2202; &#x0001D6A5;" Padding="{StaticResource LatinMathPaddingForButtons}" FontFamily="{StaticResource LatinModernMath}" >
-                        <Button.Resources>
-                            <Grid x:Key="SubButtons" BackgroundColor="White" >
-                                <ScrollView>
-                                    <Grid>
-                                        <Grid.Resources>
-                                            <Style TargetType="Button">
-                                                <Setter Property="FontSize" Value="35"/>
-                                                <Setter Property="Padding" Value="{StaticResource LatinMathPaddingForButtons}"/>
-                                            </Style>
-                                        </Grid.Resources>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button Text="∂" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Partial}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="△" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Triangle}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="⋱" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=DDots}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="⋯" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=CDots}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="⋮" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=VDots}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="⊥" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Bot}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="⊤" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Top}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="∇" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Nabla}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="∅" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=EmptySet}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="∴" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ThereFore}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="∵" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Because}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="∃" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Exists}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="∀" Grid.Row="6" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=ForAll}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℸ" Grid.Row="6" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Daleth}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℷ" Grid.Row="7" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Gimel}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℶ" Grid.Row="7" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Beth}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℵ" Grid.Row="8" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Aleph}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="℧" Grid.Row="8" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Mho}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℜ" Grid.Row="9" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Re}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="℘" Grid.Row="9" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Wp}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℓ" Grid.Row="10" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Ell}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℑ" Grid.Row="10" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Im}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="ℏ" Grid.Row="11" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Hbar}" FontFamily="{StaticResource LatinModernMath}"/>
-                                        <Button Text="…" Grid.Row="11" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=IDots}" FontFamily="{StaticResource LatinModernMath}"/>
-
-                                    </Grid>
-                                </ScrollView>
-                            </Grid>
-
-                        </Button.Resources>
-                    </Button>
-
-
-                    <Button x:Name="LettersButton" Clicked="Button_Clicked" Text="abc" Grid.Column="4" >
-                        <Button.Resources>
-                            <Grid x:Name="Letters" Style="{StaticResource Tab_Letters}" x:Key="SubButtons" BackgroundColor="White">
-                                <Button Text="q" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallQ}"/>
-                                <Button Text="w" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallW}"/>
-                                <Button Text="e" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallE}"/>
-                                <Button Text="r" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallR}"/>
-                                <Button Text="t" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallT}"/>
-                                <Button Text="y" Grid.Row="0" Grid.Column="10" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallY}"/>
-                                <Button Text="u" Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallU}"/>
-                                <Button Text="i" Grid.Row="0" Grid.Column="14" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallI}"/>
-                                <Button Text="o" Grid.Row="0" Grid.Column="16" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallO}"/>
-                                <Button Text="p" Grid.Row="0" Grid.Column="18" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallP}"/>
-                                <Button Text="a" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallA}"/>
-                                <Button Text="s" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallS}"/>
-                                <Button Text="d" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallD}"/>
-                                <Button Text="f" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallF}"/>
-                                <Button Text="g" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallG}"/>
-                                <Button Text="h" Grid.Row="1" Grid.Column="11" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallH}"/>
-                                <Button Text="j" Grid.Row="1" Grid.Column="13" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallJ}"/>
-                                <Button Text="k" Grid.Row="1" Grid.Column="15" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallK}"/>
-                                <Button Text="l" Grid.Row="1" Grid.Column="17" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallL}"/>
-                                <Button Text="z" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallZ}"/>
-                                <Button Text="x" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallX}"/>
-                                <Button Text="c" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallC}"/>
-                                <Button Text="v" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallV}"/>
-                                <Button Text="b" Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallB}"/>
-                                <Button Text="n" Grid.Row="2" Grid.Column="13" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallN}"/>
-                                <Button Text="m" Grid.Row="2" Grid.Column="15" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallM}"/>
-                                <Button Text="α" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallAlpha}"/>
-                                <Button Text="Δ" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Delta}"/>
-                                <Button Text="σ" Grid.Row="3" Grid.Column="9" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallSigma}"/>
-                                <Button Text="μ" Grid.Row="3" Grid.Column="11" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallMu}"/>
-                                <Button Text="λ" Grid.Row="3" Grid.Column="13" Grid.ColumnSpan="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallLambda}"/>
-                                <!--<e:SvgButton StyleClass="Back" Grid.Row="2" Grid.Column="17" Grid.ColumnSpan="3"/>-->
-
-                            </Grid>
-                        </Button.Resources>
-                    </Button>
-                    
-                    <Button  Clicked="Button_Clicked" Text="&lt;&gt;/()" Grid.Row="0" Grid.Column="1">
-                        <Button.Resources>
-                            <Grid x:Key="SubButtons" BackgroundColor="White" >
-                                <ScrollView>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button   Text="(" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LeftRoundBracket}"/>
-                                        <Button   Text=")" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=RightRoundBracket}"/>
-                                        <Button   Text="&lt;" Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LessThan}"/>
-                                        <Button   Text="&gt;" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=GreaterThan}"/>
-                                        <Button   Text="[" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LeftSquareBracket}"/>
-                                        <Button   Text="]" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=RightSquareBracket}"/>
-                                        <Button   Text="≤" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LessOrEquals}"/>
-                                        <Button   Text="≥" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=GreaterOrEquals}"/>
-                                        <Button   Text="{}{" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LeftCurlyBracket}"/>
-                                        <Button   Text="}" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=RightCurlyBracket}"/>
-                                        <Button   Text="|⬜|" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Absolute}"/>
-                                        <Button   Text="%" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Percentage}"/>
-                                        <Button   Text="!" Grid.Row="6" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Factorial}"/>
-                                        <Button   Text="∞" Grid.Row="6" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Infinity}"/>
-                                        <Button   Text="∶" Grid.Row="7" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Ratio}"/>
-                                        <Button   Text="," Grid.Row="7" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Comma}"/>
-                                    </Grid>
-                                </ScrollView>
-                            </Grid>
-
-                        </Button.Resources>
-                    </Button>
-
-
-
-                    <Button Text="^ ! log&#x0026;"  Clicked="Button_Clicked"  FontFamily="{StaticResource MyCustomFont}"  >
-                        <Button.Resources>
-                            <Grid x:Key="SubButtons" BackgroundColor="White" >
-                                <ScrollView>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Button Text="!" Grid.Row="0" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Fraction}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="&quot;" Grid.Row="0" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Power}" FontFamily="{StaticResource MyCustomFont}"/>
-                                        <Button   Text="'"  Grid.Row="1" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Subscript}" FontFamily="{StaticResource MyCustomFont}" />
-
-                                        <!--<e:SvgButton StyleClass="Power"/>-->
-
-                                        <Button   Text="sin" Grid.Row="1" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Sine}"/>
-                                        <Button   Text="cos" Grid.Row="2" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Cosine}"/>
-                                        <Button   Text="tan" Grid.Row="2" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Tangent}"/>
-                                        <Button   Text="θ" Grid.Row="3" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallTheta}"/>
-                                        <Button   Text="sec" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Secant}"/>
-                                        <Button   Text="csc" Grid.Row="4" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Cosecant}"/>
-                                        <Button   Text="cot" Grid.Row="4" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Cotangent}"/>
-                                        <Button   Text="π" Grid.Row="5" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SmallPi}"/>
-                                        <Button   Text="log" Grid.Row="5" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Logarithm}"/>
-                                        <Button   Text="ln" Grid.Row="6" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=NaturalLogarithm}"/>
-                                        <!--<e:SvgButton Svg="{e:CSharpMathSVG LogBase}" Grid.Row="2" Grid.Column="3" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LogarithmWithBase}"/>-->
-                                        <Button   Text="log&#x0026;"  Grid.Row="6" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=LogarithmWithBase}" FontFamily="{StaticResource MyCustomFont}" />
-
-
-                                        <Button   Text="∠" Grid.Row="7" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Angle}"/>
-                                        <!--<e:SvgButton Svg="{e:CSharpMathSVG Subscript}" Grid.Row="3" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Subscript}"/>-->
-                                        <!--<e:SvgButton Svg="{e:CSharpMathSVG Sqrt}" Grid.Row="3" Grid.Column="2" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SquareRoot}"/>-->
-                                        <Button   Text="%" Grid.Row="7" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=SquareRoot}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <!--<e:SvgButton Svg="{e:CSharpMathSVG SqrtPower}" Grid.Row="3" Grid.Column="3" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=NthRoot}"/>-->
-                                        <Button   Text="^"  Grid.Row="8" Grid.Column="0" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=NthRoot}" FontFamily="{StaticResource MyCustomFont}" />
-                                        <Button   Text="°" Grid.Row="8" Grid.Column="1" Command="{e:MathInput Keyboard={StaticResource Keyboard}, Input=Degree}"/>
-                                    </Grid>
-                                </ScrollView>
-                            </Grid>
-
-                        </Button.Resources>
-                    </Button>
-                    
-                </StackLayout>
+                </ScrollView.Resources>
             </ScrollView>
         </StackLayout>
 

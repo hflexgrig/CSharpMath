@@ -139,22 +139,26 @@ namespace CSharpMath.Forms.Example {
       scv.Content = stk;
 
       // Assemble
-      var mainViews = new CustomGrid { Children = { mathToolbar, scrPanelTexts, scv } };
+      //var mainViews = new CustomGrid { Children = { scv, _entry, scrPanelTexts, mathToolbar } };
+      var mainViews = new CustomGrid { Children = { scv, _entry, scrPanelTexts, mathToolbar } };
 
       if (Device.RuntimePlatform == "iOS") {
         mainViews.Padding = new Xamarin.Forms.Thickness(0, 50, 0, 0);
       }
-      Grid.SetRow(mathToolbar, 0);
-      Grid.SetRow(scrPanelTexts, 1);
-      Grid.SetRow(scv, 2);
-      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
-      AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
-      AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0, 0, 1, 1));
+      Grid.SetRow(scv, 0);
+      Grid.SetRow(_entry, 1);
+      Grid.SetRow(mathToolbar, 2);
+      Grid.SetRow(scrPanelTexts, 3);
 
-      var abslayout = new AbsoluteLayout { Children = { _entry, mainViews/*, boxViewPopup */} };
-      Content = abslayout;
+      mainViews.RowDefinitions.Add(new RowDefinition() {});
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+      mainViews.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+      //AbsoluteLayout.SetLayoutFlags(mainViews, AbsoluteLayoutFlags.All);
+      //AbsoluteLayout.SetLayoutBounds(mainViews, new Rectangle(0, 0, 1, 1));
+
+      //var abslayout = new AbsoluteLayout { Children = { _entry, mainViews/*, boxViewPopup */} };
+      Content = mainViews;
 
       //TODO: init layout changes
       mathToolbar.ToolbarButtonClicked += (button, coords) => {
@@ -196,12 +200,12 @@ namespace CSharpMath.Forms.Example {
 
 
 
-        abslayout.Children.Add(boxViewPopup);
+        //abslayout.Children.Add(boxViewPopup);
       };
 
       viewModel.CommandPressed += () => {
         boxViewPopup.Children.Clear();
-        abslayout.Children.Remove(boxViewPopup);
+        //abslayout.Children.Remove(boxViewPopup);
       };
 
       _timer = new Timer(TimerHandle, null, 600, Timeout.Infinite);
@@ -277,8 +281,8 @@ namespace CSharpMath.Forms.Example {
           _entry.Focus();
         }
 
-        boxViewPopup.Children.Clear();
-        abslayout.Children.Remove(boxViewPopup);
+        //boxViewPopup.Children.Clear();
+        //abslayout.Children.Remove(boxViewPopup);
         //}
         //});
       }
