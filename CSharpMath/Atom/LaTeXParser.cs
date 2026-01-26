@@ -77,7 +77,7 @@ namespace CSharpMath.Atom {
         if (error != null) return error;
 
         switch (handlerResult) {
-          case ({ } /* dummy */, { } atoms): // Atoms producer (pre-styled)
+          case ( { } /* dummy */, { } atoms): // Atoms producer (pre-styled)
             r.Append(atoms);
             prevAtom = r.Atoms.LastOrDefault();
             if (oneCharOnly)
@@ -87,7 +87,7 @@ namespace CSharpMath.Atom {
             return @return;
           case (null, null): // Atom modifier
             continue;
-          case ({ } resultAtom, null): // Atom producer
+          case ( { } resultAtom, null): // Atom producer
             atom = resultAtom;
             break;
         }
@@ -98,8 +98,7 @@ namespace CSharpMath.Atom {
           return r; // we consumed our character.
         }
       }
-      return stopChar switch
-      {
+      return stopChar switch {
         '\0' => r,
         '}' => "Missing closing brace",
         _ => "Expected character not found: " + stopChar.ToStringInvariant(),
@@ -329,8 +328,7 @@ namespace CSharpMath.Atom {
               cell.Insert(0, style);
             }
           }
-          return delimiters switch
-          {
+          return delimiters switch {
             (var left, var right) => new Inner(
               new Boundary(left),
               new MathList(table),
@@ -346,8 +344,7 @@ namespace CSharpMath.Atom {
           for (int i = 0, j = 0; i < arrayAlignments.Length && j < table.NColumns; i++, j++) {
             // TODO: vertical lines in array currently unsupported
             while (arrayAlignments[i] == '|') i++;
-            table.SetAlignment(arrayAlignments[i] switch
-            {
+            table.SetAlignment(arrayAlignments[i] switch {
               'l' => ColumnAlignment.Left,
               'c' => ColumnAlignment.Center,
               'r' => ColumnAlignment.Right,
@@ -520,12 +517,11 @@ namespace CSharpMath.Atom {
               builder.Append('{');
               MathListToLaTeX(fraction.Numerator, builder, currentFontStyle);
               builder.Append(@" \").Append(
-                (fraction.LeftDelimiter, fraction.RightDelimiter) switch
-                {
-                  ({ Nucleus: null }, { Nucleus: null }) => "atop",
-                  ({ Nucleus: "(" }, { Nucleus: ")" }) => "choose",
-                  ({ Nucleus: "{" }, { Nucleus: "}" }) => "brace",
-                  ({ Nucleus: "[" }, { Nucleus: "]" }) => "brack",
+                (fraction.LeftDelimiter, fraction.RightDelimiter) switch {
+                  ( { Nucleus: null }, { Nucleus: null }) => "atop",
+                  ( { Nucleus: "(" }, { Nucleus: ")" }) => "choose",
+                  ( { Nucleus: "{" }, { Nucleus: "}" }) => "brace",
+                  ( { Nucleus: "[" }, { Nucleus: "]" }) => "brack",
                   (var left, var right) => $"atopwithdelims{BoundaryToLaTeX(left)}{BoundaryToLaTeX(right)}",
                 }).Append(' ');
               MathListToLaTeX(fraction.Denominator, builder, currentFontStyle);
@@ -568,8 +564,7 @@ namespace CSharpMath.Atom {
             if (table.Environment == "array") {
               builder.Append('{');
               foreach (var alignment in table.Alignments)
-                builder.Append(alignment switch
-                {
+                builder.Append(alignment switch {
                   ColumnAlignment.Left => 'l',
                   ColumnAlignment.Right => 'r',
                   _ => 'c'
@@ -586,8 +581,7 @@ namespace CSharpMath.Atom {
                   // remove the first atom.
                   cell = cell.Slice(1, cell.Count - 1);
                 }
-                if (table.Environment switch
-                {
+                if (table.Environment switch {
                   "eqalign" => true,
                   "aligned" => true,
                   "split" => true,
@@ -624,6 +618,14 @@ namespace CSharpMath.Atom {
             builder.Append(@"\underline{");
             MathListToLaTeX(under.InnerList, builder, currentFontStyle);
             builder.Append('}');
+            break;
+          case UnderAnnotation underAnotation:
+            if (MathAtomToLaTeX(underAnotation, builder, out var underAnnotationCommand)) {
+              builder.Append(@$"\{underAnnotationCommand}{{");
+              MathListToLaTeX(underAnotation.InnerList, builder, currentFontStyle);
+              builder.Append('}');
+            }
+
             break;
           case Accent accent:
             MathAtomToLaTeX(accent, builder, out _);

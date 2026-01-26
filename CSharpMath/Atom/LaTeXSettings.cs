@@ -160,6 +160,9 @@ namespace CSharpMath.Atom {
           parser.ReadArgument().Bind(mathList => Ok(new Overline(mathList))) },
         { @"\underline", (parser, accumulate, stopChar) =>
           parser.ReadArgument().Bind(mathList => Ok(new Underline(mathList))) },
+        { @"\underbrace", (parser, accumulate, stopChar) => 
+          parser.ReadArgument().Bind(mathList => Ok(new UnderAnnotation("\u23df", mathList)))},
+          //Adding under element should happen when adding sub script later or here?
         { @"\begin", (parser, accumulate, stopChar) =>
           parser.ReadEnvironment().Bind(env =>
             parser.ReadTable(env, null, false, stopChar)).Bind(Ok) },
