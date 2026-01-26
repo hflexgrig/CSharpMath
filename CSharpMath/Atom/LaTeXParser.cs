@@ -619,6 +619,14 @@ namespace CSharpMath.Atom {
             MathListToLaTeX(under.InnerList, builder, currentFontStyle);
             builder.Append('}');
             break;
+          case UnderAnnotation underAnotation:
+            if (MathAtomToLaTeX(underAnotation, builder, out var underAnnotationCommand)) {
+              builder.Append(@$"\{underAnnotationCommand}{{");
+              MathListToLaTeX(underAnotation.InnerList, builder, currentFontStyle);
+              builder.Append('}');
+            }
+
+            break;
           case Accent accent:
             MathAtomToLaTeX(accent, builder, out _);
             builder.Append('{');

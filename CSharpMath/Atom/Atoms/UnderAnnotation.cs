@@ -3,7 +3,7 @@ namespace CSharpMath.Atom.Atoms;
 /// Abstract name of under annotations implementation \underbrace, \underbracket etc..
 /// </summary>
 public sealed class UnderAnnotation : MathAtom, IMathListContainer {
-  public UnderAnnotation(string value, MathList innerList, MathList? underList) : base(value) {
+  public UnderAnnotation(string value, MathList innerList, MathList? underList = null) : base(value) {
     InnerList = innerList;
     UnderList = underList;
   }
