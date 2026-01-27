@@ -10,8 +10,7 @@
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="GitHubActionsTestLogger" Version="3.0.1" />
   </ItemGroup>
-  <!--Don't apply to Typography projects-->
-  <PropertyGroup Condition="$(MSBuildProjectName.StartsWith('CSharpMath'))">
+  <PropertyGroup>
     <!--CSharpMath-specific properties for centralized control of values-->
     <AvaloniaVersion>11.3.9</AvaloniaVersion>
 
@@ -89,7 +88,7 @@
     <CreateProperty Condition="$(PackageVersion) == '1.0.0'" Value="2147483647.2147483647.2147483647-localbuild-$(RepositoryCommit)">
       <Output TaskParameter="Value" PropertyName="PackageVersion" />
     </CreateProperty>
-    <!--For CI builds-->
+    <!--For CI builds that supply -p:PackageVersion-->
     <CreateProperty Value="$(PackageVersion.TrimStart('v'))">
       <Output TaskParameter="Value" PropertyName="PackageVersion" />
     </CreateProperty>

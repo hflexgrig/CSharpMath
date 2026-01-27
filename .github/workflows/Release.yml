@@ -40,5 +40,5 @@ jobs:
     - name: Upload to NuGet
       run: |
         # Use --skip-duplicate since we want re-runs of this workflow to succeed in case of network issues
-        dotnet nuget push .nupkgs\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json  --skip-duplicate
+        dotnet nuget push '.nupkgs\*.nupkg' -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json  --skip-duplicate
       shell: pwsh
