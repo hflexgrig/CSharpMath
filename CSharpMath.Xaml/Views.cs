@@ -11,6 +11,7 @@ using System.Linq;
 using XCanvas = CSharpMath.Avalonia.AvaloniaCanvas;
 using XCanvasColor = Avalonia.Media.Color;
 using XColor = Avalonia.Media.Color;
+using XThickness = Avalonia.Thickness;
 using XInheritControl = Avalonia.Controls.Control;
 using XProperty = Avalonia.AvaloniaProperty;
 namespace CSharpMath.Avalonia {
@@ -19,6 +20,7 @@ using XCanvas_Canvas = Microsoft.Maui.Graphics.ICanvas;
 using XCanvas = (Microsoft.Maui.Graphics.ICanvas, Microsoft.Maui.Graphics.SizeF);
 using XCanvasColor = Microsoft.Maui.Graphics.Color;
 using XColor = Microsoft.Maui.Graphics.Color;
+using XThickness = Microsoft.Maui.Thickness;
 using XInheritControl = Microsoft.Maui.Controls.GraphicsView;
 using XProperty = Microsoft.Maui.Controls.BindableProperty;
 namespace CSharpMath.Maui {
@@ -50,7 +52,7 @@ namespace CSharpMath.Maui {
         HighlightColorProperty = CreateProperty<BaseView<TPainter, TContent>, XColor>(nameof(HighlightColor), false, p => XCanvasColorToXColor(p.HighlightColor), (p, v) => p.HighlightColor = XColorToXCanvasColor(v)),
         ErrorColorProperty = CreateProperty<BaseView<TPainter, TContent>, XColor>(nameof(ErrorColor), false, p => XCanvasColorToXColor(p.ErrorColor), (p, v) => p.ErrorColor = XColorToXCanvasColor(v)),
         TextAlignmentProperty = CreateProperty<BaseView<TPainter, TContent>, TextAlignment>(nameof(Rendering.FrontEnd.TextAlignment), false, p => (TextAlignment)drawMethodParams[1].DefaultValue!, (p, v) => { }),
-        PaddingProperty = CreateProperty<BaseView<TPainter, TContent>, Thickness>(nameof(Padding), false, p => (Thickness)(drawMethodParams[2].DefaultValue ?? new Thickness()), (p, v) => { }),
+        PaddingProperty = CreateProperty<BaseView<TPainter, TContent>, XThickness>(nameof(Padding), false, p => drawMethodParams[2].DefaultValue is Thickness t ? new XThickness(left: t.Left, top: t.Top, right: t.Right, bottom: t.Bottom) : new XThickness(), (p, v) => { }),
         DisplacementXProperty = CreateProperty<BaseView<TPainter, TContent>, float>(nameof(DisplacementX), false, p => (float)drawMethodParams[3].DefaultValue!, (p, v) => { }),
         DisplacementYProperty = CreateProperty<BaseView<TPainter, TContent>, float>(nameof(DisplacementY), false, p => (float)drawMethodParams[4].DefaultValue!, (p, v) => { }),
         MagnificationProperty = CreateProperty<BaseView<TPainter, TContent>, float>(nameof(Magnification), false, p => p.Magnification, (p, v) => p.Magnification = v),
@@ -60,32 +62,31 @@ namespace CSharpMath.Maui {
       WritablePainterPropertyNames = [.. WritablePainterProperties.Select(GetPropertyName)];
       ErrorMessagePropertyKey = new ReadOnlyProperty<BaseView<TPainter, TContent>, string?>(nameof(ErrorMessage), p => p.ErrorMessage);
       ErrorMessageProperty = ErrorMessagePropertyKey.Property;
-    }
-
-    public static XProperty CreateProperty<TThis, TValue>(
-      string propertyName,
-      bool affectsMeasure,
-      Func<TPainter, TValue> defaultValueGet,
-      Action<TPainter, TValue> propertySet,
-      Action<TThis, TValue>? updateOtherProperty = null)
-      where TThis : BaseView<TPainter, TContent> {
-      var defaultValue = defaultValueGet(staticPainter);
-      void PropertyChanged(TThis @this, object? newValue) {
-        // We need to support nullable classes and structs, so we cannot forbid null here
-        // So this use of the null-forgiving operator should be blamed on non-generic PropertyChanged handlers
-        var @new = (TValue)newValue!;
-        propertySet(@this.Painter, @new);
-        updateOtherProperty?.Invoke(@this, @new);
-        if (affectsMeasure) @this.InvalidateMeasure();
-        // Redraw immediately! No deferred drawing
+      static XProperty CreateProperty<TThis, TValue>(
+        string propertyName,
+        bool affectsMeasure,
+        Func<TPainter, TValue> defaultValueGet,
+        Action<TPainter, TValue> propertySet,
+        Action<TThis, TValue>? updateOtherProperty = null)
+        where TThis : BaseView<TPainter, TContent> {
+        var defaultValue = defaultValueGet(staticPainter);
+        void PropertyChanged(TThis @this, object? newValue) {
+          // We need to support nullable classes and structs, so we cannot forbid null here
+          // So this use of the null-forgiving operator should be blamed on non-generic PropertyChanged handlers
+          var @new = (TValue)newValue!;
+          propertySet(@this.Painter, @new);
+          updateOtherProperty?.Invoke(@this, @new);
+          if (affectsMeasure) @this.InvalidateMeasure();
+          // Redraw immediately! No deferred drawing
 #if Avalonia
-        @this.InvalidateVisual();
+          @this.InvalidateVisual();
+        }
+        var prop = XProperty.Register<TThis, TValue>(propertyName, defaultValue);
+        global::Avalonia.AvaloniaObjectExtensions.AddClassHandler<TThis>(prop.Changed, (t, e) => PropertyChanged(t, e.NewValue));
+        return prop;
       }
-      var prop = XProperty.Register<TThis, TValue>(propertyName, defaultValue);
-      global::Avalonia.AvaloniaObjectExtensions.AddClassHandler<TThis>(prop.Changed, (t, e) => PropertyChanged(t, e.NewValue));
-      return prop;
+      static string GetPropertyName(XProperty prop) => prop.Name;
     }
-    static string GetPropertyName(XProperty prop) => prop.Name;
     public BaseView() {
       // Respect built-in styles
       Styles.Add(new global::Avalonia.Styling.Style(global::Avalonia.Styling.Selectors.Is<BaseView<TPainter, TContent>>) {
@@ -99,14 +100,9 @@ namespace CSharpMath.Maui {
       Painter.Measure((float)availableSize.Width) is { } rect
       ? new global::Avalonia.Size(rect.Width, rect.Height)
       : base.MeasureOverride(availableSize);
-    struct ReadOnlyProperty<TThis, TValue> where TThis : BaseView<TPainter, TContent> {
-      public ReadOnlyProperty(string propertyName,
-        Func<TPainter, TValue> getter) {
-        Property = XProperty.RegisterDirect<TThis, TValue>(propertyName, b => getter(b.Painter), null, getter(staticPainter));
-        _value = getter(staticPainter);
-      }
-      TValue _value;
-      public global::Avalonia.DirectProperty<TThis, TValue> Property;
+    struct ReadOnlyProperty<TThis, TValue>(string propertyName, Func<TPainter, TValue> getter) where TThis : BaseView<TPainter, TContent> {
+      TValue _value = getter(staticPainter);
+      public global::Avalonia.DirectProperty<TThis, TValue> Property = XProperty.RegisterDirect<TThis, TValue>(propertyName, b => getter(b.Painter), null, getter(staticPainter));
       public void SetValue(TThis @this, TValue value) => @this.SetAndRaise(Property, ref _value, value);
     }
     static XCanvasColor XColorToXCanvasColor(XColor color) => color;
@@ -140,22 +136,19 @@ namespace CSharpMath.Maui {
       base.Render(context);
       var canvas = new XCanvas(context, Bounds.Size);
 #elif Maui
-        @this.Invalidate();
+          @this.Invalidate();
+        }
+        return XProperty.Create(propertyName, typeof(TValue), typeof(TThis), defaultValue,
+          propertyChanged: (b, o, n) => PropertyChanged((TThis)b, n));
       }
-      return XProperty.Create(propertyName, typeof(TValue), typeof(TThis), defaultValue,
-        propertyChanged: (b, o, n) => PropertyChanged((TThis)b, n));
+      static string GetPropertyName(XProperty prop) => prop.PropertyName;
     }
-    static string GetPropertyName(XProperty prop) => prop.PropertyName;
     protected override Microsoft.Maui.Graphics.Size MeasureOverride(double widthConstraint, double heightConstraint) =>
       Painter.Measure((float)widthConstraint) is { } rect
       ? new(Math.Min(rect.Width, widthConstraint), Math.Min(rect.Height, heightConstraint)) // We can't allocate too big of a GraphicsView on MAUI Windows.
       : base.MeasureOverride(widthConstraint, heightConstraint);
-    struct ReadOnlyProperty<TThis, TValue> where TThis : BaseView<TPainter, TContent> {
-      public ReadOnlyProperty(string propertyName,
-        Func<TPainter, TValue> getter) {
-        _key = XProperty.CreateReadOnly(propertyName, typeof(TValue), typeof(TThis), getter(staticPainter));
-      }
-      readonly Microsoft.Maui.Controls.BindablePropertyKey _key;
+    readonly struct ReadOnlyProperty<TThis, TValue>(string propertyName, Func<TPainter, TValue> getter) where TThis : BaseView<TPainter, TContent> {
+      readonly Microsoft.Maui.Controls.BindablePropertyKey _key = XProperty.CreateReadOnly(propertyName, typeof(TValue), typeof(TThis), getter(staticPainter));
       public XProperty Property => _key.BindableProperty;
       public void SetValue(TThis @this, TValue value) => @this.SetValue(_key, value);
     }
@@ -180,14 +173,15 @@ namespace CSharpMath.Maui {
       Drawable = new DrawableRedirector(this);
     }
     class DrawableRedirector(BaseView<TPainter, TContent> parent) : Microsoft.Maui.Graphics.IDrawable {
-
+  
       public void Draw(XCanvas_Canvas canvas, Microsoft.Maui.Graphics.RectF dirtyRect) => parent.Draw(canvas);
     }
     void Draw(XCanvas_Canvas rawCanvas) {
       // dirtyRect may be larger than Width and Height on Windows which leads to incorrect alignments
       var canvas = (rawCanvas, new Microsoft.Maui.Graphics.SizeF((float)Width, (float)Height));
 #endif
-      Painter.Draw(canvas, TextAlignment, Padding, DisplacementX, DisplacementY);
+      var padding = Padding;
+      Painter.Draw(canvas, TextAlignment, new(left: (float)padding.Left, top: (float)padding.Top, right: (float)padding.Right, bottom: (float)padding.Bottom), DisplacementX, DisplacementY);
     }
     /// <summary>Requires touch events to be enabled in SkiaSharp/Xamarin.Forms</summary>
     public bool EnablePanning { get => (bool)GetValue(EnablePanningProperty)!; set => SetValue(EnablePanningProperty, value); }
@@ -195,7 +189,7 @@ namespace CSharpMath.Maui {
 
     static readonly System.Reflection.ParameterInfo[] drawMethodParams = typeof(TPainter)
       .GetMethod(nameof(Painter<XCanvas, TContent, XColor>.Draw),
-        new[] { typeof(XCanvas), typeof(TextAlignment), typeof(Thickness), typeof(float), typeof(float) })!.GetParameters();
+        [typeof(XCanvas), typeof(TextAlignment), typeof(Thickness), typeof(float), typeof(float)])!.GetParameters();
     static T? Nullable<T>(T value) where T : struct => new T?(value);
     public (XColor glyph, XColor textRun)? GlyphBoxColor { get => ((XColor glyph, XColor textRun)?)GetValue(GlyphBoxColorProperty); set => SetValue(GlyphBoxColorProperty, value); }
     public static readonly XProperty GlyphBoxColorProperty;
@@ -224,7 +218,7 @@ namespace CSharpMath.Maui {
     public static readonly XProperty ErrorColorProperty;
     public TextAlignment TextAlignment { get => (TextAlignment)GetValue(TextAlignmentProperty)!; set => SetValue(TextAlignmentProperty, value); }
     public static readonly XProperty TextAlignmentProperty;
-    public Thickness Padding { get => (Thickness)GetValue(PaddingProperty)!; set => SetValue(PaddingProperty, value); }
+    public XThickness Padding { get => (XThickness)GetValue(PaddingProperty)!; set => SetValue(PaddingProperty, value); }
     public static readonly XProperty PaddingProperty;
     public float DisplacementX { get => (float)GetValue(DisplacementXProperty)!; set => SetValue(DisplacementXProperty, value); }
     public static readonly XProperty DisplacementXProperty;

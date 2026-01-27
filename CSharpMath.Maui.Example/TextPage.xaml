@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:CSharpMath.Maui.Example"
              x:Class="CSharpMath.Maui.Example.TextPage"
              Title="Text">
-    <Grid RowDefinitions="5*,*,5*">
+    <Grid RowDefinitions="*,Auto,*">
         <Editor x:Name="Text"
                 TextChanged="Text_TextChanged"
                 Grid.Row="0" 
@@ -29,7 +29,7 @@ Was added in 0.1.0-pre4; working in 0.1.0-pre5; fully tested in 0.1.0-pre6. \[\f
         <Picker Grid.Row="1"
                 x:Name="Size"
                 Title="Font Size"
-                ItemsSource="{x:Static local:TryPage.FontSizes}"
+                ItemsSource="{StaticResource FontSizesArray}"
                 SelectedIndexChanged="Size_SelectedIndexChanged"/>
         <ScrollView Grid.Row="2" x:Name="Scroll">
             <text:TextView x:Name="View"/>
