@@ -13,4 +13,6 @@ jobs:
       with:
         submodules: 'recursive'
     - name: Check formatting
-      run: dotnet format --verify-no-changes
+      run: |
+        dotnet workload restore
+        dotnet format --verify-no-changes
