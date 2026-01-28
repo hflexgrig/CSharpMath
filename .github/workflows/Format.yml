@@ -12,7 +12,6 @@ jobs:
     - uses: actions/checkout@v6
       with:
         submodules: 'recursive'
+    - run: dotnet workload restore
     - name: Check formatting
-      run: |
-        dotnet workload restore
-        dotnet format --verify-no-changes --exclude Typography
+      run: dotnet format --verify-no-changes --exclude Typography
