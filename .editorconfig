@@ -34,7 +34,7 @@ csharp_style_expression_bodied_operators = true
 
 # Code-block preferences
 csharp_prefer_braces = false
-csharp_style_namespace_declarations = block_scoped
+csharp_style_namespace_declarations = file_scoped
 
 #### C# Formatting Rules ####
 

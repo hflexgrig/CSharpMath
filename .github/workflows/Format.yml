@@ -1,0 +1,16 @@
+name: Check format
+
+on: [push, pull_request]
+jobs:
+  Everything:
+    if: (github.event_name == 'pull_request') == github.event.pull_request.head.repo.fork
+    runs-on: windows-latest
+    steps:
+    - uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.x'
+    - uses: actions/checkout@v6
+      with:
+        submodules: 'recursive'
+    - name: Check formatting
+      run: dotnet format --verify-no-changes
