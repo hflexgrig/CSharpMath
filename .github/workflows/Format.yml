@@ -13,5 +13,5 @@ jobs:
       with:
         submodules: 'recursive'
     - run: dotnet workload restore
-    - name: Check formatting (Fix with "dotnet format --exclude Typography")
+    - name: Check formatting (Fix with "dotnet format --exclude Typography" at repository root)
       run: dotnet format --verify-no-changes --exclude Typography
