@@ -160,8 +160,8 @@ namespace CSharpMath.Atom {
           parser.ReadArgument().Bind(mathList => Ok(new Overline(mathList))) },
         { @"\underline", (parser, accumulate, stopChar) =>
           parser.ReadArgument().Bind(mathList => Ok(new Underline(mathList))) },
-        { @"\underbrace", (parser, accumulate, stopChar) => 
-          parser.ReadArgument().Bind(mathList => Ok(new UnderAnnotation("\u23df", mathList)))},
+        // { @"\underbrace", (parser, accumulate, stopChar) => 
+        //   parser.ReadArgument().Bind(mathList => Ok(new UnderAnnotation("\u23df", mathList)))},
           //Adding under element should happen when adding sub script later or here?
         { @"\begin", (parser, accumulate, stopChar) =>
           parser.ReadEnvironment().Bind(env =>
@@ -433,6 +433,7 @@ namespace CSharpMath.Atom {
         Commands.Add(command, (parser, accumulate, stopChar) =>
           atom is Accent accent
           ? parser.ReadArgument().Bind(accentee => Ok(new Accent(accent.Nucleus, accentee)))
+          : atom is UnderAnnotation underAnnotation ? parser.ReadArgument().Bind(inner => Ok(new UnderAnnotation(underAnnotation.Nucleus, inner)))
           : Ok(atom.Clone(false)))) {
         // Custom additions
         { @"\diameter", new Ordinary("\u2300") },
@@ -903,6 +904,7 @@ namespace CSharpMath.Atom {
         // Table 17: Some Other Constructions
         { @"\widehat", new Accent("\u0302") },
         { @"\widetilde", new Accent("\u0303") },
+        { @"\underbrace", new UnderAnnotation("\u23df", new MathList())},
         // TODO: implement \overleftarrow, \overrightarrow, \overbrace, \underbrace
         // \overleftarrow{}
         // \overrightarrow{}

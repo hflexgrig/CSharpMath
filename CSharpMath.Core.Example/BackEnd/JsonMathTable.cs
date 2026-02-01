@@ -218,5 +218,7 @@ namespace CSharpMath.Core.BackEnd {
         return Total / 2;
       }
     }
+
+    public override IEnumerable<GlyphPart<TGlyph>>? GetHorizontalGlyphAssembly(TGlyph rawGlyph, TFont font) => throw new System.NotImplementedException();
   }
 }

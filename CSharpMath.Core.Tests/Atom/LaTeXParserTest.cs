@@ -413,13 +413,16 @@ namespace CSharpMath.Core.Tests {
     /// </summary>
     [Fact]
     public void TestUnderbrace() {
-      var list = ParseLaTeX(@"\underbrace{x}");
+      var latexString = @"\underbrace {x}";
+      var list = ParseLaTeX(latexString);
 
       Assert.Collection(list,
         CheckAtom<UnderAnnotation>("\u23df", underBrace =>
           Assert.Collection(underBrace.InnerList, CheckAtom<Variable>("x"))
         )
       );
+
+      Assert.Equal(latexString, LaTeXParser.MathListToLaTeX(list).ToString());
     }
 
     /// <summary>

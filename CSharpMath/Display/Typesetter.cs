@@ -276,6 +276,19 @@ namespace CSharpMath.Display {
               MakeScripts(atom, overlineDisplay, atom.IndexRange.Location, 0);
             }
             break;
+          case UnderAnnotation underAnnotation:
+            AddDisplayLine(false);
+            AddInterElementSpace(prevAtom, underAnnotation);
+            innerListDisplay = Typesetter<TFont, TGlyph>.CreateLine
+              (underAnnotation.InnerList, _font, _context, _style, true);
+            var underAnnotationDisplay = MakeUnderAnnotation(underAnnotation, atom.IndexRange);
+            _displayAtoms.Add(underAnnotationDisplay);
+            _currentPosition.X += underAnnotationDisplay.Width;
+            // add super scripts || subscripts
+            if (atom.Subscript.IsNonEmpty() || atom.Superscript.IsNonEmpty()) {
+              MakeScripts(atom, underAnnotationDisplay, atom.IndexRange.Location, 0);
+            }
+            break;
           case Accent accent:
             AddDisplayLine(false);
             AddInterElementSpace(prevAtom, accent);
@@ -725,6 +738,97 @@ namespace CSharpMath.Display {
       return glyphDisplay;
     }
 
+    private UnderAnnotationDisplay<TFont, TGlyph> MakeUnderAnnotation(UnderAnnotation underAnnotation, Range range) {
+
+      var innerListDisplay = CreateLine(underAnnotation.InnerList, _font, _context, _style, _cramped, true);
+      float axisHeight = _mathTable.AxisHeight(_styleFont);
+
+      var annotationSingleGlyph = _context.GlyphFinder.FindGlyphForCharacterAtIndex(_font, 0, underAnnotation.Nucleus);
+
+      var glyph = FindHorizontalGlyph(annotationSingleGlyph, innerListDisplay.Width,
+        out float glyphAscent, out float glyphDescent, out float glyphWidth);
+
+      var glyphDisplay =
+      innerListDisplay.Width > glyphWidth ? ConstructHorizontalGlyph(annotationSingleGlyph, innerListDisplay.Width, glyphAscent, glyphDescent) as IGlyphDisplay<TFont, TGlyph>
+         // ConstructHorizontalGlyph(annotationSingleGlyph, innerListDisplay.Width) is IGlyphDisplay<TFont, TGlyph> constructed
+         //   ? constructed
+         :
+        new GlyphDisplay<TFont, TGlyph>
+          (glyph, Range.NotFound, _styleFont, glyphAscent, glyphDescent, glyphWidth);
+      // var annotationGlyphDisplay =  FindGlyphForBoundary(left, glyphHeight);
+      // glyphDisplay!.Position = _currentPosition;
+
+      var lineShiftUp = axisHeight;
+      glyphDisplay!.Position = new PointF(_currentPosition.X, glyphDisplay!.Position.Y - lineShiftUp);
+
+      return new UnderAnnotationDisplay<TFont, TGlyph>(innerListDisplay, null, glyphDisplay!, _currentPosition);
+    }
+
+    private HorizontalGlyphConstructionDisplay<TFont, TGlyph>? ConstructHorizontalGlyph(TGlyph glyph, float glyphWidth, float glyphAscent, float glyphDescent) {
+      var parts = _mathTable.GetHorizontalGlyphAssembly(glyph, _styleFont);
+      if (parts is null) return null;
+      var glyphs = new List<TGlyph>();
+      var offsets = new List<float>();
+      float width = ConstructHorizontalGlyphWithParts(parts, glyphWidth, glyphs, offsets);
+      using var singleGlyph = new RentedArray<TGlyph>(glyphs[0]);
+      // descent:0 because it's up to the rendering to adjust the display glyph up or down by setting ShiftDown
+      return new HorizontalGlyphConstructionDisplay<TFont, TGlyph>
+        (glyphs, offsets, _styleFont, glyphAscent, glyphDescent, width);
+    }
+
+    private float ConstructHorizontalGlyphWithParts(IEnumerable<GlyphPart<TGlyph>> parts,
+      float glyphWidth, List<TGlyph> glyphs, List<float> offsets) {
+      for (int nExtenders = 0; ; nExtenders++) {
+        glyphs.Clear();
+        offsets.Clear();
+        GlyphPart<TGlyph>? prevPart = null;
+        float minDistance = _mathTable.MinConnectorOverlap(_styleFont);
+        float minOffset = 0;
+        float maxDelta = float.MaxValue;
+        foreach (var part in parts) {
+          var repeats = 1;
+          if (part.IsExtender) {
+            repeats = nExtenders;
+          }
+          for (int i = 0; i < repeats; i++) {
+            glyphs.Add(part.Glyph);
+            if (prevPart != null) {
+              float maxOverlap = Math.Min(prevPart.EndConnectorLength, part.StartConnectorLength);
+              // the minimum amount we can add to the offset
+              float minOffsetDelta = prevPart.FullAdvance - maxOverlap;
+              // the maximum amount we can add to the offset
+              float maxOffsetDelta = prevPart.FullAdvance - minDistance;
+              maxDelta = Math.Min(maxDelta, maxOffsetDelta - minOffsetDelta);
+              minOffset += minOffsetDelta;
+            }
+            offsets.Add(minOffset);
+            prevPart = part;
+          }
+        }
+        if (prevPart == null) {
+          continue; // maybe only extenders
+        }
+        float minWidth = minOffset + prevPart.FullAdvance;
+        float maxWidth = minWidth + maxDelta * (glyphs.Count - 1);
+        if (minWidth >= maxWidth) {
+          // we are done
+          return minWidth;
+        }
+        if (glyphWidth <= maxWidth) {
+          // spread the delta equally among all the connecters
+          float delta = glyphWidth - minWidth;
+          float dDelta = delta / (glyphs.Count - 1);
+          float lastOffset = 0;
+          for (int i = 0; i < offsets.Count; i++) {
+            float offset = offsets[i] + i * dDelta;
+            offsets[i] = offset;
+            lastOffset = offset;
+          }
+          // we are done
+          return lastOffset + prevPart.FullAdvance;
+        }
+      }
+    }
 
     private GlyphConstructionDisplay<TFont, TGlyph>? ConstructGlyph(TGlyph glyph, float glyphHeight) {
       var parts = _mathTable.GetVerticalGlyphAssembly(glyph, _styleFont);
@@ -813,6 +917,28 @@ namespace CSharpMath.Display {
         throw new InvalidCodePathException("glyphAscent, glyphDescent or glyphWidth is NaN.");
       return variants.Last();
     }
+
+    private TGlyph FindHorizontalGlyph(TGlyph rawGlyph, float width,
+      out float glyphAscent, out float glyphDescent, out float glyphWidth) {
+      // in iosMath.
+      glyphAscent = glyphDescent = glyphWidth = float.NaN;
+      var (variants, nVariants) = _mathTable.GetHorizontalVariantsForGlyph(rawGlyph);
+      var rects =
+        _context.GlyphBoundsProvider.GetBoundingRectsForGlyphs(_styleFont, variants, nVariants);
+      var advances =
+        _context.GlyphBoundsProvider.GetAdvancesForGlyphs(_styleFont, variants, nVariants).Advances;
+      foreach (var (rect, advance, variant) in rects.Zip(advances, variants, ValueTuple.Create)) {
+        rect.GetAscentDescentWidth(out glyphAscent, out glyphDescent, out glyphWidth);
+        if (glyphWidth >= width) {
+          glyphWidth = advance;
+          return variant;
+        }
+      }
+      if (glyphAscent is float.NaN || glyphDescent is float.NaN || glyphWidth is float.NaN)
+        throw new InvalidCodePathException("glyphAscent, glyphDescent or glyphWidth is NaN.");
+      return variants.Last();
+    }
+
     private List<List<ListDisplay<TFont, TGlyph>>> TypesetCells(Table table, float[] columnWidths) {
       var r = new List<List<ListDisplay<TFont, TGlyph>>>();
       foreach (var row in table.Cells) {

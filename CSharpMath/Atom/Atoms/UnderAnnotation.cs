@@ -26,5 +26,5 @@ public sealed class UnderAnnotation : MathAtom, IMathListContainer {
     EqualsAtom(other) && InnerList.EqualsList(other.InnerList);
   public override bool Equals(object obj) =>
     obj is UnderAnnotation u ? EqualsUnderAnnotation(u) : false;
-  public override int GetHashCode() => (base.GetHashCode(), InnerList).GetHashCode();
+  // public override int GetHashCode() => (base.GetHashCode(), InnerList).GetHashCode();
 }
