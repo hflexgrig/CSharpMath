@@ -7,11 +7,15 @@ using FrontEnd;
 /// <summary>Creates underanotation display</summary> 
 public class UnderAnnotationDisplay<TFont, TGlyph> : IDisplay<TFont, TGlyph>
   where TFont : IFont<TGlyph> {
-  public UnderAnnotationDisplay(IDisplay<TFont, TGlyph> inner, IDisplay<TFont, TGlyph>? underList, IGlyphDisplay<TFont, TGlyph> annotationGlyph, PointF position) {
+  public UnderAnnotationDisplay(IDisplay<TFont, TGlyph> inner, IDisplay<TFont, TGlyph>? underList,
+   IGlyphDisplay<TFont, TGlyph> annotationGlyph, 
+   float underListBasedDescent,
+   PointF position) {
     Inner = inner;
     UnderList = underList;
     AnnotationGlyph = annotationGlyph;
     _annotationGlyphHeight = AnnotationGlyph.Ascent + AnnotationGlyph.Descent;
+    _underListBasedDescent = underListBasedDescent + (UnderList?.Descent ?? 0);
     Position = position;
   }
 
@@ -22,19 +26,21 @@ public class UnderAnnotationDisplay<TFont, TGlyph> : IDisplay<TFont, TGlyph>
   public IGlyphDisplay<TFont, TGlyph> AnnotationGlyph { get; }
 
   private readonly float _annotationGlyphHeight;
+  private readonly float _underListBasedDescent;
 
   public float Ascent => System.Math.Max(AnnotationGlyph.Ascent, Inner.Ascent);
-  public float Descent => System.Math.Max(AnnotationGlyph.Descent, Inner.Descent);
+  public float Descent => System.Math.Max(AnnotationGlyph.Descent, Inner.Descent) + _underListBasedDescent;
   public float Width => Inner.Width;
   public Range Range => Inner.Range;
   public PointF Position {
-    get => Inner.Position;
-    set => Inner.Position = value;
+    get => field;
+    set => field = value;
   }
   public bool HasScript { get; set; }
   public void Draw(IGraphicsContext<TFont, TGlyph> context) {
     this.DrawBackground(context);
     Inner.Draw(context);
+    UnderList?.Draw(context);
     AnnotationGlyph.Draw(context);
   }
   public Color? TextColor { get; set; }

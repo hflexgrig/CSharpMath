@@ -741,6 +741,12 @@ namespace CSharpMath.Display {
     private UnderAnnotationDisplay<TFont, TGlyph> MakeUnderAnnotation(UnderAnnotation underAnnotation, Range range) {
 
       var innerListDisplay = CreateLine(underAnnotation.InnerList, _font, _context, _style, _cramped, true);
+
+      ListDisplay<TFont, TGlyph>? underListDisplay = null;
+      if (underAnnotation.UnderList is { Count: > 0 }) {
+        underListDisplay = CreateLine(underAnnotation.UnderList, _font, _context, _scriptStyle, _subscriptCramped, true);
+      }
+
       float axisHeight = _mathTable.AxisHeight(_styleFont);
 
       var annotationSingleGlyph = _context.GlyphFinder.FindGlyphForCharacterAtIndex(_font, 0, underAnnotation.Nucleus);
@@ -759,7 +765,20 @@ namespace CSharpMath.Display {
 
       glyphDisplay!.Position = new PointF(_currentPosition.X, glyphDisplay!.Position.Y - lineShiftUp);
 
-      return new UnderAnnotationDisplay<TFont, TGlyph>(innerListDisplay, null, glyphDisplay!, _currentPosition);
+      var delta = (glyphDisplay.Width - innerListDisplay.Width)/2;
+      innerListDisplay.Position = new PointF(_currentPosition.X + delta, _currentPosition.Y);
+
+      var glArray = new RentedArray<TGlyph>(annotationSingleGlyph);
+      var boundingBox = _context.GlyphBoundsProvider.GetBoundingRectsForGlyphs(_styleFont, glArray.Result, 1).Single();
+
+      float underListBasedDescent = 0;
+      if (underListDisplay is not null) {
+        var delta1 = (glyphDisplay.Width - underListDisplay.Width) / 2;
+        underListBasedDescent = axisHeight + underListDisplay.Ascent + boundingBox.Height;
+        underListDisplay.Position = new PointF(_currentPosition.X + delta1, glyphDisplay!.Position.Y - underListBasedDescent);
+      }
+
+      return new UnderAnnotationDisplay<TFont, TGlyph>(innerListDisplay, underListDisplay, glyphDisplay!, underListBasedDescent, _currentPosition);
     }
 
     private HorizontalGlyphConstructionDisplay<TFont, TGlyph>? ConstructHorizontalGlyph(TGlyph glyph, float glyphWidth, float glyphAscent, float glyphDescent) {
