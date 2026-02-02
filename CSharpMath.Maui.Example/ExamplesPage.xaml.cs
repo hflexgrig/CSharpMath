@@ -62,11 +62,11 @@ namespace CSharpMath.Maui.Example {
         FontSize = 22.5f
       };
 
-      // testLabels[2] = new MathView {
-      //   LaTeX = @"\underbrace{\frac{abcd}{efgh} \int \limits _a^b f(x)dx}",
-      //   HeightRequest = 112.5,
-      //   FontSize = 22.5f
-      // };
+      testLabels[2] = new MathView {
+        LaTeX = @"\underbrace{\frac{abcd}{efgh} \int \limits _a^b f(x)dx}",
+        HeightRequest = 112.5,
+        FontSize = 22.5f
+      };
 
       //  Quadratic formula
       demoLabels[0] = new MathView {

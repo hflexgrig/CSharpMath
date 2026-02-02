@@ -225,6 +225,10 @@ namespace CSharpMath.Atom {
             prevAtom = new Ordinary(string.Empty);
             accumulate.Add(prevAtom);
           }
+
+          if(prevAtom is UnderAnnotation underAnnotation) {
+            return parser.ReadArgument(underAnnotation.UnderList).Bind(_ => Ok(null));
+          }
           // this is a subscript for the previous atom.
           // note, if the next char is StopChar, it will be consumed and doesn't count as stop.
           return parser.ReadArgument(prevAtom.Subscript).Bind(_ => Ok(null));

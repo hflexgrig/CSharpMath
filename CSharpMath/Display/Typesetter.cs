@@ -748,17 +748,15 @@ namespace CSharpMath.Display {
       var glyph = FindHorizontalGlyph(annotationSingleGlyph, innerListDisplay.Width,
         out float glyphAscent, out float glyphDescent, out float glyphWidth);
 
+      var lineShiftUp = innerListDisplay.Descent;
+      glyphDescent += lineShiftUp;
+
       var glyphDisplay =
       innerListDisplay.Width > glyphWidth ? ConstructHorizontalGlyph(annotationSingleGlyph, innerListDisplay.Width, glyphAscent, glyphDescent) as IGlyphDisplay<TFont, TGlyph>
-         // ConstructHorizontalGlyph(annotationSingleGlyph, innerListDisplay.Width) is IGlyphDisplay<TFont, TGlyph> constructed
-         //   ? constructed
          :
         new GlyphDisplay<TFont, TGlyph>
           (glyph, Range.NotFound, _styleFont, glyphAscent, glyphDescent, glyphWidth);
-      // var annotationGlyphDisplay =  FindGlyphForBoundary(left, glyphHeight);
-      // glyphDisplay!.Position = _currentPosition;
 
-      var lineShiftUp = axisHeight;
       glyphDisplay!.Position = new PointF(_currentPosition.X, glyphDisplay!.Position.Y - lineShiftUp);
 
       return new UnderAnnotationDisplay<TFont, TGlyph>(innerListDisplay, null, glyphDisplay!, _currentPosition);

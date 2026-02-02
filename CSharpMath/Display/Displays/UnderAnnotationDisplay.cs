@@ -23,8 +23,8 @@ public class UnderAnnotationDisplay<TFont, TGlyph> : IDisplay<TFont, TGlyph>
 
   private readonly float _annotationGlyphHeight;
 
-  public float Ascent => System.Math.Max(_annotationGlyphHeight, Inner.Ascent);
-  public float Descent => System.Math.Max(_annotationGlyphHeight, Inner.Descent) + _annotationGlyphHeight;
+  public float Ascent => System.Math.Max(AnnotationGlyph.Ascent, Inner.Ascent);
+  public float Descent => System.Math.Max(AnnotationGlyph.Descent, Inner.Descent);
   public float Width => Inner.Width;
   public Range Range => Inner.Range;
   public PointF Position {
