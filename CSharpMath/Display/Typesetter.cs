@@ -790,7 +790,7 @@ namespace CSharpMath.Display {
       using var singleGlyph = new RentedArray<TGlyph>(glyphs[0]);
       // descent:0 because it's up to the rendering to adjust the display glyph up or down by setting ShiftDown
       return new HorizontalGlyphConstructionDisplay<TFont, TGlyph>
-        (glyphs, offsets, _styleFont, glyphAscent, glyphDescent, width);
+        (glyphs, offsets, _styleFont, glyphAscent, glyphDescent, width) { Range = Range.NotFound };
     }
 
     private float ConstructHorizontalGlyphWithParts(IEnumerable<GlyphPart<TGlyph>> parts,
