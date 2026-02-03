@@ -1,0 +1,15 @@
+<Project Sdk="Uno.Sdk/6.4.58">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+	<!--A Windows TargetFramework is required for this package to be usable on native WinUI without assembly reference errors. This also necessitates using Uno.Sdk.-->
+	<TargetFrameworks Condition="$([System.OperatingSystem]::IsWindows())">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+    <Description>The Uno/WinUI front end for CSharpMath.</Description>
+    <PackageTags>$(PackageTags) uno</PackageTags>
+	<DefineConstants>$(DefineConstants) Uno</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+	<Compile Include="..\CSharpMath.Xaml\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+	<ProjectReference Include="..\CSharpMath.SkiaSharp\CSharpMath.SkiaSharp.csproj" />
+	<PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="3.119.1" />
+  </ItemGroup>
+</Project>
