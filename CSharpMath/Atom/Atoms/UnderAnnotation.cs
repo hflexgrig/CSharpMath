@@ -1,4 +1,4 @@
-namespace CSharpMath.Atom.Atoms; 
+namespace CSharpMath.Atom.Atoms;
 /// <summary>
 /// Abstract name of under annotations implementation \underbrace, \underbracket etc..
 /// </summary>
@@ -21,12 +21,14 @@ public sealed class UnderAnnotation : MathAtom, IMathListContainer {
   public override string DebugString =>
     new System.Text.StringBuilder(@"\underbrace")
     .AppendInBracesOrLiteralNull(InnerList?.DebugString)
-    .Append(UnderList is {Count: >0} ? $"_{{{UnderList?.DebugString}}}" : string.Empty)
+    .Append(UnderList is { Count: > 0 } ? $"_{{{UnderList?.DebugString}}}" : string.Empty)
     .ToString();
   public bool EqualsUnderAnnotation(UnderAnnotation other) =>
     EqualsAtom(other) && InnerList.NullCheckingStructuralEquality(other.InnerList)
     && UnderList.NullCheckingStructuralEquality(other.UnderList);
   public override bool Equals(object obj) =>
     obj is UnderAnnotation u ? EqualsUnderAnnotation(u) : false;
+
+  public override int GetHashCode() => (base.GetHashCode(), InnerList, UnderList).GetHashCode();
   // public override int GetHashCode() => (base.GetHashCode(), InnerList).GetHashCode();
 }

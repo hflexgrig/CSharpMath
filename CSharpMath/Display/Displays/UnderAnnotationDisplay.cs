@@ -8,7 +8,7 @@ using FrontEnd;
 public class UnderAnnotationDisplay<TFont, TGlyph> : IDisplay<TFont, TGlyph>
   where TFont : IFont<TGlyph> {
   public UnderAnnotationDisplay(IDisplay<TFont, TGlyph> inner, IDisplay<TFont, TGlyph>? underList,
-   IGlyphDisplay<TFont, TGlyph> annotationGlyph, 
+   IGlyphDisplay<TFont, TGlyph> annotationGlyph,
    float underListBasedDescent,
    PointF position) {
     Inner = inner;

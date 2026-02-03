@@ -765,7 +765,7 @@ namespace CSharpMath.Display {
 
       glyphDisplay!.Position = new PointF(_currentPosition.X, glyphDisplay!.Position.Y - lineShiftUp);
 
-      var delta = (glyphDisplay.Width - innerListDisplay.Width)/2;
+      var delta = (glyphDisplay.Width - innerListDisplay.Width) / 2;
       innerListDisplay.Position = new PointF(_currentPosition.X + delta, _currentPosition.Y);
 
       var glArray = new RentedArray<TGlyph>(annotationSingleGlyph);

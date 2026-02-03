@@ -520,7 +520,7 @@ namespace CSharpMath.Maui.Example {
 
       //Annotations
 
-       labels[49] = new MathView {
+      labels[49] = new MathView {
         LaTeX = @"\underbrace{abcdefghklmnopqrst} _{eee}",
         HeightRequest = 112.5,
         FontSize = 22.5f
