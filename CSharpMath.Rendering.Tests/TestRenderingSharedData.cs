@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace CSharpMath.Rendering.Tests {
-  public abstract class TestRenderingSharedData<TThis> : IEnumerable<object[]> where TThis : TestRenderingSharedData<TThis> {
+  public abstract class TestRenderingSharedData<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] TThis> : IEnumerable<object[]> where TThis : TestRenderingSharedData<TThis> {
     public static IReadOnlyDictionary<string, string> AllConstants { get; } =
       typeof(TThis)
       .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
