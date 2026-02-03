@@ -219,6 +219,15 @@ namespace CSharpMath.Core.BackEnd {
       }
     }
 
-    public override IEnumerable<GlyphPart<TGlyph>>? GetHorizontalGlyphAssembly(TGlyph rawGlyph, TFont font) => throw new System.NotImplementedException();
+    public override IEnumerable<GlyphPart<TGlyph>>? GetHorizontalGlyphAssembly(TGlyph rawGlyph, TFont font) => _assemblyTable[GlyphNameProvider.GetGlyphName(rawGlyph)]?[_assemblyPartsKey] is JArray parts
+      ? parts.Select(partInfo =>
+        new GlyphPart<TGlyph>(
+          GlyphNameProvider.GetGlyph(partInfo[_glyphKey]!.Value<string>()!),
+          FontUnitsToPt(font, partInfo[_advanceKey]!.Value<int>()),
+          FontUnitsToPt(font, partInfo[_startConnectorKey]!.Value<int>()),
+          FontUnitsToPt(font, partInfo[_endConnectorKey]!.Value<int>()),
+          partInfo[_extenderKey]!.Value<bool>()))
+      // Should have been defined, but let's return null
+      : null;
   }
 }
