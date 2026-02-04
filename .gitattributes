@@ -1,10 +1,2 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-
-# Ensure shell scripts always use LF
-*.sh text eol=lf
-
-# Ensure Windows scripts always use CRLF  
-*.bat text eol=crlf
-*.cmd text eol=crlf
-*.ps1 text eol=crlf
