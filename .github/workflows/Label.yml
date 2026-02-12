@@ -8,10 +8,10 @@ jobs:
     - uses: actions/checkout@v6
       with:
         submodules: recursive
+        fetch-depth: 0 # fetch all commit history across all branches and tags
     - name: If there are changes in PublicApi.Shipped.txt, fail the workflow
       if: github.head_ref != 'action/ship-publicapi' # Same branch name specified in Release.yml
       run: |
-        git fetch origin HEAD # By default, actions/checkout does not fetch commit history, we fetch it here
         $changes = git diff --numstat --shortstat origin/${{ github.base_ref }}...HEAD -- '**/PublicApi.Shipped.txt'
         Write-Output "$changes"
         if ($changes) {
