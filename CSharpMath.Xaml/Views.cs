@@ -5,6 +5,7 @@ using CSharpMath.Rendering.FrontEnd;
 using Typography.OpenFont;
 using System.Drawing;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 // X stands for Xaml
 #if Avalonia
@@ -30,14 +31,20 @@ using XCanvas = SkiaSharp.SKCanvas;
 using XCanvasColor = SkiaSharp.SKColor;
 using XColor = Windows.UI.Color;
 using XThickness = Microsoft.UI.Xaml.Thickness;
+#if IOS || ANDROID || WINDOWS // native renderer
 using XInheritControl = SkiaSharp.Views.Windows.SKXamlCanvas;
+#else // Skia renderer
+using XInheritControl = Uno.WinUI.Graphics2DSK.SKCanvasElement;
+#endif
 using XProperty = Microsoft.UI.Xaml.DependencyProperty;
 using MathPainter = CSharpMath.SkiaSharp.MathPainter;
 using TextPainter = CSharpMath.SkiaSharp.TextPainter;
 namespace CSharpMath.Uno {
   [Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(LaTeX))]
 #endif
-  public class BaseView<TPainter, TContent> : XInheritControl, ICSharpMathAPI<TContent, XColor>
+  public partial class BaseView<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TPainter,
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+  TContent> : XInheritControl, ICSharpMathAPI<TContent, XColor>
     where TPainter : Painter<XCanvas, TContent, XCanvasColor>, new() where TContent : class {
     public TPainter Painter { get; } = new TPainter();
 
@@ -78,7 +85,10 @@ namespace CSharpMath.Uno {
       WritablePainterPropertyNames = [.. WritablePainterProperties.Select(GetPropertyName)];
       ErrorMessagePropertyKey = new ReadOnlyProperty<BaseView<TPainter, TContent>, string?>(nameof(ErrorMessage), p => p.ErrorMessage);
       ErrorMessageProperty = ErrorMessagePropertyKey.Property;
-      static XProperty CreateProperty<TThis, TValue>(
+      static XProperty CreateProperty<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TThis,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TValue
+      >(
         string propertyName,
         bool affectsMeasure,
         Func<TPainter, TValue> defaultValueGet,
@@ -117,7 +127,9 @@ namespace CSharpMath.Uno {
       : base.MeasureOverride(availableSize);
     struct ReadOnlyProperty<TThis, TValue>(string propertyName, Func<TPainter, TValue> getter) where TThis : BaseView<TPainter, TContent> {
       TValue _value = getter(staticPainter);
+#pragma warning disable AVP1001 // Safe: ReadOnlyProperty is only instantiated in static constructor
       public global::Avalonia.DirectProperty<TThis, TValue> Property = XProperty.RegisterDirect<TThis, TValue>(propertyName, b => getter(b.Painter), null, getter(staticPainter));
+#pragma warning restore AVP1001
       public void SetValue(TThis @this, TValue value) => @this.SetAndRaise(Property, ref _value, value);
     }
     static XCanvasColor XColorToXCanvasColor(XColor color) => color;
@@ -228,21 +240,26 @@ namespace CSharpMath.Uno {
       Painter.Measure((float)availableSize.Width) is { } rect
       ? new Windows.Foundation.Size(rect.Width, rect.Height)
       : base.MeasureOverride(availableSize);
-    [System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllConstructors)]
-    readonly struct ReadOnlyProperty<TThis, TValue>(string propertyName, Func<TPainter, TValue> getter) where TThis : BaseView<TPainter, TContent> {
+    readonly struct ReadOnlyProperty<
+      [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TThis,
+      [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TValue
+    >(string propertyName, Func<TPainter, TValue> getter) where TThis : BaseView<TPainter, TContent> {
       public readonly XProperty Property = XProperty.Register(propertyName, typeof(TValue), typeof(TThis), new Microsoft.UI.Xaml.PropertyMetadata(getter(staticPainter)));
       public void SetValue(TThis @this, TValue value) => @this.SetValue(Property, value);
     }
     static XCanvasColor XColorToXCanvasColor(XColor color) => new(color.R, color.G, color.B, color.A);
     static XColor XCanvasColorToXColor(XCanvasColor color) => XColor.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
     Windows.Foundation.Point _origin;
+#if IOS || ANDROID || WINDOWS
     protected override void OnPaintSurface(global::SkiaSharp.Views.Windows.SKPaintSurfaceEventArgs e) {
       base.OnPaintSurface(e);
       var canvas = e.Surface.Canvas;
       canvas.Clear();
-      // SkiaSharp deals with raw pixels as opposed to Uno's device-independent units.
-      // We should scale to occupy the full view size.
+      // SkiaSharp.Views' surface is on a different dimension compared to the layout system so we should scale to occupy the full view size.
       canvas.Scale(e.Info.Width / (float)ActualWidth);
+#else
+    protected override void RenderOverride(XCanvas canvas, Windows.Foundation.Size area) {
+#endif
 #endif
       var padding = Padding;
       Painter.Draw(canvas, TextAlignment, new(left: (float)padding.Left, top: (float)padding.Top, right: (float)padding.Right, bottom: (float)padding.Bottom), DisplacementX, DisplacementY);
@@ -280,7 +297,11 @@ namespace CSharpMath.Uno {
     public static readonly XProperty HighlightColorProperty;
     public XColor ErrorColor { get => (XColor)GetValue(ErrorColorProperty)!; set => SetValue(ErrorColorProperty, value); }
     public static readonly XProperty ErrorColorProperty;
-    public TextAlignment TextAlignment { get => (TextAlignment)GetValue(TextAlignmentProperty)!; set => SetValue(TextAlignmentProperty, value); }
+    public
+#if Uno && ANDROID
+      new
+#endif
+      TextAlignment TextAlignment { get => (TextAlignment)GetValue(TextAlignmentProperty)!; set => SetValue(TextAlignmentProperty, value); }
     public static readonly XProperty TextAlignmentProperty;
     public XThickness Padding { get => (XThickness)GetValue(PaddingProperty)!; set => SetValue(PaddingProperty, value); }
     public static readonly XProperty PaddingProperty;
@@ -298,6 +319,6 @@ namespace CSharpMath.Uno {
     private static readonly ReadOnlyProperty<BaseView<TPainter, TContent>, string?> ErrorMessagePropertyKey;
     public static readonly XProperty ErrorMessageProperty;
   }
-  public class MathView : BaseView<MathPainter, MathList> { }
-  public class TextView : BaseView<TextPainter, Rendering.Text.TextAtom> { }
+  public partial class MathView : BaseView<MathPainter, MathList> { }
+  public partial class TextView : BaseView<TextPainter, Rendering.Text.TextAtom> { }
 }
