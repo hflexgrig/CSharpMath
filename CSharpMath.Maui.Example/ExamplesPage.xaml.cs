@@ -8,7 +8,6 @@ namespace CSharpMath.Maui.Example {
     static Dictionary<byte, MathView> labels { get; } = new();
     public ExamplesPage() {
       InitializeComponent();
-      //TODO: uncomment, before merging this branch with master
       var mathViews = demoLabels.Concat(labels).Select(p => p.Value);
       foreach (var view in mathViews) {
         view.ErrorFontSize = view.FontSize * 0.8f;
