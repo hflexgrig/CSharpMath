@@ -8,6 +8,7 @@ namespace CSharpMath.Maui.Example {
     static Dictionary<byte, MathView> labels { get; } = new();
     public ExamplesPage() {
       InitializeComponent();
+      //TODO: uncomment, before merging this branch with master
       var mathViews = demoLabels.Concat(labels).Select(p => p.Value);
       foreach (var view in mathViews) {
         view.ErrorFontSize = view.FontSize * 0.8f;
@@ -46,7 +47,6 @@ namespace CSharpMath.Maui.Example {
     static ExamplesPage() {
       // From https://github.com/kostub/iosMath/blob/master/iosMathExample/example/ViewController.m
       //  Demo formulae
-
       //  Quadratic formula
       demoLabels[0] = new MathView {
         LaTeX = @"\text{ваш вопрос: }x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}",
@@ -509,6 +509,38 @@ namespace CSharpMath.Maui.Example {
                        \colorbox{#00aaff}{c} & \colorbox{#f0f0f0}{d}
                        \end{pmatrix}}",
         HeightRequest = 131.25,
+        FontSize = 22.5f
+      };
+
+      labels[48] = new MathView {
+        LaTeX = @"\underbrace{abc}",
+        HeightRequest = 131.25,
+        FontSize = 22.5f
+      };
+
+      //Annotations
+
+      labels[49] = new MathView {
+        LaTeX = @"\underbrace{abcdefghklmnopqrst} _{eee}",
+        HeightRequest = 112.5,
+        FontSize = 22.5f
+      };
+
+      labels[50] = new MathView {
+        LaTeX = @"\underbrace{abcd}",
+        HeightRequest = 112.5,
+        FontSize = 22.5f
+      };
+
+      labels[51] = new MathView {
+        LaTeX = @"\underbrace{\frac{abcd}{efgh} \int \limits _a^b f(x)dx} _{\frac{abcd}{efgh} \int \limits _a^b f(x)dx}",
+        HeightRequest = 112.5,
+        FontSize = 22.5f
+      };
+
+      labels[52] = new MathView {
+        LaTeX = @"\underbrace{x} _ {y}",
+        HeightRequest = 112.5,
         FontSize = 22.5f
       };
     }
