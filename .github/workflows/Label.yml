@@ -12,7 +12,7 @@ jobs:
       if: github.head_ref != 'action/ship-publicapi' # Same branch name specified in Release.yml
       run: |
         git fetch origin HEAD # By default, actions/checkout does not fetch commit history, we fetch it here
-        $changes = git diff --numstat --shortstat ${{ github.base_ref }}...HEAD -- '**/PublicApi.Shipped.txt'
+        $changes = git diff --numstat --shortstat origin/${{ github.base_ref }}...HEAD -- '**/PublicApi.Shipped.txt'
         Write-Output "$changes"
         if ($changes) {
           Write-Error "Changes detected in PublicApi.Shipped.txt files. Public API changes must be shipped through the release process, not in regular pull requests."
