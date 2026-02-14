@@ -1,19 +1,17 @@
 name: Label breaking changes for semantic versioning
 
-on: [pull_request_target] # run on the merge target branch instead of the merge commit to grant pull-requests:write permission
+on: [pull_request]
 jobs:
   Label:
     runs-on: windows-latest
-    permissions:
-      pull-requests: write # allow adding a label to this pull request
     steps:
     - uses: actions/checkout@v6
       with:
-        fetch-depth: 0 # fetch all commit history and tags, instead of the default fetch of only one commit
-        ref: ${{ github.event.pull_request.head.sha }}  # checkout the PR branch
+        submodules: recursive
     - name: If there are changes in PublicApi.Shipped.txt, fail the workflow
       if: github.head_ref != 'action/ship-publicapi' # Same branch name specified in Release.yml
       run: |
+        git fetch origin ${{ github.base_ref }}
         $changes = git diff --numstat --shortstat origin/${{ github.base_ref }}...HEAD -- '**/PublicApi.Shipped.txt'
         Write-Output "$changes"
         if ($changes) {
@@ -23,7 +21,10 @@ jobs:
       shell: pwsh
     - name: Label based on PublicApi.Unshipped.txt
       run: |
-        if ("${{ github.head_ref }}" -eq "action/ship-publicapi") {
+        git fetch origin ${{ github.base_ref }}
+        
+        # Determine the appropriate label (Sync these labels with release-drafter.yml)
+        if ("${{ github.head_ref }}" -eq "action/ship-publicapi") { # Same branch name specified in Release.yml
           $labels = @('Type/Housekeeping')
           Write-Output "This is a ship-publicapi PR, labeling as Type/Maintenance"
         } else {
